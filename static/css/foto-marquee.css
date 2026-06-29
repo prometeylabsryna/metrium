@@ -1,0 +1,146 @@
+/* ----- Foto marquee — бігова стрічка фото робіт ----- */
+
+.foto-section { background: var(--color-bg); padding: 72px 0; }
+.foto-section h2 { margin-bottom: 0; }
+.foto-section__header { margin-bottom: 28px; }
+
+.foto-marquee {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 4%,
+    #000 96%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 4%,
+    #000 96%,
+    transparent 100%
+  );
+}
+
+.foto-marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  animation: foto-marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+
+.foto-marquee__group {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding-right: 16px;
+  flex-shrink: 0;
+}
+
+.foto-marquee .foto-item {
+  flex: 0 0 360px;
+  width: 360px;
+  min-width: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.foto-marquee .foto-item img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-md);
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.foto-marquee:hover .foto-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes foto-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--marquee-shift, -50%), 0, 0);
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) {
+  .foto-marquee .foto-item {
+    flex: 0 0 300px;
+    width: 300px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .foto-marquee .foto-item {
+    flex: 0 0 260px;
+    width: 260px;
+  }
+
+  .foto-marquee .foto-item img {
+    height: 200px;
+  }
+
+  .foto-section {
+    padding: 48px 0;
+  }
+
+  .foto-marquee {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 2%,
+      #000 98%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 2%,
+      #000 98%,
+      transparent 100%
+    );
+  }
+}
+
+/* iOS Safari — GPU-прискорення */
+@supports (-webkit-touch-callout: none) {
+  .foto-marquee__track {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* Зменшений рух */
+@media (prefers-reduced-motion: reduce) {
+  .foto-marquee__track {
+    animation: none;
+  }
+
+  .foto-marquee__group[data-clone],
+  .foto-marquee__group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .foto-marquee__track {
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .foto-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

@@ -1,0 +1,83 @@
+{% load static i18n_tags %}
+<header itemscope itemtype="https://schema.org/Organization" id="siteHeader">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-3 col-6">
+        <div class="logoBox" itemprop="name" content="{{ SITE_SETTINGS.site_name|default:SITE_NAME }}">
+          <a href="{% lang_url '/' %}" class="frontLinkBread">
+            {% if SITE_SETTINGS and SITE_SETTINGS.logo %}
+            <img src="{{ SITE_SETTINGS.logo.url }}" alt="{% if current_language == 'ru' %}{{ SITE_SETTINGS.logo_alt_ru }}{% else %}{{ SITE_SETTINGS.logo_alt_ua }}{% endif %}" itemprop="logo" width="170" height="48">
+            {% else %}
+            <img src="{% static 'images/kata/bti_logo.png' %}" alt="{% if current_language == 'ru' %}{{ SITE_SETTINGS.logo_alt_ru|default:'Метриум БТИ' }}{% else %}{{ SITE_SETTINGS.logo_alt_ua|default:'Метріум БТІ' }}{% endif %}" itemprop="logo" width="170" height="48">
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      <div class="col-md-9 col-6">
+        <div class="topPart">
+          <a href="#" class="d-none d-md-flex schedule-link">
+            <img src="{% static 'images/kata/schedule.svg' %}" alt="графік" width="16" height="16">
+            {% if current_language == 'ru' %}{{ SITE_SETTINGS.schedule_header_ru|default:"Пн-Пт: 08:00–21:00 | Сб: 09:00–18:00" }}{% else %}{{ SITE_SETTINGS.schedule_header_ua|default:"Пн-Пт: 08:00–21:00 | Сб: 09:00–18:00" }}{% endif %}
+          </a>
+          {% for phone in PHONES %}
+          <a href="{{ phone.number }}" class="header-phone{% if not forloop.first %} opt-tel{% endif %}" itemprop="telephone">
+            <img src="{% static 'images/kata/tel.svg' %}" alt="tel" width="16" height="16"><span class="dtl">{{ phone.display }}</span>
+          </a>
+          {% endfor %}
+          <div class="header-socials d-none d-md-flex">
+            <a href="{{ MESSENGERS.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <img src="{% static 'images/kata/instagram-header.svg' %}" alt="instagram" width="16" height="16">
+            </a>
+            <a href="{{ MESSENGERS.telegram }}" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <img src="{% static 'images/kata/telegram-header.svg' %}" alt="telegram" width="16" height="16">
+            </a>
+          </div>
+          {% include "partials/lang_switcher.html" %}
+        </div>
+        <div class="bottomPart">
+          <nav aria-label="{% bi 'header' 'ui.main_nav' 'Головне меню' 'Главное меню' %}">
+            <ul>
+              <li><a href="{% lang_url '/' %}" class="frontLinkBread {% if active_slug == '' %}active{% endif %}">{% bi 'header' 'nav.home' 'Головна' 'Главная' %}</a></li>
+              <li class="has-dropdown">
+                <a href="{% lang_url '/poslugy-kyiv/' %}" {% if active_slug == 'poslugy-kyiv' %}class="active"{% endif %}>
+                  {% bi 'header' 'nav.services' 'Послуги БТІ' 'Услуги БТИ' %} <span class="drop-arrow">▾</span>
+                </a>
+                <ul class="nav-dropdown" role="menu">
+                  <li class="has-sub-dropdown" role="none">
+                    <a href="{% lang_url '/tehnichni-pasporty-bti/' %}" role="menuitem">
+                      {% bi 'header' 'nav.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %} <span class="sub-arrow">▸</span>
+                    </a>
+                    <ul class="sub-nav-dropdown" role="menu">
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-kvartyru/' %}" role="menuitem">{% bi 'header' 'nav.passport.kvartyra' 'На квартиру' 'На квартиру' %}</a></li>
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-budynok/' %}" role="menuitem">{% bi 'header' 'nav.passport.budynok' 'На будинок' 'На дом' %}</a></li>
+                      <li><a href="{% lang_url '/elektronnyj-tehnichnyj-pasport/' %}" role="menuitem">{% bi 'header' 'nav.passport.elektronnyj' 'Електронний' 'Электронный' %}</a></li>
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-budivlyu/' %}" role="menuitem">{% bi 'header' 'nav.passport.budivlya' 'На будівлю' 'На здание' %}</a></li>
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-garazh/' %}" role="menuitem">{% bi 'header' 'nav.passport.garazh' 'На гараж' 'На гараж' %}</a></li>
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-nezhytlove-prymischennya/' %}" role="menuitem">{% bi 'header' 'nav.passport.nezhytlove' 'На нежитлове приміщення' 'На нежилое помещение' %}</a></li>
+                      <li><a href="{% lang_url '/tehnichnyj-pasport-na-bagato-kvartyrnyj-budynok/' %}" role="menuitem">{% bi 'header' 'nav.passport.mbd' 'На багатоквартирний будинок' 'На многоквартирный дом' %}</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="{% lang_url '/dovidky/' %}" role="menuitem">{% bi 'header' 'nav.dovidky' 'Довідки БТІ' 'Справки БТИ' %}</a></li>
+                  <li><a href="{% lang_url '/vvedennya-v-ekspluatatsiyu/' %}" role="menuitem">{% bi 'header' 'nav.vvedennya' 'Введення в експлуатацію' 'Введение в эксплуатацию' %}</a></li>
+                  <li><a href="{% lang_url '/legalizatsiya-neruhomosti/' %}" role="menuitem">{% bi 'header' 'nav.legalizatsiya' 'Легалізація нерухомості' 'Легализация недвижимости' %}</a></li>
+                  <li><a href="{% lang_url '/tehnichna-inventaryzatsiya/' %}" role="menuitem">{% bi 'header' 'nav.inventaryzatsiya' 'Технічна інвентаризація' 'Техническая инвентаризация' %}</a></li>
+                  <li><a href="{% lang_url '/dozvilna-dokumentatsiya/' %}" role="menuitem">{% bi 'header' 'nav.dozvilna' 'Дозвільна документація' 'Разрешительная документация' %}</a></li>
+                  <li><a href="{% lang_url '/zemelna-dokumentatsiya/' %}" role="menuitem">{% bi 'header' 'nav.zemelna' 'Земельна документація' 'Земельная документация' %}</a></li>
+                  <li><a href="{% lang_url '/vysnovky-bti/' %}" role="menuitem">{% bi 'header' 'nav.vysnovky' 'Висновки БТІ' 'Заключения БТИ' %}</a></li>
+                  <li><a href="{% lang_url '/kadastrovyj-nomer/' %}" role="menuitem">{% bi 'header' 'nav.kadastr' 'Кадастровий номер' 'Кадастровый номер' %}</a></li>
+                  <li><a href="{% lang_url '/vytiah-dzk/' %}" role="menuitem">{% bi 'header' 'nav.dzk' 'Витяг ДЗК' 'Выписка ГЗК' %}</a></li>
+                </ul>
+              </li>
+              <li><a href="{% lang_url '/blog/' %}" {% if active_slug == 'blog' %}class="active"{% endif %}>{% bi 'header' 'nav.blog' 'Блог' 'Блог' %}</a></li>
+              <li><a href="{% lang_url '/contacts/' %}" {% if active_slug == 'contacts' %}class="active"{% endif %}>{% bi 'header' 'nav.contacts' 'Контакти' 'Контакты' %}</a></li>
+            </ul>
+          </nav>
+        </div>
+        <button class="open-mobMnu d-md-none" id="mobMenuOpen" aria-label="{% bi 'header' 'ui.open_menu' 'Відкрити меню' 'Открыть меню' %}" aria-expanded="false">
+          <img src="{% static 'images/kata/bar.svg' %}" alt="меню" id="burgerIcon" width="24" height="24"
+               data-close-src="{% static 'images/kata/closeMnu.svg' %}">
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,100 @@
+:root {
+  --gold: #ff5100;
+  --light-shadow: #ffcd1e;
+  /* --dark-shadow: #ab1467; */
+}
+
+::-webkit-scrollbar-button {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 6px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  /* background-color:#32312e; */
+  /* box-shadow:0px 0px 3px #000 inset; */
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #b59239;
+  box-shadow: 0px 1px 1px #fff inset;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+::-webkit-resizer {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 7px;
+  height: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-button {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 6px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  /* background-color:#32312e; */
+  /* box-shadow:0px 0px 3px #000 inset; */
+}
+
+::-webkit-resizer {
+  background-image: url("");
+  background-repeat: no-repeat;
+  width: 7px;
+  height: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+.bases-token-list-all::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #a3a3a3;
+  box-shadow: 0px 1px 1px #fff inset;
+  /* background-image: url('https://yraaa.ru/_pu/24/59610063.png'); */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #b59239;
+  box-shadow: 0px 1px 1px #fff inset;
+  /* background-image: url('https://yraaa.ru/_pu/24/59610063.png'); */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html {
+  scroll-behavior: smooth;
+}

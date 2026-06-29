@@ -1,0 +1,7 @@
+{% if PULSE_LIVE_CHAT_ENABLED and PULSE_LIVE_CHAT_ID %}
+<script
+  src="https://cdn.pulse.is/livechat/loader.js"
+  data-live-chat-id="{{ PULSE_LIVE_CHAT_ID }}"
+  async
+></script>
+{% endif %}

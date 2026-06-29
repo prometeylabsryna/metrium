@@ -1,0 +1,140 @@
+.foto-portfolio-section {
+  background: var(--color-bg);
+  padding: 72px 0;
+}
+
+.foto-portfolio-section h2 {
+  margin-bottom: 0;
+}
+
+.foto-portfolio-section__head {
+  margin-bottom: 28px;
+}
+
+.foto-portfolio-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.foto-portfolio-nav__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+  background: var(--color-white);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.foto-portfolio-nav__btn:hover,
+.foto-portfolio-nav__btn:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.foto-portfolio-nav__btn:hover img,
+.foto-portfolio-nav__btn:focus-visible img {
+  filter: brightness(10);
+}
+
+.foto-portfolio-slider {
+  overflow: hidden;
+  margin: 0 -10px;
+  padding: 0 10px;
+  touch-action: pan-y;
+}
+
+.foto-portfolio-track {
+  display: flex;
+  gap: 10px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.foto-portfolio-item {
+  flex: 0 0 calc(100% - 40px);
+  height: 240px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.foto-portfolio-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.foto-portfolio-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 24px;
+}
+
+.foto-portfolio-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #264d4a;
+  opacity: 0.35;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.foto-portfolio-dot.active {
+  opacity: 1;
+  transform: scale(1.6);
+}
+
+@media (min-width: 768px) {
+  .foto-portfolio-item {
+    flex: 0 0 calc(50% - 5px);
+  }
+}
+
+@media (min-width: 1000px) {
+  .foto-portfolio-slider {
+    margin: 0;
+    padding: 0;
+  }
+
+  .foto-portfolio-item {
+    flex: 0 0 calc(33.333% - 7px);
+  }
+}
+
+@media (max-width: 767px) {
+  .foto-portfolio-section {
+    padding: 48px 0;
+  }
+
+  .foto-portfolio-section__head {
+    margin-bottom: 20px;
+  }
+
+  .foto-portfolio-nav {
+    justify-content: flex-start;
+    margin-top: 16px;
+  }
+
+  .foto-portfolio-item {
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .foto-portfolio-track {
+    transition: none;
+  }
+}

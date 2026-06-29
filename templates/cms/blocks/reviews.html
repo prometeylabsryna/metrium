@@ -1,0 +1,41 @@
+{% if block.heading or block.body or block.extra_data.items %}
+<section class="cms-block cms-block--reviews" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row">
+      {% if block.heading %}
+      <div class="col-md-4">
+        <h2>{{ block.heading }}</h2>
+        {% if block.extra_data.rating %}
+        <div class="reviews-meta">
+          <span>{% if current_language == 'ru' %}Рейтинг{% else %}Рейтинг{% endif %} <strong>{{ block.extra_data.rating }}</strong> на Google</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div class="{% if block.heading %}col-md-8{% else %}col-12{% endif %}">
+        {% if block.extra_data.items %}
+        <div class="revs-list">
+          {% for item in block.extra_data.items %}
+          <div class="rev-itemBox" itemscope itemtype="https://schema.org/Review">
+            <div class="revBody">
+              <p itemprop="author">{{ item.author }}</p>
+              {% if item.rate %}
+              <div class="stars">
+                <img src="/static/images/kata/stars.png" alt="{{ item.rate }} зірок" width="90">
+                <span itemprop="ratingValue">{{ item.rate }}</span>
+              </div>
+              {% endif %}
+              <div class="revBodyText" itemprop="reviewBody">{{ item.text }}</div>
+            </div>
+            {% if item.date %}<span class="dateRev" itemprop="datePublished">{{ item.date }}</span>{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% elif block.body %}
+        <div class="cms-block__body">{{ block.body|safe }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

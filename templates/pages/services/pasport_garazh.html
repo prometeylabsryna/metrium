@@ -1,0 +1,151 @@
+{% extends "pages/services/_base_service.html" %}
+{% load static i18n_tags cms_tags %}
+
+
+{% block doc_example_section %}
+{% include "pages/services/_doc_example_section.html" with doc_img="images/kata/pasport-garazh-zrazok.webp" doc_alt_ua="Зразок технічного паспорта на гараж" doc_alt_ru="Образец технического паспорта на гараж" %}
+{% endblock %}
+
+{% block breadcrumb_title %}{% t 'Технічний паспорт на гараж' 'Технический паспорт на гараж' %}{% endblock %}
+{% block page_title %}{% t 'Технічний паспорт на гараж' 'Технический паспорт на гараж' %}{% endblock %}
+{% block page_subtitle %}{% t 'Виготовлення технічного паспорта на гараж або машиномісце. Офіційна реєстрація у ЄДЕССБ' 'Изготовление технического паспорта на гараж или машиноместо. Официальная регистрация в ЕДЕССБ' %}{% endblock %}
+{% block form_title %}{% t 'Замовити техпаспорт на гараж' 'Заказать техпаспорт на гараж' %}{% endblock %}
+
+{% block service_content %}
+<section class="service-content reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>{% t 'Технічний паспорт на гараж — навіщо він потрібен' 'Технический паспорт на гараж — зачем он нужен' %}</h2>
+        <p>
+          {% if current_language == 'ru' %}
+          <strong>Технический паспорт на гараж или машиноместо</strong> — обязательный документ для регистрации права собственности, продажи, дарения или наследования этого вида недвижимости. Без актуального техпаспорта нотариус не сможет удостоверить сделку с гаражом.
+          {% else %}
+          <strong>Технічний паспорт на гараж або машиномісце</strong> — обов'язковий документ для реєстрації права власності, продажу, дарування або успадкування цього виду нерухомості. Без актуального техпаспорта нотаріус не зможе посвідчити жодну угоду з гаражем.
+          {% endif %}
+        </p>
+
+        <h2>{% t 'Типи гаражних об’єктів для виготовлення техпаспорта' 'Типы гаражных объектов для изготовления техпаспорта' %}</h2>
+        <ul>
+          <li>{% t 'Окремо розташований гараж;' 'Отдельно расположенный гараж;' %}</li>
+          <li>{% t 'Гараж у гаражному кооперативі (ГСК);' 'Гараж в гаражном кооперативе (ГСК);' %}</li>
+          <li>{% t 'Паркомісце або машиномісце в паркінгу;' 'Паркоместо или машиноместо в паркинге;' %}</li>
+          <li>{% t 'Гараж при приватному будинку;' 'Гараж при частном доме;' %}</li>
+          <li>{% t 'Оглядова яма, підвальне приміщення гаража.' 'Смотровая яма, подвальное помещение гаража.' %}</li>
+        </ul>
+
+        <h2>{% t 'Вартість технічного паспорта на гараж' 'Стоимость технического паспорта на гараж' %}</h2>
+        <div class="tableContainer">
+          <div class="tableHeader">
+            <div class="tableHeader_first">{% t 'Тип об’єкту' 'Тип объекта' %}</div>
+            <div class="tableHeader_combine single"><div class="tableHeader_first">{% t 'Площа' 'Площадь' %}</div></div>
+            <div class="tableHeader_combine">
+              <div class="tableHeader_combine_top">{% t 'Вартість' 'Стоимость' %}</div>
+              <div class="tableHeader_combine_half">
+                <div>{% t '2–3 дні' '2–3 дня' %}</div>
+                <div>{% t 'День у день' 'День в день' %}</div>
+              </div>
+            </div>
+          </div>
+          <div class="tableItem">
+            <div class="tableItem_row">
+              <div>{% t 'Гараж / машиномісце' 'Гараж / машиноместо' %}</div>
+              <div>{% t 'до 80 кв.м' 'до 80 кв.м' %}</div>
+              <div>2 500 грн.</div>
+              <div>+1 500 грн.</div>
+            </div>
+          </div>
+        </div>
+
+        <h2>{% t 'Необхідні документи для виготовлення' 'Необходимые документы для изготовления' %}</h2>
+        <div class="docs-col">
+          <h5>{% t 'ПОТОЧНА ТЕХНІЧНА ІНВЕНТАРИЗАЦІЯ:' 'ТЕКУЩАЯ ТЕХНИЧЕСКАЯ ИНВЕНТАРИЗАЦИЯ:' %}</h5>
+          <ol>
+            <li>{% t 'Правовстановлюючий документ на гараж;' 'Правоустанавливающий документ на гараж;' %}</li>
+            <li>{% t 'Паспортні дані та ідентифікаційний номер замовника;' 'Паспортные данные и идентификационный номер заказчика;' %}</li>
+            <li>{% t 'Попередній технічний паспорт (за наявності).' 'Предыдущий технический паспорт (при наличии).' %}</li>
+          </ol>
+        </div>
+        <div class="docs-col">
+          <h5>{% t 'ПРИВАТИЗАЦІЯ:' 'ПРИВАТИЗАЦИЯ:' %}</h5>
+          <ol>
+            <li>{% t 'Довідка з кооперативу із зазначенням власника гаражу, орієнтовної площі і року спорудження;' 'Справка из кооператива с указанием владельца гаража, ориентировочной площади и года постройки;' %}</li>
+            <li>{% t 'Паспортні дані та ідентифікаційний номер замовника.' 'Паспортные данные и идентификационный номер заказчика.' %}</li>
+          </ol>
+        </div>
+        <div class="docs-col">
+          <h5>{% t 'СПАДЩИНА:' 'НАСЛЕДСТВО:' %}</h5>
+          <ol>
+            <li>{% t 'Правовстановлюючий документ;' 'Правоустанавливающий документ;' %}</li>
+            <li>{% t 'Нотаріальний запит;' 'Нотариальный запрос;' %}</li>
+            <li>{% t 'Паспортні дані та ідентифікаційний номер замовника.' 'Паспортные данные и идентификационный номер заказчика.' %}</li>
+          </ol>
+        </div>
+
+        <h2>{% t 'Як замовити технічний паспорт на гараж' 'Как заказать технический паспорт на гараж' %}</h2>
+        <p>
+          {% if current_language == 'ru' %}
+          Оставьте заявку онлайн или позвоните нам. Наш специалист приедет в удобное время, выполнит обмеры и подготовит техпаспорт. Стандартный срок изготовления — от 2 до 3 рабочих дней, при необходимости возможно оформление в день обращения.
+          {% else %}
+          Залиште заявку онлайн або зателефонуйте. Наш спеціаліст приїде до вас у зручний час, проведе обмір і виготовить техпаспорт. Весь процес займає від 2 до 3 робочих днів, за необхідності — день у день.
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <div class="darkWidget">
+          <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
+          <h3>{% t 'Потрібна консультація?' 'Нужна консультация?' %}</h3>
+          <p>{% t 'Зателефонуйте або напишіть у месенджер' 'Позвоните или напишите в мессенджер' %}</p>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calcBlock reveal-up" id="calcSection">
+  <div class="container-max">
+    <span class="section-label text-center d-block">{% t 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}</span>
+    <h2>{% t 'Вартість техпаспорта на гараж' 'Стоимость техпаспорта на гараж' %}</h2>
+    <div class="calc-tabs">
+      <a href="#" class="calcTabBtn active" data-cat="kvartira">{% t 'Гараж / машиномісце' 'Гараж / машиноместо' %}</a>
+    </div>
+    <form id="calc1" class="calc-form" novalidate>
+      <div>
+        <p>{% t 'Площа кв. м.' 'Площадь кв. м.' %}</p>
+        <input type="number" id="squareVal" placeholder="{% t 'Введіть площу' 'Введите площадь' %}" min="1">
+      </div>
+      <div><p>{% t 'Район/місто' 'Район/город' %}</p><select name="region" id="regionsselect"></select></div>
+      <div>
+        <p>{% t 'Громада' 'Громада' %}</p>
+        <select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select>
+      </div>
+    </form>
+    <div class="notation"></div>
+    <div class="calc-actions">
+      <button class="doCalc">{% t 'Розрахувати' 'Рассчитать' %}</button>
+      <button class="callFormCalc hideFormBtn">{% t 'Замовити' 'Заказать' %}</button>
+    </div>
+    <div class="form-result">{% t 'Вартість становить:' 'Стоимость составляет:' %} <span id="cost">0</span> грн</div>
+    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="{% t 'Ваше ім’я' 'Ваше имя' %}">
+      <input type="tel" name="tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" required>
+      <input type="hidden" name="price">
+      <input type="hidden" name="type" value="Гараж">
+      <input type="hidden" name="square">
+      <input type="hidden" name="region" value="Київ">
+      <input type="hidden" name="cityInput">
+      <input type="hidden" name="plan" value="без змін">
+      <button type="submit">{% t 'Відправити заявку' 'Отправить заявку' %}</button>
+    </form>
+  </div>
+</section>
+
+{% block calculator_section %}{% endblock %}
+{% endblock %}

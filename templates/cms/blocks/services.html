@@ -1,0 +1,28 @@
+{% if block.heading or block.body or block.extra_data.items %}
+<section class="cms-block cms-block--services" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row">
+      {% if block.heading %}
+      <div class="col-12"><h2 class="largeTitle">{{ block.heading }}</h2></div>
+      {% endif %}
+      {% if block.extra_data.items %}
+        {% for item in block.extra_data.items %}
+        <div class="col-md-4">
+          <div class="serv_item">
+            {% if item.icon %}<div class="serv-icon"><img src="{{ item.icon }}" alt="{{ item.title }}"></div>{% endif %}
+            <div class="serv_item_bottomPart">
+              <p>{{ item.title }}</p>
+              {% if item.descr %}<div class="serv-descr">{{ item.descr }}</div>{% endif %}
+              {% if item.price %}<div class="price">{{ item.price }}</div>{% endif %}
+              <a href="#popupTel" class="accBtn open-popup-link">{% if current_language == 'ru' %}Подробнее{% else %}Детальніше{% endif %}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% elif block.body %}
+        <div class="col-12"><div class="cms-block__body">{{ block.body|safe }}</div></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}

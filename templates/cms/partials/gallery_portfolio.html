@@ -1,0 +1,5 @@
+{% for image in images %}
+<div class="foto-portfolio-item">
+  <img src="{{ image.url }}" alt="{{ image.alt }}" loading="lazy" class="img-responsive">
+</div>
+{% endfor %}

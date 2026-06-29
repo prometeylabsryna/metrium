@@ -1,0 +1,6 @@
+{% if block.body %}
+<section class="cms-block cms-block--map">
+  {% if block.heading %}<h2>{{ block.heading }}</h2>{% endif %}
+  <div class="cms-block__map">{{ block.body|safe }}</div>
+</section>
+{% endif %}

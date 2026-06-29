@@ -1,0 +1,6 @@
+{% load i18n_tags %}
+<div class="toast-wrap" id="toastWrap" role="alert" aria-live="polite">
+  <div class="toast-icon">✓</div>
+  <div class="toast-body"><strong>{% bi 'global' 'toast.title' 'Дякуємо за звернення!' 'Спасибо за обращение!' %}</strong><span>{% bi "global" "toast.text" "Менеджер зв'яжеться з вами протягом 5 хвилин" "Менеджер свяжется с вами в течение 5 минут" %}</span></div>
+  <button class="toast-close" id="toastClose" aria-label="{% bi 'global' 'toast.close' 'Закрити' 'Закрыть' %}">×</button>
+</div>

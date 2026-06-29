@@ -1,0 +1,35 @@
+/* Pulse.is live chat — host-level layout (Shadow DOM styled via pulse-chat.js) */
+
+sp-live-chat {
+  position: fixed;
+  inset: auto auto 0 0;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 160;
+}
+
+sp-live-chat * {
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  body.body-lock sp-live-chat {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .site-fab-stack {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  sp-live-chat {
+    -webkit-transform: translateZ(0);
+  }
+}

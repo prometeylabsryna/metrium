@@ -1,0 +1,30 @@
+{% load static i18n_tags cms_tags %}
+<section class="foto-section foto-portfolio-section reveal-up" id="portfolio">
+  <div class="container-max">
+    <div class="row align-items-center foto-portfolio-section__head">
+      <div class="col-md-4">
+        <h2>{% bi 'global' 'foto.marquee' 'Фото наших робіт' 'Фото наших работ' %}</h2>
+      </div>
+      <div class="col-md-8">
+        <div class="foto-portfolio-nav">
+          <button type="button" class="foto-portfolio-nav__btn" id="portfolioPrev" aria-label="{% t 'Попереднє фото' 'Предыдущее фото' %}">
+            <img src="{% static 'images/kata/left.svg' %}" alt="" width="18" height="18">
+          </button>
+          <button type="button" class="foto-portfolio-nav__btn" id="portfolioNext" aria-label="{% t 'Наступне фото' 'Следующее фото' %}">
+            <img src="{% static 'images/kata/right.svg' %}" alt="" width="18" height="18">
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="foto-portfolio-slider" id="portfolioSlider">
+          <div class="foto-portfolio-track" id="portfolioTrack">
+            {% gallery_portfolio 'global' 'gallery.portfolio.' %}
+          </div>
+        </div>
+        <div class="foto-portfolio-dots" id="portfolioDots" aria-hidden="false"></div>
+      </div>
+    </div>
+  </div>
+</section>

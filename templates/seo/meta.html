@@ -1,0 +1,12 @@
+<title>{{ page_title }}</title>
+{% if seo_description %}<meta name="description" content="{{ seo_description }}">{% endif %}
+<meta name="robots" content="{{ robots }}">
+<link rel="canonical" href="{{ canonical_url }}">
+{% for alt in alternates %}
+<link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+{% endfor %}
+<meta property="og:title" content="{{ og_title }}">
+{% if og_description %}<meta property="og:description" content="{{ og_description }}">{% endif %}
+{% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
+<meta property="og:type" content="website">
+<script type="application/ld+json">{{ schema_json }}</script>

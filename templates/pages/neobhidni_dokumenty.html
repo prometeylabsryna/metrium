@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static cms_tags %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="Навігація">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item"><span itemprop="name">Головна</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Необхідні документи</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-banner">
+  <img src="{% kata_img 'neobhidni-dokumenty' 'fon.jpeg' %}" class="page-bg" alt="" loading="lazy">
+  <div class="container-max">
+    <h1>Необхідні документи</h1>
+    <p class="descr">Перелік документів для замовлення послуг БТІ</p>
+  </div>
+</section>
+
+<section class="service-content reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Документи для виготовлення технічного паспорту</h2>
+        <p>Для замовлення техпаспорту підготуйте стандартний пакет документів. Точний перелік залежить від типу об'єкта та ситуації — наші спеціалісти підкажуть деталі під час безкоштовної консультації.</p>
+
+        <div class="faq reveal-up">
+          <div class="accordion section-com">
+            <div class="custom-acc">
+              <button class="card-header" aria-expanded="false" aria-controls="nd1" data-target="nd1">
+                <h3 class="card-title">Технічний паспорт на квартиру</h3><span class="acc-arrow"></span>
+              </button>
+              <div id="nd1" class="collapse" role="region">
+                <div class="card-body">
+                  <ul class="service-list">
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Паспорт громадянина України та ідентифікаційний код</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Правовстановлюючий документ на квартиру (договір купівлі-продажу, свідоцтво про право власності тощо)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Доступ до об'єкта для виміру приміщень</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> При перебудові — документи, що підтверджують законність змін (за наявності)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="custom-acc">
+              <button class="card-header" aria-expanded="false" aria-controls="nd2" data-target="nd2">
+                <h3 class="card-title">Технічний паспорт на будинок</h3><span class="acc-arrow"></span>
+              </button>
+              <div id="nd2" class="collapse" role="region">
+                <div class="card-body">
+                  <ul class="service-list">
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Паспорт та ідентифікаційний код власника</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Правовстановлюючий документ на будинок та земельну ділянку</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Будівельний паспорт або декларація (якщо є)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Доступ до об'єкта (в тому числі всіх будівель на ділянці)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Адреса об'єкта (поштова або кадастровий номер ділянки)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="custom-acc">
+              <button class="card-header" aria-expanded="false" aria-controls="nd3" data-target="nd3">
+                <h3 class="card-title">Технічний паспорт на нежитлове приміщення</h3><span class="acc-arrow"></span>
+              </button>
+              <div id="nd3" class="collapse" role="region">
+                <div class="card-body">
+                  <ul class="service-list">
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Паспорт та ідентифікаційний код (для ФО) або виписка з ЄДР (для юрособи)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Правовстановлюючий документ на приміщення</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Доступ до об'єкта для проведення вимірів</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Договір оренди або право власності (для орендованих приміщень)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="custom-acc">
+              <button class="card-header" aria-expanded="false" aria-controls="nd4" data-target="nd4">
+                <h3 class="card-title">Введення в експлуатацію</h3><span class="acc-arrow"></span>
+              </button>
+              <div id="nd4" class="collapse" role="region">
+                <div class="card-body">
+                  <ul class="service-list">
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Паспорт та ідентифікаційний код власника</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Правовстановлюючий документ на земельну ділянку</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Дозвільна документація (будівельний паспорт, дозвіл на будівництво)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Технічний паспорт на об'єкт (або замовлення у нас)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Технічні умови на підключення комунікацій (за наявності)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="custom-acc">
+              <button class="card-header" aria-expanded="false" aria-controls="nd5" data-target="nd5">
+                <h3 class="card-title">Легалізація самочинного будівництва</h3><span class="acc-arrow"></span>
+              </button>
+              <div id="nd5" class="collapse" role="region">
+                <div class="card-body">
+                  <ul class="service-list">
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Паспорт та ідентифікаційний код</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Правовстановлюючий документ на земельну ділянку</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Документи, що підтверджують факт будівництва (за наявності)</li>
+                    <li><img src="{% kata_img 'neobhidni-dokumenty' 'check.svg' %}" alt="" width="16" height="16"> Відомості про дату та обставини будівництва</li>
+                  </ul>
+                  <p class="text-mt-12">Точний перелік визначається після безкоштовної консультації з нашим спеціалістом — звертайтесь!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="seoBlock seo-block--pt">
+          <h3><strong>Не знайшли свій випадок?</strong></h3>
+          <p>Зателефонуйте нам або напишіть у месенджер — ми безкоштовно проконсультуємо та підготуємо індивідуальний перелік документів.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="darkWidget">
+          <img src="{% kata_img 'neobhidni-dokumenty' 'askIco.svg' %}" alt="" width="48" height="48">
+          <h3>Маєте питання?</h3>
+          <p>Зателефонуйте нам або напишіть у месенджер — відповідаємо швидко.</p>
+          <a href="tel:+380673986200" class="accBtn">
+            <img src="{% kata_img 'neobhidni-dokumenty' 'tel.svg' %}" alt="" width="18" height="18"> 067-398-62-00
+          </a>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img 'neobhidni-dokumenty' 'tg.svg' %}" alt="" width="18" height="18"> Telegram
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img 'neobhidni-dokumenty' 'viber.svg' %}" alt="" width="18" height="18"> Viber
+          </a>
+          <a href="{{ MESSENGERS.whatsapp }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img 'neobhidni-dokumenty' 'whatsapp.webp' %}" alt="" width="18" height="18"> WhatsApp
+          </a>
+        </div>
+        <div class="darkWidget dark-widget--spaced">
+          <h3>Порядок замовлення</h3>
+          <div class="steps-grid roundBorderHalf steps-grid--single">
+            <div class="steps_item steps-item--compact">
+              <div class="steps_item_content"><span class="step-num">1</span><p>Заявка</p><div>Телефонуєте або залишаєте заявку онлайн</div></div>
+            </div>
+            <div class="steps_item steps-item--compact">
+              <div class="steps_item_content"><span class="step-num">2</span><p>Консультація</p><div>Уточнюємо перелік документів для вашого випадку</div></div>
+            </div>
+            <div class="steps_item steps-item--compact">
+              <div class="steps_item_content"><span class="step-num">3</span><p>Виїзд</p><div>Фахівець приїжджає і проводить обміри</div></div>
+            </div>
+            <div class="steps_item steps-item--compact">
+              <div class="steps_item_content"><span class="step-num">4</span><p>Документ</p><div>Отримуєте готовий документ</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark garanty reveal-up">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h2>Швидкий запис</h2>
+        <p>Надішліть заявку і наша команда спеціалістів зв'яжеться з Вами протягом 5 хвилин.</p>
+        <form novalidate data-action="{% url 'leads-phone' %}" data-channel="neobhidni-bottom">
+          {% csrf_token %}
+          <div class="form-field-wrap form-field-wrap--spaced">
+            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
+            <label>Ваш телефон</label>
+            <div class="field-error">Введіть коректний номер</div>
+          </div>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">Відправити</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

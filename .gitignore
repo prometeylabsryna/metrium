@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+staticfiles/
+.env
+.DS_Store
+*.log
+media/
+data/hosting_fixture.json
+
+# Великі архіви / не потрібні для деплою
+archive/
+archive-layout/
+archive-layout-v2/
+metrium_prod.sql
+*.tar.gz
+IMG Metrium/
+Зразки документів Метріум/

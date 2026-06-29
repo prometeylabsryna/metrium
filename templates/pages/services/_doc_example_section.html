@@ -1,0 +1,15 @@
+{% load static i18n_tags cms_tags %}
+<section class="doc-example-section reveal-up">
+  <div class="container-max">
+    <h2>{% t 'Зразок документа' 'Образец документа' %}</h2>
+    <div class="doc-example-wrap">
+      <div class="doc-example-placeholder">
+        <img src="{% site_image_url page_slug 'doc.example' doc_img %}" alt="{% site_image_alt page_slug 'doc.example' doc_alt_ua doc_alt_ru %}" loading="lazy">
+        <div class="doc-example-caption">
+          <p>{% t 'Зразок офіційного документа, виданого сертифікованим технічним інвентаризатором та зареєстрованого у ЄДЕССБ' 'Образец официального документа, выданного сертифицированным техническим инвентаризатором и зарегистрированного в ЕДЕССБ' %}</p>
+          <a href="#hero" class="accBtn">{% t 'Замовити документ' 'Заказать документ' %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+{% load static i18n_tags cms_tags %}
+<section class="foto-section reveal-up" id="portfolio">
+  <div class="container-max">
+    <div class="foto-section__header">
+      <h2>{% bi 'global' 'foto.marquee' 'Фото наших робіт' 'Фото наших работ' %}</h2>
+    </div>
+    <div class="foto-marquee" data-marquee-speed="45" data-marquee-speed-mobile="30">
+      <div class="foto-marquee__track">
+        <div class="foto-marquee__group">
+          {% gallery_images 'global' 'gallery.marquee.' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

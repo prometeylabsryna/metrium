@@ -1,0 +1,19 @@
+<div class="mb-4 px-4 py-3 rounded-default border border-base-200 bg-base-50 text-base-700 dark:border-base-800 dark:bg-base-900 dark:text-base-300">
+    {% if filtered_page_label %}
+        <p class="mb-2 font-semibold text-base-900 dark:text-base-100">
+            Редагуєте тексти сторінки «{{ filtered_page_label }}»
+            {% if filtered_page_url %}
+                — <a href="{{ filtered_page_url }}" target="_blank" rel="noopener" class="text-primary-600 hover:underline dark:text-primary-400">переглянути на сайті ↗</a>
+            {% endif %}
+        </p>
+    {% else %}
+        <p class="mb-2 font-semibold text-base-900 dark:text-base-100">Як редагувати тексти сайту</p>
+    {% endif %}
+    <ul class="m-0 list-disc space-y-1 pl-5 text-sm leading-relaxed">
+        <li>Оберіть потрібну <strong>сторінку</strong> у фільтрі зліва або в меню «Сайт».</li>
+        <li>У списку клікніть рядок за назвою (наприклад, «About: H1») — це конкретний текст на сторінці.</li>
+        <li>Короткі рядки — поле «Текст (UA/RU)»; абзаци та списки — «HTML / довгий текст».</li>
+        <li>Банери та іконки — вкладка «Зображення».</li>
+        <li>Лого, телефони, hero головної — окремо: «Лого, Hero, контакти, футер».</li>
+    </ul>
+</div>

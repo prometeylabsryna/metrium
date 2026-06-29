@@ -1,0 +1,84 @@
+{% load static i18n_tags %}
+<footer itemscope itemtype="https://schema.org/Organization">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-1 footerMnu_first order-1">
+        <p class="foter_title">{% bi 'footer' 'title.clients' 'Клієнтам' 'Клиентам' %}</p>
+        <ul>
+          <li><a href="{% lang_url '/' %}">{% bi 'header' 'nav.home' 'Головна' 'Главная' %}</a></li>
+          <li><a href="{% lang_url '/blog/' %}">{% bi 'header' 'nav.blog' 'Блог' 'Блог' %}</a></li>
+          <li><a href="{% lang_url '/contacts/' %}">{% bi 'header' 'nav.contacts' 'Контакти' 'Контакты' %}</a></li>
+          <li><a href="{% lang_url '/neobhidni-dokumenty/' %}">{% bi 'footer' 'nav.info' 'Інфо' 'Инфо' %}</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 footerMnu_second order-md-2 order-3">
+        <p class="foter_title">{% bi 'footer' 'title.schedule' 'Графік роботи' 'График работы' %}</p>
+        <div class="bottom_schedule">
+          <img src="{% static 'images/kata/schedule.svg' %}" alt="графік" width="16" height="16">
+          <p>
+            <span>{% if current_language == 'ru' %}{{ SITE_SETTINGS.schedule_weekdays_ru|default:"Пн-Пт: 08:00 – 21:00" }}{% else %}{{ SITE_SETTINGS.schedule_weekdays_ua|default:"Пн-Пт: 08:00 – 21:00" }}{% endif %}</span>
+            <span>{% if current_language == 'ru' %}{{ SITE_SETTINGS.schedule_saturday_ru|default:"Сб: 09:00 – 18:00" }}{% else %}{{ SITE_SETTINGS.schedule_saturday_ua|default:"Сб: 09:00 – 18:00" }}{% endif %}</span>
+            <span>{% if current_language == 'ru' %}{{ SITE_SETTINGS.schedule_sunday_ru|default:"Вс: Выходной" }}{% else %}{{ SITE_SETTINGS.schedule_sunday_ua|default:"Нд: Вихідний" }}{% endif %}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-3 footerMnu_third order-md-3 order-2">
+        <p class="foter_title">{% bi 'footer' 'title.contacts' 'Контактні дані' 'Контактные данные' %}</p>
+        <p class="foter_title">{% if current_language == 'ru' %}{{ SITE_SETTINGS.region_label_ru|default:"г. Киев и Киевская область" }}{% else %}{{ SITE_SETTINGS.region_label_ua|default:"м. Київ та Київська область" }}{% endif %}</p>
+        <div class="messanger">
+          {% bi 'footer' 'label.messengers' 'Месенджери' 'Мессенджеры' %}
+          <a href="{{ MESSENGERS.telegram }}" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <img src="{% static 'images/kata/telega.svg' %}" alt="tg" width="28" height="28">
+          </a>
+          <a href="{{ MESSENGERS.viber }}" aria-label="Viber">
+            <img src="{% static 'images/kata/viber.svg' %}" alt="vb" width="28" height="28">
+          </a>
+          <a href="{{ MESSENGERS.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <img src="{% static 'images/kata/whatsapp.webp' %}" alt="wa" width="28" height="28">
+          </a>
+        </div>
+        {% for phone in PHONES %}
+        <div class="footerTelBlock">
+          <a href="{{ phone.number }}">
+            <img src="{% static 'images/kata/tel.svg' %}" alt="tel" width="16" height="16">
+            <span itemprop="telephone" class="dtl">{{ phone.display }}</span>
+          </a>
+        </div>
+        {% endfor %}
+        <div class="footerTelBlock">
+          <a href="mailto:{{ SITE_SETTINGS.email|default:'pruvatnebti@gmail.com' }}">
+            <img src="{% static 'images/kata/mail.svg' %}" alt="email" width="16" height="16">
+            <span itemprop="email">{{ SITE_SETTINGS.email|default:"pruvatnebti@gmail.com" }}</span>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4 offset-md-1 order-4">
+        <h3>{% if current_language == 'ru' %}{{ SITE_SETTINGS.footer_consult_title_ru|default:"Получить консультацию сейчас" }}{% else %}{{ SITE_SETTINGS.footer_consult_title_ua|default:"Отримати консультацію зараз" }}{% endif %}</h3>
+        <form class="footerSubscribe" id="footerSubscribeForm" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="footer">
+          {% csrf_token %}
+          <div>
+            <input type="tel" name="tel" placeholder="{% bi 'footer' 'form.phone' 'Ваш телефон' 'Ваш телефон' %}"
+                   id="footerSubscribeFormInput" autocomplete="tel" required>
+            <button type="submit" class="accBtn">{% bi 'footer' 'form.submit' 'Відправити' 'Отправить' %}</button>
+          </div>
+        </form>
+        <div class="socs right">
+          <div>
+            <p>{% bi 'footer' 'label.socials' 'Соціальні мережі' 'Социальные сети' %}</p>
+            <a href="{{ MESSENGERS.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <img src="{% static 'images/kata/inasta_d.svg' %}" alt="ig" width="28" height="28">
+            </a>
+            <a href="{{ MESSENGERS.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <img src="{% static 'images/kata/facebook.svg' %}" alt="fb" width="26" height="26">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {% now "Y" %} {{ SITE_SETTINGS.site_name|default:SITE_NAME }}. {% if current_language == 'ru' %}{{ SITE_SETTINGS.footer_rights_ru|default:"Все права защищены." }}{% else %}{{ SITE_SETTINGS.footer_rights_ua|default:"Всі права захищено." }}{% endif %} <a href="{{ SITE_SETTINGS.privacy_url|default:'#' }}">{% if current_language == 'ru' %}{{ SITE_SETTINGS.privacy_label_ru|default:"Политика конфиденциальности" }}{% else %}{{ SITE_SETTINGS.privacy_label_ua|default:"Політика конфіденційності" }}{% endif %}</a></p>
+      <p class="footer-credit">{% if current_language == 'ru' %}Сайт от{% else %}Сайт від{% endif %} <a href="https://www.prometeylabs.com/" target="_blank" rel="noopener noreferrer">PrometeyLabs</a></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,18 @@
+<nav class="lang-switcher" aria-label="{% if current_language == 'ru' %}Выбор языка{% else %}Вибір мови{% endif %}">
+  <ul class="langs">
+    <li class="lang-item{% if current_language == 'ua' %} current-lang{% endif %}">
+      {% if current_language == 'ua' %}
+        <span aria-current="true" lang="uk">UA</span>
+      {% else %}
+        <a href="{{ alternate_language_url }}" hreflang="uk" lang="uk">UA</a>
+      {% endif %}
+    </li>
+    <li class="lang-item{% if current_language == 'ru' %} current-lang{% endif %}">
+      {% if current_language == 'ru' %}
+        <span aria-current="true" lang="ru">RU</span>
+      {% else %}
+        <a href="{{ alternate_language_url }}" hreflang="ru" lang="ru">RU</a>
+      {% endif %}
+    </li>
+  </ul>
+</nav>

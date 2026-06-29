@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="Навігація">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item"><span itemprop="name">Головна</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Блог</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="revs-list blog-list-section">
+  <div class="container-max">
+    <div class="row">
+      {% for post in posts %}
+      <div class="col-md-4">
+        <article class="blog_item">
+          <a href="{{ post.get_absolute_url }}">
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy" width="400" height="200">
+            {% else %}
+            <img src="{% static 'images/kata/a1.jpeg' %}" alt="{{ post.title }}" loading="lazy" width="400" height="200">
+            {% endif %}
+          </a>
+          {% if post.published_at %}
+          <p class="blog_item_date">{{ post.published_at|date:"d.m.Y" }}</p>
+          {% endif %}
+          <a href="{{ post.get_absolute_url }}" class="blog_item_name">{{ post.title }}</a>
+          <div class="excerpt"><p>{{ post.get_display_excerpt }}</p></div>
+        </article>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <p class="blog-empty">
+          {% if current_language == 'ru' %}Пока нет статей{% else %}Поки немає статей{% endif %}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

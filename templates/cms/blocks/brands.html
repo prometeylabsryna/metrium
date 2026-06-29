@@ -1,0 +1,6 @@
+{% if block.heading or block.body %}
+<section class="cms-block cms-block--brands">
+  {% if block.heading %}<h2>{{ block.heading }}</h2>{% endif %}
+  {% if block.body %}<div class="cms-block__body">{{ block.body|safe }}</div>{% endif %}
+</section>
+{% endif %}

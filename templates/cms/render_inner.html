@@ -1,0 +1,3 @@
+{% for item in blocks %}
+  {% include item.template with block=item.block page=page current_language=current_language only %}
+{% endfor %}

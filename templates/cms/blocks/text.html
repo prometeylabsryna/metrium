@@ -1,0 +1,6 @@
+<section class="section text-block" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    {% if block.heading %}<h2>{{ block.heading|safe }}</h2>{% endif %}
+    {% if block.body %}<div class="content-block">{{ block.body|safe }}</div>{% endif %}
+  </div>
+</section>

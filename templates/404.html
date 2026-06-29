@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block popup %}{% endblock %}
+
+{% block content %}
+<section class="baner-404">
+  <div class="baner-404-images">
+    <img src="{% static 'images/kata/Ellipse.png' %}" alt="" class="fon-404 fon-404--faded">
+    <div class="error-404-bg error-404-bg--ghost">404</div>
+    <div class="error-404-bg">404</div>
+  </div>
+  <h2>Щось пішло не так!</h2>
+  <p>Схоже, ми не можемо знайти сторінку, яку ви шукаєте. Можливо, вона була переміщена або видалена.</p>
+  <div class="error-404-actions">
+    <a href="/" class="btnAccent">На головну</a>
+    <a href="/contacts/" class="accBtn accBtn--inline">Зв'язатись з нами</a>
+  </div>
+  <div class="error-404-popular">
+    <p class="error-404-popular-title">Популярні розділи:</p>
+    <div class="error-404-tags">
+      <a href="/about/" class="tag-link">Про нас</a>
+      <a href="/blog/" class="tag-link">Блог</a>
+      <a href="/reviews/" class="tag-link">Відгуки</a>
+      <a href="/contacts/" class="tag-link">Контакти</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

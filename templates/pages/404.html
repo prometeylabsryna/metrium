@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="baner-404">
+  <div class="baner-404-images">
+    <img src="https://kata.net.ua/wp-content/uploads/2023/10/404.png" alt="404" class="fon-404">
+    <img src="{% static 'images/kata/Ellipse.png' %}" alt="" class="eclipse">
+  </div>
+  <h2>{% if current_language == 'ru' %}Что-то пошло не так!{% else %}Щось пішло не так!{% endif %}</h2>
+  <p>{% if current_language == 'ru' %}Кажется, мы не можем найти страницу, которую вы ищете.{% else %}Схоже, ми не можемо знайти сторінку, яку ви шукаєте.{% endif %}</p>
+  <a href="{% if current_language == 'ru' %}/ru/{% else %}/{% endif %}" class="btnAccent">
+    {% if current_language == 'ru' %}Вернуться назад{% else %}Повернутись на головну{% endif %}
+  </a>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+<section class="dark mainDarkForm" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-6">
+        {% if block.heading %}<h2 class="Title">{{ block.heading|safe }}</h2>{% endif %}
+      </div>
+      <div class="col-md-5 offset-md-1">
+        {% if block.body %}<p>{{ block.body|safe }}</p>{% endif %}
+        <form class="subscribe" data-lead-form="phone">
+          <input type="tel" name="tel" class="subscrInput" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" required>
+          <input type="hidden" name="loc" value="{{ page.title }}">
+          <button type="submit" class="accBtn">{% if current_language == 'ru' %}Отправить{% else %}Відправити{% endif %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

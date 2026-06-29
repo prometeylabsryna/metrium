@@ -1,0 +1,143 @@
+{% extends "pages/services/_base_service.html" %}
+{% load static i18n_tags cms_tags %}
+
+
+{% block doc_example_section %}
+{% include "pages/services/_doc_example_section.html" with doc_img="images/kata/pasport-nezhitlova-zrazok.webp" doc_alt_ua="Зразок технічного паспорта на нежитлове приміщення" doc_alt_ru="Образец технического паспорта на нежилое помещение" %}
+{% endblock %}
+
+{% block breadcrumb_title %}{% t 'Технічний паспорт на нежитлове приміщення' 'Технический паспорт на нежилое помещение' %}{% endblock %}
+{% block page_title %}{% t 'Технічний паспорт на нежитлове приміщення' 'Технический паспорт на нежилое помещение' %}{% endblock %}
+{% block page_subtitle %}{% t 'Виготовлення технічного паспорта на офіс, магазин, склад або інше нежитлове приміщення' 'Изготовление технического паспорта на офис, магазин, склад или другое нежилое помещение' %}{% endblock %}
+{% block form_title %}{% t 'Замовити техпаспорт на нежитлове' 'Заказать техпаспорт на нежилое помещение' %}{% endblock %}
+
+{% block service_content %}
+<section class="service-content reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>{% t 'Що таке технічний паспорт на нежитлове приміщення' 'Что такое технический паспорт на нежилое помещение' %}</h2>
+        <p>
+          {% if current_language == 'ru' %}
+          <strong>Технический паспорт на нежилое помещение</strong> — обязательный документ для любых юридических операций с коммерческой недвижимостью: офисами, магазинами, складами, кафе и другими объектами нежилого фонда. Документ содержит характеристики помещения, планировку, площадь и техническое состояние.
+          {% else %}
+          <strong>Технічний паспорт на нежитлове приміщення</strong> — обов'язковий документ для будь-яких юридичних операцій з комерційною нерухомістю: офісами, магазинами, складами, кафе та іншими об'єктами нежитлового фонду. Документ містить характеристики приміщення, планування, площу та технічний стан.
+          {% endif %}
+        </p>
+
+        <h2>{% t 'Для яких нежитлових приміщень виготовляється техпаспорт' 'Для каких нежилых помещений изготавливается техпаспорт' %}</h2>
+        <ul>
+          <li>{% t 'Офісні та адміністративні приміщення;' 'Офисные и административные помещения;' %}</li>
+          <li>{% t 'Торгові площі та магазини;' 'Торговые площади и магазины;' %}</li>
+          <li>{% t 'Кафе, ресторани та заклади громадського харчування;' 'Кафе, рестораны и заведения общественного питания;' %}</li>
+          <li>{% t 'Склади та виробничі цехи;' 'Склады и производственные цеха;' %}</li>
+          <li>{% t 'Підвальні та напівпідвальні нежитлові приміщення;' 'Подвальные и полуподвальные нежилые помещения;' %}</li>
+          <li>{% t 'Об’єкти у новобудовах.' 'Объекты в новостройках.' %}</li>
+        </ul>
+
+        <h2>{% t 'Коли необхідний техпаспорт на нежитлове приміщення' 'Когда необходим техпаспорт на нежилое помещение' %}</h2>
+        <ul>
+          <li>{% t 'Купівля-продаж або оренда нерухомості;' 'Купля-продажа или аренда недвижимости;' %}</li>
+          <li>{% t 'Реєстрація права власності;' 'Регистрация права собственности;' %}</li>
+          <li>{% t 'Після перепланування або реконструкції;' 'После перепланировки или реконструкции;' %}</li>
+          <li>{% t 'Отримання ліцензій та дозволів (ліцензія на алкоголь, медична ліцензія тощо);' 'Получение лицензий и разрешений (лицензия на алкоголь, медицинская лицензия и т.д.);' %}</li>
+          <li>{% t 'Введення новобудови в експлуатацію;' 'Ввод новостройки в эксплуатацию;' %}</li>
+          <li>{% t 'Банківська застава або іпотека.' 'Банковский залог или ипотека.' %}</li>
+        </ul>
+
+        <h2>{% t 'Вартість технічного паспорта на нежитлове приміщення' 'Стоимость технического паспорта на нежилое помещение' %}</h2>
+        <div class="tableContainer">
+          <div class="tableHeader">
+            <div class="tableHeader_first">{% t 'Об’єкт' 'Объект' %}</div>
+            <div class="tableHeader_combine single"><div class="tableHeader_first">{% t 'Площа' 'Площадь' %}</div></div>
+            <div class="tableHeader_combine">
+              <div class="tableHeader_combine_top">{% t 'Вартість' 'Стоимость' %}</div>
+              <div class="tableHeader_combine_half">
+                <div>{% t '2–3 дні' '2–3 дня' %}</div>
+                <div>{% t 'День у день' 'День в день' %}</div>
+              </div>
+            </div>
+          </div>
+          <div class="tableItem">
+            <div class="tableItem_row">
+              <div>{% t 'Нежитлове приміщення / офіс / магазин' 'Нежилое помещение / офис / магазин' %}</div>
+              <div>{% t 'до 80 кв.м' 'до 80 кв.м' %}</div>
+              <div>2 500 грн.</div>
+              <div>+1 500 грн.</div>
+            </div>
+            <div class="tableItem_row">
+              <div>{% t 'Нежитлове приміщення / офіс / магазин' 'Нежилое помещение / офис / магазин' %}</div>
+              <div>{% t 'від 80 кв.м' 'от 80 кв.м' %}</div>
+              <div>25 грн/кв.м</div>
+              <div>+1 500 грн.</div>
+            </div>
+          </div>
+        </div>
+
+        <h2>{% t 'Необхідні документи для виготовлення' 'Необходимые документы для изготовления' %}</h2>
+        <div class="docs-col">
+          <ol>
+            <li>{% t 'Правовстановлюючий документ на нежитлове приміщення;' 'Правоустанавливающий документ на нежилое помещение;' %}</li>
+            <li>{% t 'Паспортні дані та ідентифікаційний номер замовника;' 'Паспортные данные и идентификационный номер заказчика;' %}</li>
+            <li>{% t 'Попередній технічний паспорт (за наявності).' 'Предыдущий технический паспорт (при наличии).' %}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="darkWidget">
+          <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
+          <h3>{% t 'Потрібна консультація?' 'Нужна консультация?' %}</h3>
+          <p>{% t 'Зателефонуйте або напишіть у месенджер' 'Позвоните или напишите в мессенджер' %}</p>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calcBlock reveal-up" id="calcSection">
+  <div class="container-max">
+    <span class="section-label text-center d-block">{% t 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}</span>
+    <h2>{% t 'Вартість техпаспорта на нежитлове' 'Стоимость техпаспорта на нежилое помещение' %}</h2>
+    <div class="calc-tabs">
+      <a href="#" class="calcTabBtn active" data-cat="komerc">{% t 'Нежитлові' 'Нежилые' %}</a>
+    </div>
+    <form id="calc1" class="calc-form" novalidate>
+      <div>
+        <p>{% t 'Площа кв. м.' 'Площадь кв. м.' %}</p>
+        <input type="number" id="squareVal" placeholder="{% t 'Введіть площу' 'Введите площадь' %}" min="1">
+      </div>
+      <div><p>{% t 'Район/місто' 'Район/город' %}</p><select name="region" id="regionsselect"></select></div>
+      <div>
+        <p>{% t 'Громада' 'Громада' %}</p>
+        <select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select>
+      </div>
+    </form>
+    <div class="notation"></div>
+    <div class="calc-actions">
+      <button class="doCalc">{% t 'Розрахувати' 'Рассчитать' %}</button>
+      <button class="callFormCalc hideFormBtn">{% t 'Замовити' 'Заказать' %}</button>
+    </div>
+    <div class="form-result">{% t 'Вартість становить:' 'Стоимость составляет:' %} <span id="cost">0</span> грн</div>
+    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="{% t 'Ваше ім’я' 'Ваше имя' %}">
+      <input type="tel" name="tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" required>
+      <input type="hidden" name="price">
+      <input type="hidden" name="type" value="Нежитлове">
+      <input type="hidden" name="square">
+      <input type="hidden" name="region" value="Київ">
+      <input type="hidden" name="cityInput">
+      <input type="hidden" name="plan" value="без змін">
+      <button type="submit">{% t 'Відправити заявку' 'Отправить заявку' %}</button>
+    </form>
+  </div>
+</section>
+
+{% block calculator_section %}{% endblock %}
+{% endblock %}

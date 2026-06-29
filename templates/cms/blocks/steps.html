@@ -1,0 +1,30 @@
+{% load static %}
+{% if block.heading or block.extra_data.items or block.body %}
+<section class="steps" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row">
+      {% if block.heading %}
+      <div class="col-12"><h2>{{ block.heading }}</h2></div>
+      {% endif %}
+      <div class="col-md-12">
+        <div class="steps-grid roundBorderHalf">
+          {% if block.extra_data.items %}
+            {% for item in block.extra_data.items %}
+            <div class="steps_item">
+              <div class="steps_item_content">
+                <span class="step-num">{{ forloop.counter }}</span>
+                <p>{{ item.title }}</p>
+                {% if item.descr %}<div>{{ item.descr }}</div>{% endif %}
+              </div>
+              {% if item.ico %}<img src="{{ item.ico }}" alt="">{% endif %}
+            </div>
+            {% endfor %}
+          {% elif block.body %}
+            <div class="cms-block__body">{{ block.body|safe }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

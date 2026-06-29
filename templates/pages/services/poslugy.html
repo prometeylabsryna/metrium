@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static i18n_tags cms_tags %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="{% t 'Навігація' 'Навигация' %}">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{% lang_url '/' %}" itemprop="item"><span itemprop="name">{% t 'Головна' 'Главная' %}</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{% t 'Послуги БТІ' 'Услуги БТИ' %}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="baner pageBaner" id="hero">
+  <img src="{% kata_img 'poslugy-kyiv' 'tehnichnyj-pasport.webp' %}" alt="{% t 'Послуги БТІ' 'Услуги БТИ' %}" class="bgPk d-none d-md-block">
+  <img src="{% kata_img 'poslugy-kyiv' 'tehnichnyj-pasport-3.webp' %}" alt="{% t 'Послуги БТІ' 'Услуги БТИ' %}" class="bgMob d-md-none">
+  <div class="hero-overlay"></div>
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-6 reveal-left">
+        <h1>{% t 'Послуги БТІ у Києві та Київській області' 'Услуги БТИ в Киеве и Киевской области' %}</h1>
+        <p class="descr">{% t 'Офіційна реєстрація нерухомості — швидко, зручно, без прихованих платежів' 'Официальная регистрация недвижимости — быстро, удобно, без скрытых платежей' %}</p>
+      </div>
+      <div class="col-md-5 offset-md-1 reveal-right">
+        <form class="banerForm" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="services-banner">
+          {% csrf_token %}
+          <h3>{% t 'Замовити консультацію' 'Заказать консультацию' %}</h3>
+          <p>{% t 'Для замовлення залиште Ваш номер телефону і наша команда спеціалістів з Вами зв\'яжеться' 'Для заказа оставьте Ваш номер телефона и наша команда специалистов с Вами свяжется' %}</p>
+          <input type="tel" name="tel" class="banerForm__tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" autocomplete="tel" required>
+          <div class="field-error banerForm__error">{% t 'Введіть коректний номер телефону' 'Введите корректный номер телефона' %}</div>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">{% t 'Замовити' 'Заказать' %}</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12">
+        <span class="section-label text-center d-block">{% t 'Що ми робимо' 'Что мы делаем' %}</span>
+        <h2 class="largeTitle">{% t 'Послуги' 'Услуги' %}</h2>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-0">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'i1.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}</p>
+            <div class="serv-descr">{% t 'Виготовлення технічних паспортів на квартири, будинки, гаражі та нежитлові приміщення. Реєстрація в ЄДЕССБ.' 'Изготовление технических паспортов на квартиры, дома, гаражи и нежилые помещения. Регистрация в ЕДЕССБ.' %}</div>
+            <a href="{% lang_url '/bti-cina/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-1">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'i2.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Введення в експлуатацію' 'Ввод в эксплуатацию' %}</p>
+            <div class="serv-descr">{% t 'Декларація про готовність об\'єкта до експлуатації. Паперовим та електронним способом.' 'Декларация о готовности объекта к эксплуатации. Бумажным и электронным способом.' %}</div>
+            <a href="{% lang_url '/vvedennya-v-ekspluatatsiyu/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-2">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'ic3.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Легалізація нерухомості' 'Легализация недвижимости' %}</p>
+            <div class="serv-descr">{% t 'Узаконення об\'єктів, збудованих без проєктних та дозвільних документів.' 'Узаконивание объектов, построенных без проектной и разрешительной документации.' %}</div>
+            <a href="{% lang_url '/legalizatsiya-neruhomosti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-3">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'ic4.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Дозвільна документація' 'Разрешительная документация' %}</p>
+            <div class="serv-descr">{% t 'Будівельний паспорт, містобудівні умови, схеми намірів забудови та технічні умови.' 'Строительный паспорт, градостроительные условия, схемы намерений застройки и технические условия.' %}</div>
+            <a href="{% lang_url '/dozvilna-dokumentatsiya/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-4">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'ic5.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Земельна документація' 'Земельная документация' %}</p>
+            <div class="serv-descr">{% t 'Встановлення меж, поділ та об\'єднання земельних ділянок, топографічна зйомка.' 'Установление границ, раздел и объединение земельных участков, топографическая съемка.' %}</div>
+            <a href="{% lang_url '/zemelna-dokumentatsiya/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-5">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'poslugy-kyiv' 'ic6.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Висновки/довідки БТІ' 'Заключения/справки БТИ' %}</p>
+            <div class="serv-descr">{% t 'Висновки про знищення, поділ, об\'єднання майна та довідки про наявність будівель.' 'Заключения о сносе, разделе, объединении имущества и справки о наличии строений.' %}</div>
+            <a href="{% lang_url '/dovidky/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="whyItems reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12"><h2>{% t 'Чому варто обрати наше БТІ?' 'Почему стоит выбрать наше БТИ?' %}</h2></div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'poslugy-kyiv' 'ic1.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Швидкість' 'Скорость' %}</p>
+          <span>{% t 'Всі проєкти виконуються оперативно, з високою якістю та без зайвих затримок.' 'Все проекты выполняются оперативно, с высоким качеством и без лишних задержек.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'poslugy-kyiv' 'ic2.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Сертифікація' 'Сертификация' %}</p>
+          <span>{% t 'Найкращі професіонали, обладнання та інструменти, що пройшли відповідну сертифікацію.' 'Лучшие профессионалы, оборудование и инструменты, прошедшие соответствующую сертификацию.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'poslugy-kyiv' 'ic3.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Досвід' 'Опыт' %}</p>
+          <span>{% t 'Тисячі об\'єктів і десятиріччя плідної праці допоможуть вирішити питання будь-якої складності.' 'Тысячи объектов и десятилетия плодотворной работы помогут решить вопросы любой сложности.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'poslugy-kyiv' 'ic4.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Зручність' 'Удобство' %}</p>
+          <span>{% t 'Процес від замовлення до отримання результату, організований з урахуванням саме Ваших потреб.' 'Процесс от заказа до получения результата организован с учетом именно Ваших потребностей.' %}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark garanty reveal-up">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h2>{% t 'Залишити заявку зараз' 'Оставить заявку сейчас' %}</h2>
+        <p>{% t 'Надішліть заявку і наша команда спеціалістів зв\'яжеться з Вами протягом 5 хвилин.' 'Отправьте заявку и наша команда специалистов свяжется с Вами в течение 5 минут.' %}</p>
+        <form novalidate data-action="{% url 'leads-phone' %}" data-channel="services-bottom"
+              class="poslugy-form-row">
+          {% csrf_token %}
+          <div class="form-field-wrap poslugy-form-field">
+            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
+            <label>{% t 'Ваш телефон' 'Ваш телефон' %}</label>
+            <div class="field-error">{% t 'Введіть коректний номер' 'Введите корректный номер' %}</div>
+          </div>
+          <button type="submit" class="accBtn btn-submit accBtn--nowrap">
+            <span class="btn-text">{% t 'Відправити' 'Отправить' %}</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+      <div class="col-md-3 offset-md-1 d-none d-md-block text-center">
+        <img src="{% kata_img 'poslugy-kyiv' '100.webp' %}" class="img-responsive img-garant-badge" alt="{% t '100% гарантія' '100% гарантия' %}" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

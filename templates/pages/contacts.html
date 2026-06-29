@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static i18n_tags cms_tags %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="{% t 'Навігація' 'Навигация' %}">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{% lang_url '/' %}" itemprop="item"><span itemprop="name">{% t 'Головна' 'Главная' %}</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{% t 'Контакти' 'Контакты' %}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="contacts-live reveal-up" itemscope itemtype="https://schema.org/LocalBusiness">
+  <meta itemprop="name" content="Метріум">
+  <meta itemprop="telephone" content="+380673986200">
+  <meta itemprop="email" content="pruvatnebti@gmail.com">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12">
+        <h2>{% if current_language == 'ru' %}Адреса{% else %}Адреси наших представництв:{% endif %}</h2>
+      </div>
+      <div class="col-12 avtoServicesList">
+        <div class="row">
+          <div class="col-md-4">
+            {% for office in offices %}
+            <a href="#"
+               class="locationLink{% if forloop.first %} active{% endif %}"
+               data-city="{{ office.city }}"
+               data-cordinates="{{ office.coordinates_str }}"
+               data-lat="{{ office.lat_str }}"
+               data-lng="{{ office.lng_str }}">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>{{ office.display_label }}</span>
+            </a>
+            {% empty %}
+            <a href="#" class="locationLink active"
+               data-city="kiev"
+               data-cordinates="50.472051,30.408564"
+               data-lat="50.472051"
+               data-lng="30.408564">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, вул. Салютна, 15</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="kiev"
+               data-cordinates="50.504739,30.427647"
+               data-lat="50.504739"
+               data-lng="30.427647">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, просп. Правди, 70</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="kiev"
+               data-cordinates="50.453055,30.611864"
+               data-lat="50.453055"
+               data-lng="30.611864">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, вул. Будівельників, 36</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="kiev"
+               data-cordinates="50.457164,30.506647"
+               data-lat="50.457164"
+               data-lng="30.506647">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, пров. Киянівський, 7</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="kiev"
+               data-cordinates="50.508298,30.608653"
+               data-lat="50.508298"
+               data-lng="30.608653">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, просп. Червоної Калини, 26</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="kiev"
+               data-cordinates="50.458054,30.405893"
+               data-lat="50.458054"
+               data-lng="30.405893">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Київ, просп. Берестейський, 67</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="bucha"
+               data-cordinates="50.551193,30.212097"
+               data-lat="50.551193"
+               data-lng="30.212097">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Буча, вул. Енергетиків, 8</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="irpin"
+               data-cordinates="50.515643,30.255479"
+               data-lat="50.515643"
+               data-lng="30.255479">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Ірпінь, вул. Стельмаха, 9а</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="bila_tserkva"
+               data-cordinates="49.785888,30.157499"
+               data-lat="49.785888"
+               data-lng="30.157499">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Біла Церква, вул. Леваневського, 57</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="borispil"
+               data-cordinates="50.3514,30.9573"
+               data-lat="50.3514"
+               data-lng="30.9573">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Бориспіль, вул. Київський шлях, 4</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="brovary"
+               data-cordinates="50.5107,30.7916"
+               data-lat="50.5107"
+               data-lng="30.7916">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Бровари, вул. Героїв України, 16</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="vyshgorod"
+               data-cordinates="50.5891,30.4961"
+               data-lat="50.5891"
+               data-lng="30.4961">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Вишгород, вул. Шолуденка, 1</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="obukhiv"
+               data-cordinates="50.1087,30.6177"
+               data-lat="50.1087"
+               data-lng="30.6177">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Обухів, вул. Каштанова, 16</span>
+            </a>
+            <a href="#" class="locationLink"
+               data-city="fastiv"
+               data-cordinates="50.0773,29.9054"
+               data-lat="50.0773"
+               data-lng="29.9054">
+              <img src="{% kata_img 'contacts' 'location.svg' %}" alt="" width="16" height="16">
+              <span>Фастів, вул. Соборна, 40а</span>
+            </a>
+            {% endfor %}
+          </div>
+          <div class="col-md-8">
+            <div id="map">
+              {% with first_office=offices.0 %}
+              <iframe id="contactMapFrame"
+                src="https://www.google.com/maps?q={% if first_office %}{{ first_office.lat_str }},{{ first_office.lng_str }}{% else %}50.472051,30.408564{% endif %}&amp;hl=uk&amp;z=16&amp;output=embed"
+                width="100%"
+                height="687"
+                class="map-embed"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Карта офісу Метріум БТІ"></iframe>
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

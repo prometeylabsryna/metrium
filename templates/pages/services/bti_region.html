@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% load static i18n_tags cms_tags %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="Навігація">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{% if current_language == 'ru' %}/ru/{% else %}/{% endif %}" itemprop="item">
+          <span itemprop="name">{% if current_language == 'ru' %}Главная{% else %}Головна{% endif %}</span>
+        </a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/{% else %}/kyiv-oblast/{% endif %}" itemprop="item">
+          <span itemprop="name">{% if current_language == 'ru' %}БТИ Киевская область{% else %}БТІ Київська область{% endif %}</span>
+        </a>
+        <meta itemprop="position" content="2">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{% if current_language == 'ru' %}БТИ {% else %}БТІ {% endif %}{{ city_name }}</span>
+        <meta itemprop="position" content="3">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="baner pageBaner service-banner" id="hero">
+  <img src="{% kata_img page_slug 'tehnichnyj-pasport.webp' %}" alt="" class="bgPk d-none d-md-block">
+  <img src="{% kata_img page_slug 'tehnichnyj-pasport-3.webp' %}" alt="" class="bgMob d-md-none">
+  <div class="hero-overlay"></div>
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-6 reveal-left">
+        <h1>{% if current_language == 'ru' %}БТИ {{ city_name }}{% else %}БТІ {{ city_name }}{% endif %}</h1>
+        <p class="descr">
+          {% if current_language == 'ru' %}
+          Услуги технической инвентаризации, технические паспорта, справки и выводы БТИ в {{ city_name }}. Официально, быстро, без очередей.
+          {% else %}
+          Послуги технічної інвентаризації, технічні паспорти, довідки та висновки БТІ в {{ city_name }}. Офіційно, швидко, без черг.
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-md-5 offset-md-1 reveal-right">
+        <form class="banerForm" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="region-banner">
+          {% csrf_token %}
+          <h3>{% if current_language == 'ru' %}Заказать услугу{% else %}Замовити послугу{% endif %}</h3>
+          <p>{% if current_language == 'ru' %}Оставьте номер телефона и мы свяжемся с вами в течение 5 минут{% else %}Залиште номер телефону і ми зв'яжемось з вами протягом 5 хвилин{% endif %}</p>
+          <input type="tel" name="tel" class="banerForm__tel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" autocomplete="tel" required>
+          <div class="field-error banerForm__error">{% if current_language == 'ru' %}Введите корректный номер телефона{% else %}Введіть коректний номер телефону{% endif %}</div>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">{% if current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container-max">
+  <nav id="pageToc" class="page-toc" aria-label="{% if current_language == 'ru' %}Содержание страницы{% else %}Зміст сторінки{% endif %}">
+    <button type="button" class="page-toc__toggle" aria-expanded="false">
+      {% if current_language == 'ru' %}Содержание страницы{% else %}Зміст сторінки{% endif %} <span class="page-toc__icon">▾</span>
+    </button>
+    <div class="page-toc__body">
+      <ul class="page-toc__list"></ul>
+    </div>
+  </nav>
+</div>
+
+<section class="service-content reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-8">
+
+        <h2 id="posluhy">{% if current_language == 'ru' %}Услуги БТИ в {{ city_name }}{% else %}Послуги БТІ в {{ city_name }}{% endif %}</h2>
+        <p>
+          {% if current_language == 'ru' %}
+          Компания <strong>Метриум</strong> предоставляет полный спектр услуг технической инвентаризации и БТИ в {{ city_name }} и прилегающем районе. Мы работаем официально — все документы регистрируются в ЕДЕССБ.
+          {% else %}
+          Компанія <strong>Метріум</strong> надає повний спектр послуг технічної інвентаризації та БТІ в {{ city_name }} та прилеглому районі. Ми працюємо офіційно — всі документи реєструються у ЄДЕССБ.
+          {% endif %}
+        </p>
+
+        <div class="row region-services-grid">
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/tehnichni-pasporty-bti/{% else %}/tehnichni-pasporty-bti/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic1.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Технический паспорт БТИ{% else %}Технічний паспорт БТІ{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}На квартиру, дом, здание, гараж{% else %}На квартиру, будинок, будівлю, гараж{% endif %}</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/tehnichna-inventaryzatsiya/{% else %}/tehnichna-inventaryzatsiya/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic2.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Техническая инвентаризация{% else %}Технічна інвентаризація{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}Первичная, текущая, плановая{% else %}Первинна, поточна, планова{% endif %}</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/dovidky/{% else %}/dovidky/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic3.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Справки БТИ{% else %}Довідки БТІ{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}О показателях, перепланировке, отсутствии строений{% else %}Про показники, перепланування, відсутність будівель{% endif %}</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/vysnovky-bti/{% else %}/vysnovky-bti/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic4.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Заключения БТИ{% else %}Висновки БТІ{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}О разделе, объединении, уничтожении имущества{% else %}Про поділ, об'єднання, знищення майна{% endif %}</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/legalizatsiya-neruhomosti/{% else %}/legalizatsiya-neruhomosti/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic1.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Легализация недвижимости{% else %}Легалізація нерухомості{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}Самовольное строительство, перепланировки{% else %}Самочинне будівництво, перепланування{% endif %}</p>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6">
+            <a href="{% if current_language == 'ru' %}/ru/dozvilna-dokumentatsiya/{% else %}/dozvilna-dokumentatsiya/{% endif %}" class="region-service-card">
+              <div class="imgBlock"><img src="{% kata_img page_slug 'ic2.svg' %}" alt="" width="32" height="32"></div>
+              <div>
+                <strong>{% if current_language == 'ru' %}Разрешительная документация{% else %}Дозвільна документація{% endif %}</strong>
+                <p>{% if current_language == 'ru' %}Разрешения на строительство, реконструкцию{% else %}Дозволи на будівництво, реконструкцію{% endif %}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <h2 id="chomu-my">{% if current_language == 'ru' %}Почему выбирают Метриум в {{ city_name }}{% else %}Чому обирають Метріум в {{ city_name }}{% endif %}</h2>
+        <ul>
+          <li>{% if current_language == 'ru' %}Сертифицированные технические инвентаризаторы;{% else %}Сертифіковані технічні інвентаризатори;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Официальная регистрация всех документов в ЕДЕССБ;{% else %}Офіційна реєстрація всіх документів у ЄДЕССБ;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Выезд специалиста в {{ city_name }} и район;{% else %}Виїзд спеціаліста в {{ city_name }} та район;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Срок изготовления от 1 рабочего дня;{% else %}Термін виготовлення від 1 робочого дня;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Помощь с документами и консультация бесплатно;{% else %}Допомога з документами та консультація безкоштовно;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Работаем без очередей и посредников.{% else %}Працюємо без черг та посередників.{% endif %}</li>
+        </ul>
+
+        <h2 id="vartist">{% if current_language == 'ru' %}Стоимость услуг в {{ city_name }}{% else %}Вартість послуг в {{ city_name }}{% endif %}</h2>
+        <div class="tableContainer">
+          <div class="tableHeader">
+            <div class="tableHeader_first">{% if current_language == 'ru' %}Услуга{% else %}Послуга{% endif %}</div>
+            <div class="tableHeader_combine single">
+              <div class="tableHeader_first">{% if current_language == 'ru' %}Срок{% else %}Термін{% endif %}</div>
+            </div>
+            <div class="tableHeader_combine single">
+              <div class="tableHeader_first">{% if current_language == 'ru' %}Стоимость{% else %}Вартість{% endif %}</div>
+            </div>
+          </div>
+          <div class="tableItem">
+            <div class="tableItem_row">
+              <div>{% if current_language == 'ru' %}Технический паспорт на квартиру{% else %}Технічний паспорт на квартиру{% endif %}</div>
+              <div>2–3 {% if current_language == 'ru' %}дня{% else %}дні{% endif %}</div>
+              <div>{% if current_language == 'ru' %}от 2 500 грн{% else %}від 2 500 грн{% endif %}</div>
+            </div>
+            <div class="tableItem_row">
+              <div>{% if current_language == 'ru' %}Технический паспорт на дом{% else %}Технічний паспорт на будинок{% endif %}</div>
+              <div>2–3 {% if current_language == 'ru' %}дня{% else %}дні{% endif %}</div>
+              <div>{% if current_language == 'ru' %}от 5 500 грн{% else %}від 5 500 грн{% endif %}</div>
+            </div>
+            <div class="tableItem_row">
+              <div>{% if current_language == 'ru' %}Справка БТИ{% else %}Довідка БТІ{% endif %}</div>
+              <div>3–5 {% if current_language == 'ru' %}дней{% else %}днів{% endif %}</div>
+              <div>{% if current_language == 'ru' %}уточняйте{% else %}уточнюйте{% endif %}</div>
+            </div>
+          </div>
+        </div>
+        <p class="table-note"><em>{% if current_language == 'ru' %}*Точную стоимость уточняйте у менеджера. Цена зависит от типа объекта и удалённости.{% else %}*Точну вартість уточнюйте у менеджера. Ціна залежить від типу об'єкта та віддаленості.{% endif %}</em></p>
+
+        <h2 id="yak-zamovyty">{% if current_language == 'ru' %}Как заказать услугу БТИ в {{ city_name }}{% else %}Як замовити послугу БТІ в {{ city_name }}{% endif %}</h2>
+        <ol>
+          <li>{% if current_language == 'ru' %}Оставьте заявку по телефону или через форму на сайте;{% else %}Залиште заявку по телефону або через форму на сайті;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Менеджер свяжется с вами в течение 5 минут;{% else %}Менеджер зв'яжеться з вами протягом 5 хвилин;{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Специалист выедет на объект в {{ city_name }};{% else %}Спеціаліст виїде на об'єкт в {{ city_name }};{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Документы будут готовы в оговорённый срок.{% else %}Документи будуть готові в обумовлений термін.{% endif %}</li>
+        </ol>
+
+      </div>
+      <div class="col-md-4">
+        <div class="darkWidget">
+          <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
+          <h3>{% if current_language == 'ru' %}Нужна консультация?{% else %}Потрібна консультація?{% endif %}</h3>
+          <p>{% if current_language == 'ru' %}Позвоните или напишите в мессенджер{% else %}Зателефонуйте або напишіть у месенджер{% endif %}</p>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calcBlock reveal-up" id="calcSection">
+  <div class="container-max">
+    <span class="section-label text-center d-block">{% if current_language == 'ru' %}Онлайн-калькулятор{% else %}Онлайн-калькулятор{% endif %}</span>
+    <h2>{% if current_language == 'ru' %}Расчёт стоимости услуги в {{ city_name }}{% else %}Розрахунок вартості послуги в {{ city_name }}{% endif %}</h2>
+    <div class="calc-tabs">
+      <a href="#" class="calcTabBtn active" data-cat="kvartira">{% if current_language == 'ru' %}Квартира{% else %}Квартира{% endif %}</a>
+      <a href="#" class="calcTabBtn" data-cat="budynky">{% if current_language == 'ru' %}Дом{% else %}Будинок{% endif %}</a>
+      <a href="#" class="calcTabBtn" data-cat="komerc">{% if current_language == 'ru' %}Нежилое{% else %}Нежитлові{% endif %}</a>
+    </div>
+    <form id="calc1" class="calc-form" novalidate>
+      <div><p>{% if current_language == 'ru' %}Площадь кв. м.{% else %}Площа кв. м.{% endif %}</p><input type="number" id="squareVal" placeholder="{% if current_language == 'ru' %}Введите площадь{% else %}Введіть площу{% endif %}" min="1"></div>
+      <div><p>{% if current_language == 'ru' %}Район/город{% else %}Район/місто{% endif %}</p><select name="region" id="regionsselect"></select></div>
+      <div><p>{% t 'Громада' 'Громада' %}</p><select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select></div>
+    </form>
+    <div class="notation"></div>
+    <div class="calc-actions">
+      <button class="doCalc">{% if current_language == 'ru' %}Рассчитать{% else %}Розрахувати{% endif %}</button>
+      <button class="callFormCalc hideFormBtn">{% if current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}</button>
+    </div>
+    <div class="form-result">{% if current_language == 'ru' %}Стоимость составляет:{% else %}Вартість становить:{% endif %} <span id="cost">0</span> {% if current_language == 'ru' %}грн{% else %}грн{% endif %}</div>
+    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="{% if current_language == 'ru' %}Ваше имя{% else %}Ваше ім'я{% endif %}">
+      <input type="tel" name="tel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" required>
+      <input type="hidden" name="price">
+      <input type="hidden" name="type" value="Квартира">
+      <input type="hidden" name="square">
+      <input type="hidden" name="region" value="Київ">
+      <input type="hidden" name="cityInput">
+      <input type="hidden" name="plan" value="без змін">
+      <button type="submit">{% if current_language == 'ru' %}Отправить заявку{% else %}Відправити заявку{% endif %}</button>
+    </form>
+  </div>
+</section>
+
+<section class="dark garanty reveal-up">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <h2>{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}</h2>
+        <p>{% if current_language == 'ru' %}Отправьте заявку и наш специалист свяжется с вами в течение 5 минут.{% else %}Надішліть заявку і наш спеціаліст зв'яжеться з вами протягом 5 хвилин.{% endif %}</p>
+        <form class="garanty-form" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="region-bottom">
+          {% csrf_token %}
+          <div class="form-field-wrap">
+            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
+            <label>{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}</label>
+            <div class="field-error">{% if current_language == 'ru' %}Введите корректный номер{% else %}Введіть коректний номер{% endif %}</div>
+          </div>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">{% if current_language == 'ru' %}Отправить{% else %}Відправити{% endif %}</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+      <div class="col-md-3 offset-md-1 d-none d-md-block text-center">
+        <img src="{% kata_img page_slug '100.webp' %}" class="img-responsive img-garant-badge" alt="100% гарантія" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/calculator.js' %}?v=20260629" defer></script>
+{% endblock %}

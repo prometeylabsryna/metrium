@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="Навігація">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item"><span itemprop="name">Головна</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Відгуки</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="blogBanner">
+  <img src="{% static 'images/kata/fon.jpeg' %}" class="page-bg" alt="" loading="lazy">
+  <div class="container-max">
+    <h1>Відгуки наших клієнтів</h1>
+    <p class="descr d-none d-md-block">Понад 5 000 задоволених клієнтів довіряють Метріум своє нерухоме майно. Рейтинг {{ rating_avg }} ★ на Google</p>
+  </div>
+</section>
+
+<section class="reviews-summary reveal-up"
+         itemscope itemtype="https://schema.org/AggregateRating">
+  <meta itemprop="ratingValue" content="{{ rating_avg }}">
+  <meta itemprop="reviewCount" content="{{ rating_count }}">
+  <meta itemprop="bestRating" content="5">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <div class="reviews-summary-row">
+          <div class="reviews-rating-center">
+            <div class="reviews-rating-num">{{ rating_avg }}</div>
+            <img src="{% static 'images/kata/stars.png' %}" alt="{{ rating_avg }} зірок" class="reviews-stars-img">
+            <p class="reviews-count-note">На основі {{ rating_count }} відгуків</p>
+          </div>
+          <div class="reviews-bars">
+            {% for star, data in rating_distribution.items %}
+            <div class="reviews-bar-row">
+              <span class="reviews-bar-label">{{ star }} ★</span>
+              <div class="reviews-bar-track">
+                <svg class="reviews-bar-svg" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true">
+                  <rect class="reviews-bar-fill-svg" width="{{ data.pct }}" height="6" rx="3"></rect>
+                </svg>
+              </div>
+              <span class="reviews-bar-label reviews-count-note">{{ data.count }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="reviews-google-row">
+          <img src="{% static 'images/kata/google.svg' %}" alt="Google" width="32" height="32">
+          <div>
+            <div class="reviews-google-title">Google Reviews</div>
+            <div class="reviews-google-desc">Перевірені відгуки реальних клієнтів</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 text-center">
+        <a href="/#hero" class="accBtn accBtn--inline">Замовити послугу</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="revs-list">
+  <div class="container-max">
+    {% for review in reviews %}
+    <div class="rev-itemBox reveal-up" itemscope itemtype="https://schema.org/Review">
+      <div class="revBody">
+        <p itemprop="author">{{ review.name }}</p>
+        <div class="stars">
+          <span class="stars-row" aria-label="{{ review.rating }} зірок">{% for i in "12345" %}<span class="star {% if forloop.counter <= review.rating %}filled{% endif %}">★</span>{% endfor %}</span>
+          <span itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+            <meta itemprop="ratingValue" content="{{ review.rating }}">
+            {{ review.rating }}.0
+          </span>
+        </div>
+        <div class="revBodyText" itemprop="reviewBody">{{ review.text }}</div>
+      </div>
+      {% if review.published_at %}
+      <span class="dateRev">
+        <time itemprop="datePublished" datetime="{{ review.published_at|date:'Y-m-d' }}">
+          {{ review.published_at|date:"d.m.Y" }}
+        </time>
+      </span>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="reviews-empty">
+      <p class="reviews-empty-text">Відгуки з'являться найближчим часом</p>
+      <a href="/#hero" class="accBtn accBtn--inline accBtn--mt-16">Замовити послугу</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

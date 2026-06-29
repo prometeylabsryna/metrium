@@ -1,0 +1,20 @@
+{% load static %}
+<div id="popupTel" class="modal-overlay" role="dialog" aria-modal="true" aria-label="{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}" hidden>
+  <div class="modal-box">
+    <button class="modal-close" id="popupTelClose" aria-label="Закрити">×</button>
+    <h3>{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}</h3>
+    <p>{% if current_language == 'ru' %}Отправьте заявку и наша команда свяжется с вами в течение{% else %}Надішліть заявку і наша команда зв'яжеться з вами протягом{% endif %} <span class="accent-text">5 {% if current_language == 'ru' %}минут{% else %}хвилин{% endif %}</span></p>
+    <form id="popupTelForm" novalidate data-action="{% url 'leads-phone' %}" data-channel="popup">
+      {% csrf_token %}
+      <div class="form-field-wrap">
+        <input type="tel" name="tel" placeholder=" " class="subscrInputPopup" autocomplete="tel" required>
+        <label>{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}</label>
+        <div class="field-error">{% if current_language == 'ru' %}Введите корректный номер{% else %}Введіть коректний номер{% endif %}</div>
+      </div>
+      <button type="submit" class="accBtn btn-submit">
+        <span class="btn-text">{% if current_language == 'ru' %}Записаться{% else %}Записатись{% endif %}</span>
+        <span class="btn-loader" aria-hidden="true"></span>
+      </button>
+    </form>
+  </div>
+</div>

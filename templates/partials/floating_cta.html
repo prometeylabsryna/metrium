@@ -1,0 +1,9 @@
+{% load static i18n_tags %}
+<div class="floating-cta" id="floatingCta">
+  <a href="tel:0673986200" class="float-btn float-call" aria-label="{% bi 'global' 'floating.call' 'Зателефонувати' 'Позвонить' %}">
+    <img src="{% static 'images/kata/tel.svg' %}" alt="tel" width="20" height="20"><span>{% bi 'global' 'floating.call' 'Зателефонувати' 'Позвонить' %}</span>
+  </a>
+  <a href="https://t.me/metriumbti" class="float-btn float-tg" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+    <img src="{% static 'images/kata/telega.svg' %}" alt="tg" width="20" height="20"><span>Telegram</span>
+  </a>
+</div>

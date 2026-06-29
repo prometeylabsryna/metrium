@@ -1,0 +1,26 @@
+{% load static %}
+<!-- Thank you popup — after form submit -->
+<div id="thanck" class="white-popup mfp-hide" role="dialog" aria-modal="true" aria-label="{% if current_language == 'ru' %}Спасибо за обращение{% else %}Дякуємо за звернення{% endif %}">
+  <img src="{% static 'images/kata/Done_icon.png' %}" alt="" width="86" height="86">
+  <h3>{% if current_language == 'ru' %}Спасибо за обращение!{% else %}Дякуємо за звернення!{% endif %}</h3>
+  <p>{% if current_language == 'ru' %}Менеджер свяжется с Вами в течении <span>5 минут</span>{% else %}Менеджер зв'яжеться з Вами протягом <span>5 хвилин</span>{% endif %}</p>
+</div>
+
+<!-- Thank you comment popup -->
+<div id="thanckComment" class="white-popup mfp-hide" role="dialog" aria-modal="true">
+  <img src="{% static 'images/kata/Done_icon.png' %}" alt="" width="86" height="86">
+  <h3>{% if current_language == 'ru' %}Спасибо за коментарий!{% else %}Дякуємо за коментар!{% endif %}</h3>
+</div>
+
+<!-- Quick call popup -->
+<div id="popupTel" class="white-popup mfp-hide" role="dialog" aria-modal="true" aria-label="{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}">
+  <form id="popupTelForm" data-lead-form="popup" novalidate>
+    <h3>{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}</h3>
+    <p>{% if current_language == 'ru' %}Отправьте заявку и наша команда свяжется с Вами в течении <span>5 минут.</span>{% else %}Надішліть заявку і наша команда спеціалістів зв'яжеться з Вами протягом <span>5 хвилин.</span>{% endif %}</p>
+    <div>
+      <input type="tel" name="tel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" class="subscrInputPopup" autocomplete="tel" required>
+      <input type="hidden" name="loc" value="{% if page %}{{ page.title }}{% else %}Metrium{% endif %}">
+      <button type="submit" class="accBtn">{% if current_language == 'ru' %}Записаться{% else %}Замовити{% endif %}</button>
+    </div>
+  </form>
+</div>

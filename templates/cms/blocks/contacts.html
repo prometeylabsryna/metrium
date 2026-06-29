@@ -1,0 +1,95 @@
+{% load static %}
+<section class="contacts-block" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %} itemscope itemtype="https://schema.org/LocalBusiness">
+  <meta itemprop="name" content="Метріум">
+  <meta itemprop="telephone" content="+380673986200">
+  <meta itemprop="email" content="pruvatnebti@gmail.com">
+  <div class="container-max">
+    <div class="row">
+      {% if block.heading %}
+      <div class="col-12"><h2>{{ block.heading }}</h2></div>
+      {% else %}
+      <div class="col-12"><h2>{% if current_language == 'ru' %}Адреса{% else %}Адреси наших представництв:{% endif %}</h2></div>
+      {% endif %}
+      <div class="col-12 avtoServicesList">
+        <div class="row">
+          <div class="col-md-4">
+            {% if block.extra_data.locations %}
+              {% for loc in block.extra_data.locations %}
+              <a href="#" class="locationLink{% if forloop.first %} active{% endif %}"
+                 data-city="{{ loc.city }}"
+                 data-cordinates="{{ loc.cordinates }}"
+                 data-tel1="{{ loc.tel1 }}"
+                 data-tel2="{{ loc.tel2 }}"
+                 data-work="{{ loc.work }}"
+                 data-free="{{ loc.free }}"
+                 data-google="{{ loc.google }}"
+                 data-wize="{{ loc.wize }}">
+                <img src="{% static 'images/kata/location.svg' %}" alt="">{{ loc.city_c }}
+              </a>
+              {% endfor %}
+            {% else %}
+              <a href="#" class="locationLink active"
+                 data-city="Ірпінь"
+                 data-cordinates="50.5215,30.2521"
+                 data-tel1="067-398-62-00"
+                 data-work="Пн-Пт: 08:00 — 21:00"
+                 data-free="Сб: 09:00 — 18:00"
+                 data-google="https://maps.google.com/?q=Ірпінь,+вул.+Стельмаха+9а"
+                 data-wize="https://waze.com/ul?ll=50.5215,30.2521">
+                <img src="{% static 'images/kata/location.svg' %}" alt=""> Ірпінь (головний офіс)
+              </a>
+            {% endif %}
+          </div>
+          <div class="col-md-8">
+            <div id="map">
+              {% if block.body %}
+                {{ block.body|safe }}
+              {% else %}
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2535.5!2d30.252!3d50.521!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z0IbRgNC_0ZbQvdGM!5e0!3m2!1suk!2sua!4v1"
+                  width="100%" height="400" class="map-embed"
+                  allowfullscreen loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="{% if current_language == 'ru' %}Карта офиса Метриум{% else %}Карта офісу Метріум{% endif %}"></iframe>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="avtoServicesList_bottom">
+              <div class="leftPart">
+                <div class="as_block">
+                  <h3>{% if current_language == 'ru' %}Контакты{% else %}Контакти{% endif %}</h3>
+                  <a href="tel:+380673986200"><img src="{% static 'images/kata/tel.svg' %}" alt=""> <span class="phText">+380 67 398 62 00</span></a>
+                  <a href="tel:+380500672060" class="opt-tel"><img src="{% static 'images/kata/tel.svg' %}" alt=""> +380 50 067 20 60</a>
+                  <a href="mailto:pruvatnebti@gmail.com"><img src="{% static 'images/kata/mail.svg' %}" alt=""> pruvatnebti@gmail.com</a>
+                </div>
+                <div class="as_block">
+                  <h3>{% if current_language == 'ru' %}График работы{% else %}Графік роботи{% endif %}</h3>
+                  <div class="bottom_schedule">
+                    <img src="{% static 'images/kata/schedule.svg' %}" alt="">
+                    <p>
+                      <span id="work">Пн - Пт: 08:00 — 21:00</span>
+                      <span id="free">Сб: 09:00 — 18:00</span>
+                      <span>{% if current_language == 'ru' %}Вс: Выходной{% else %}Нд: Вихідний{% endif %}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="rightPart">
+                <h3>{% if current_language == 'ru' %}Проложить маршрут{% else %}Прокласти маршрут{% endif %}</h3>
+                <div>
+                  <a href="https://maps.google.com/?q=Ірпінь,+вул.+Стельмаха+9а" target="_blank" rel="noopener noreferrer" class="accBtn" id="googleRoute">
+                    <img src="{% static 'images/kata/wh-loc.svg' %}" alt=""> Через Google Maps
+                  </a>
+                  <a href="https://waze.com/ul?ll=50.5215,30.2521" target="_blank" rel="noopener noreferrer" class="accBtn" id="wazeRoute">
+                    <img src="{% static 'images/kata/waze.svg' %}" alt=""> Через Waze
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

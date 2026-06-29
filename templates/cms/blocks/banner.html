@@ -1,0 +1,42 @@
+{% load static %}
+<section class="baner pageBaner" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  {% if block.image %}
+  <img src="{{ block.image.url }}" alt="{{ block.image_alt }}" class="bgPk d-none d-md-block">
+  <img src="{{ block.image.url }}" alt="{{ block.image_alt }}" class="bgMob d-md-none">
+  {% endif %}
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-6">
+        {% if block.heading %}<h1>{{ block.heading|safe }}</h1>{% endif %}
+        {% if block.body %}<p class="descr d-none d-md-block">{{ block.body|safe }}</p>{% endif %}
+        {% if block.extra_data.label1 %}
+        <div class="tag">
+          {% if block.extra_data.label1_img %}<img src="{{ block.extra_data.label1_img }}" alt="">{% endif %}
+          {{ block.extra_data.label1 }}
+        </div>
+        {% endif %}
+        {% if block.extra_data.label2 %}
+        <div class="tag">
+          {% if block.extra_data.label2_img %}<img src="{{ block.extra_data.label2_img }}" alt="">{% endif %}
+          {{ block.extra_data.label2 }}
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-md-5 offset-md-1">
+        <form class="banerForm" id="banerFormTop" data-lead-form="phone" novalidate>
+          {% if block.extra_data.form_title %}
+          <h3>{{ block.extra_data.form_title }}</h3>
+          {% endif %}
+          {% if block.extra_data.form_subtitle %}
+          <p>{{ block.extra_data.form_subtitle }}</p>
+          {% endif %}
+          <input type="tel" name="tel" id="banerFormToptel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" autocomplete="tel" required>
+          <input type="hidden" name="loc" value="{{ page.title }}">
+          <button type="submit" class="accBtn">
+            {% if block.button_text %}{{ block.button_text }}{% elif current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

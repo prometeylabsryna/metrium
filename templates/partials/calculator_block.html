@@ -1,0 +1,51 @@
+{% load i18n_tags cms_tags %}
+<section class="calcBlock reveal-up{% if calc_embedded %} calc-block--embedded{% endif %}" id="calcSection">
+  <div class="container-max">
+    <span class="section-label text-center d-block">
+      {% if page_slug == 'home' %}
+        {% section 'home' 'calc.label' 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}
+      {% elif calc_label %}
+        {{ calc_label }}
+      {% else %}
+        {% t 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}
+      {% endif %}
+    </span>
+    <h2>
+      {% if page_slug == 'home' %}
+        {% section 'home' 'calc.title' 'Вартість техпаспорта БТІ' 'Стоимость техпаспорта БТИ' %}
+      {% elif page_slug == 'tehnichni-pasporty-bti' %}
+        {% t 'Вартість техпаспорта БТІ' 'Стоимость техпаспорта БТИ' %}
+      {% else %}
+        {% t 'Розрахунок вартості послуги' 'Расчёт стоимости услуги' %}
+      {% endif %}
+    </h2>
+    <div class="calc-tabs">
+      <a href="#" class="calcTabBtn active" data-cat="kvartira">{% t 'Квартира' 'Квартира' %}</a>
+      <a href="#" class="calcTabBtn" data-cat="budynky">{% t 'Будинок' 'Дом' %}</a>
+      <a href="#" class="calcTabBtn" data-cat="komerc">{% t 'Нежитлові' 'Нежилые' %}</a>
+    </div>
+    <form id="calc1" class="calc-form" novalidate>
+      <div><p>{% t 'Площа кв. м.' 'Площадь кв. м.' %}</p><input type="number" id="squareVal" placeholder="{% t 'Введіть площу' 'Введите площадь' %}" min="1"></div>
+      <div><p>{% t 'Район/місто' 'Район/город' %}</p><select name="region" id="regionsselect"></select></div>
+      <div><p>{% t 'Громада' 'Громада' %}</p><select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select></div>
+    </form>
+    <div class="notation"></div>
+    <div class="calc-actions">
+      <button type="button" class="doCalc">{% t 'Розрахувати' 'Рассчитать' %}</button>
+      <button type="button" class="callFormCalc hideFormBtn">{% t 'Замовити' 'Заказать' %}</button>
+    </div>
+    <div class="form-result">{% t 'Вартість становить:' 'Стоимость составляет:' %} <span id="cost">0</span> {% t 'грн' 'грн' %}</div>
+    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="{% t 'Ваше ім\'я' 'Ваше имя' %}">
+      <input type="tel" name="tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" required>
+      <input type="hidden" name="price">
+      <input type="hidden" name="type" value="{% t 'Квартира' 'Квартира' %}">
+      <input type="hidden" name="square">
+      <input type="hidden" name="region" value="{% t 'Київ' 'Киев' %}">
+      <input type="hidden" name="cityInput">
+      <input type="hidden" name="plan" value="{% t 'без змін' 'без змін' %}">
+      <button type="submit">{% t 'Відправити заявку' 'Отправить заявку' %}</button>
+    </form>
+  </div>
+</section>

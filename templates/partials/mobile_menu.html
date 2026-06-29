@@ -1,0 +1,80 @@
+{% load static i18n_tags %}
+<div id="mobMnu" class="mob-menu">
+  <div class="inner">
+    <div class="top">
+      <div class="mob-menu-header">
+        <button class="mob-menu-close" id="mobMenuClose" aria-label="{% bi 'header' 'ui.close_menu' 'Закрити меню' 'Закрыть меню' %}">
+          <img src="{% static 'images/kata/closeMnu.svg' %}" alt="закрити" width="24" height="24">
+        </button>
+        <div class="mob-lang-row">
+          {% include "partials/lang_switcher.html" %}
+        </div>
+      </div>
+      <nav class="mob-main-nav" aria-label="{% bi 'header' 'ui.mobile_nav' 'Мобільне меню' 'Мобильное меню' %}">
+        <ul>
+          <li><a href="{% lang_url '/' %}" {% if active_slug == '' or active_slug == 'home' %}class="active"{% endif %}>{% bi 'header' 'nav.home' 'Головна' 'Главная' %}</a></li>
+          <li>
+            <button class="mob-services-toggle" id="mobServicesToggle" type="button" aria-expanded="false" aria-controls="mobServicesSubmenu">
+              {% bi 'header' 'nav.services' 'Послуги БТІ' 'Услуги БТИ' %} <span class="mob-services-arrow">▾</span>
+            </button>
+            <div class="mob-services-submenu" id="mobServicesSubmenu" role="menu">
+              <button class="mob-sub-toggle" id="mobSubPassportToggle" type="button" aria-expanded="false" aria-controls="mobSubPassportMenu">
+                {% bi 'header' 'nav.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %} <span class="mob-sub-arrow">▶</span>
+              </button>
+              <div class="mob-sub-submenu" id="mobSubPassportMenu">
+                <a href="{% lang_url '/tehnichnyj-pasport-na-kvartyru/' %}">{% bi 'header' 'nav.passport.kvartyra' 'На квартиру' 'На квартиру' %}</a>
+                <a href="{% lang_url '/tehnichnyj-pasport-na-budynok/' %}">{% bi 'header' 'nav.passport.budynok' 'На будинок' 'На дом' %}</a>
+                <a href="{% lang_url '/elektronnyj-tehnichnyj-pasport/' %}">{% bi 'header' 'nav.passport.elektronnyj' 'Електронний' 'Электронный' %}</a>
+                <a href="{% lang_url '/tehnichnyj-pasport-na-budivlyu/' %}">{% bi 'header' 'nav.passport.budivlya' 'На будівлю' 'На здание' %}</a>
+                <a href="{% lang_url '/tehnichnyj-pasport-na-garazh/' %}">{% bi 'header' 'nav.passport.garazh' 'На гараж' 'На гараж' %}</a>
+                <a href="{% lang_url '/tehnichnyj-pasport-na-nezhytlove-prymischennya/' %}">{% bi 'header' 'nav.passport.nezhytlove' 'На нежитлове приміщення' 'На нежилое помещение' %}</a>
+                <a href="{% lang_url '/tehnichnyj-pasport-na-bagato-kvartyrnyj-budynok/' %}">{% bi 'header' 'nav.passport.mbd' 'На багатоквартирний будинок' 'На многоквартирный дом' %}</a>
+              </div>
+              <a href="{% lang_url '/dovidky/' %}" role="menuitem">{% bi 'header' 'nav.dovidky' 'Довідки БТІ' 'Справки БТИ' %}</a>
+              <a href="{% lang_url '/vvedennya-v-ekspluatatsiyu/' %}" role="menuitem">{% bi 'header' 'nav.vvedennya' 'Введення в експлуатацію' 'Введение в эксплуатацию' %}</a>
+              <a href="{% lang_url '/legalizatsiya-neruhomosti/' %}" role="menuitem">{% bi 'header' 'nav.legalizatsiya' 'Легалізація нерухомості' 'Легализация недвижимости' %}</a>
+              <a href="{% lang_url '/tehnichna-inventaryzatsiya/' %}" role="menuitem">{% bi 'header' 'nav.inventaryzatsiya' 'Технічна інвентаризація' 'Техническая инвентаризация' %}</a>
+              <a href="{% lang_url '/dozvilna-dokumentatsiya/' %}" role="menuitem">{% bi 'header' 'nav.dozvilna' 'Дозвільна документація' 'Разрешительная документация' %}</a>
+              <a href="{% lang_url '/zemelna-dokumentatsiya/' %}" role="menuitem">{% bi 'header' 'nav.zemelna' 'Земельна документація' 'Земельная документация' %}</a>
+              <a href="{% lang_url '/vysnovky-bti/' %}" role="menuitem">{% bi 'header' 'nav.vysnovky' 'Висновки БТІ' 'Заключения БТИ' %}</a>
+              <a href="{% lang_url '/kadastrovyj-nomer/' %}" role="menuitem">{% bi 'header' 'nav.kadastr' 'Кадастровий номер' 'Кадастровый номер' %}</a>
+              <a href="{% lang_url '/vytiah-dzk/' %}" role="menuitem">{% bi 'header' 'nav.dzk' 'Витяг ДЗК' 'Выписка ГЗК' %}</a>
+            </div>
+          </li>
+          <li><a href="{% lang_url '/blog/' %}" {% if active_slug == 'blog' %}class="active"{% endif %}>{% bi 'header' 'nav.blog' 'Блог' 'Блог' %}</a></li>
+          <li><a href="{% lang_url '/contacts/' %}" {% if active_slug == 'contacts' %}class="active"{% endif %}>{% bi 'header' 'nav.contacts' 'Контакти' 'Контакты' %}</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="center">
+      <div class="mob-schedule">
+        <img src="{% static 'images/kata/schedule.svg' %}" alt="графік" width="16" height="16"> Пн-Пт: 08–21 | Сб: 09–18
+      </div>
+      {% for phone in PHONES %}
+      <div class="footerTelBlock">
+        <a href="{{ phone.number }}">
+          <img src="{% static 'images/kata/tel.svg' %}" alt="tel" width="16" height="16"><span class="dtl">{{ phone.display }}</span>
+        </a>
+      </div>
+      {% endfor %}
+      <div class="messanger">
+        <a href="{{ MESSENGERS.telegram }}" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <img src="{% static 'images/kata/telega.svg' %}" alt="tg" width="28" height="28">
+        </a>
+        <a href="{{ MESSENGERS.viber }}" aria-label="Viber">
+          <img src="{% static 'images/kata/viber.svg' %}" alt="vb" width="28" height="28">
+        </a>
+        <a href="{{ MESSENGERS.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <img src="{% static 'images/kata/whatsapp.webp' %}" alt="wa" width="28" height="28">
+        </a>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>{% bi 'footer' 'label.socials' 'Соціальні мережі' 'Социальные сети' %}</p>
+      <a href="{{ MESSENGERS.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <img src="{% static 'images/kata/inasta_d.svg' %}" alt="ig" width="28" height="28">
+      </a>
+    </div>
+  </div>
+</div>
+<div class="mob-menu-backdrop" id="mobMenuBackdrop"></div>

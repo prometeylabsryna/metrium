@@ -1,0 +1,76 @@
+.gtm-noscript {
+  display: none;
+  visibility: hidden;
+}
+
+.site-header {
+  background-color: #264d4a;
+  color: #fff;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.75rem 0;
+}
+
+.header-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.header-nav a,
+.header-contacts a,
+.site-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer {
+  background-color: #1a3634;
+  color: #fff;
+  padding: 2rem 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.footer-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.footer-subscribe {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.thank-popup {
+  text-align: center;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.calcBlock .form-result {
+  margin: 1rem 0;
+  font-size: 1.25rem;
+}
+
+#calc-form-data {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+#calc-form-data.active {
+  max-height: 300px;
+}

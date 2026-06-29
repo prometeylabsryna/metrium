@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static i18n_tags cms_tags %}
+
+{% block content %}
+<nav class="breadcrumb_container" aria-label="{% bi 'about' 'ui.breadcrumb' 'Навігація' 'Навигация' %}">
+  <div class="container-max">
+    <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="{% lang_url '/' %}" itemprop="item"><span itemprop="name">{% bi 'about' 'breadcrumb.home' 'Головна' 'Главная' %}</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{% bi 'about' 'breadcrumb.current' 'Про нас' 'О нас' %}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-banner">
+  <img src="{% site_image_url 'about' 'bg.page' 'images/kata/fon.jpeg' %}" class="page-bg" alt="" loading="lazy">
+  <div class="container-max">
+    <h1>{% bi 'about' 'hero.title' 'Про нас' 'О нас' %}</h1>
+    <p class="descr">{% bi 'about' 'hero.subtitle' 'Офіційна компанія з виготовлення технічних паспортів БТІ у Київській області' 'Официальная компания по изготовлению технических паспортов БТИ в Киевской области' %}</p>
+  </div>
+</section>
+
+<section class="about-page-section about-why reveal-up">
+  <div class="container-max">
+    <div class="row align-items-start">
+      <div class="col-md-7">
+        <span class="section-label">{% bi 'about' 'why.label' 'Офіційні дані' 'Официальные данные' %}</span>
+        <h2>{% bi 'about' 'why.title' 'Хто ми?' 'Кто мы?' %}</h2>
+        <img src="{% site_image_url 'about' 'why.photo' 'images/kata/about1.jpeg' %}" alt="{% site_image_alt 'about' 'why.photo' 'Про Метріум' 'О Метриум' %}" class="aboutSecondImg" loading="lazy">
+      </div>
+      <div class="col-md-4 offset-md-1">
+        <div class="why-list-item">
+          <img src="{% kata_img 'about' 'i1.svg' %}" alt="" width="40" height="40">
+          <div class="whitTitle">{% bi 'about' 'why.item1.title' 'Організаційно-правова норма' 'Организационно-правовая норма' %}</div>
+          <p>{% bi "about" "why.item1.text" "Приватне підприємство «Метріум» — ліцензована компанія, що надає послуги у сфері технічної інвентаризації об'єктів нерухомості на підставі закону України." "Частное предприятие «Метриум» — лицензированная компания, предоставляющая услуги в сфере технической инвентаризации объектов недвижимости на основании закона Украины." %}</p>
+        </div>
+        <div class="why-list-item">
+          <img src="{% kata_img 'about' 'i2.svg' %}" alt="" width="40" height="40">
+          <div class="whitTitle">{% bi 'about' 'why.item2.title' 'Керівник' 'Руководитель' %}</div>
+          <p>{% bi "about" "why.item2.text" "Кравченко Олег Миколайович — сертифікований технічний інвентаризатор з досвідом 12+ років" "Кравченко Олег Николаевич — сертифицированный технический инвентаризатор с опытом 12+ лет" %}</p>
+        </div>
+        <div class="why-list-item">
+          <img src="{% kata_img 'about' 'i3.svg' %}" alt="" width="40" height="40">
+          <div class="whitTitle">{% bi 'about' 'why.item3.title' 'Код ЄДРПОУ' 'Код ЕГРПОУ' %}</div>
+          <p>{% bi 'about' 'why.item3.text' '44ХХХХХХ (уточнюється у договорі)' '44ХХХХХХ (уточняется в договоре)' %}</p>
+        </div>
+        <div class="why-list-item">
+          <img src="{% kata_img 'about' 'i4.svg' %}" alt="" width="40" height="40">
+          <div class="whitTitle">{% bi 'about' 'why.item4.title' 'Адреса' 'Адрес' %}</div>
+          <p>{% bi 'about' 'why.item4.text' 'вул. Стельмаха 9а, м. Ірпінь, Київська обл., 08200' 'ул. Стельмаха 9а, г. Ирпень, Киевская обл., 08200' %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-page-section about-qual reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-7">
+        <span class="section-label">{% bi 'about' 'qual.label' 'Кваліфікація' 'Квалификация' %}</span>
+        <h2>{% bi 'about' 'qual.title' 'Наша ліцензія та повноваження' 'Наша лицензия и полномочия' %}</h2>
+        <p>{% bi 'about' 'qual.text' 'Всі фахівці Метріум мають відповідні кваліфікаційні сертифікати та включені до Державного реєстру технічних інвентаризаторів. Це означає, що технічні паспорти, виготовлені нашою компанією, мають повну юридичну силу та визнаються всіма нотаріусами, банками та державними органами.' 'Все специалисты Метриум имеют соответствующие квалификационные сертификаты и включены в Государственный реестр технических инвентаризаторов. Это означает, что технические паспорта, изготовленные нашей компанией, имеют полную юридическую силу и признаются всеми нотариусами, банками и государственными органами.' %}</p>
+        <ul class="about-qual">
+          {% section_body 'about' 'qual.list' %}
+        </ul>
+      </div>
+      <div class="col-md-4 offset-md-1 d-none d-md-block">
+        <img src="{% site_image_url 'about' 'qual.garant' 'images/kata/garant.png' %}" alt="{% site_image_alt 'about' 'qual.garant' 'Гарантія якості' 'Гарантия качества' %}" class="img-garant-full" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark about reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="accentTitle">{% bi 'about' 'dark.accent' 'Чому обирають нас?' 'Почему выбирают нас?' %}</p>
+        <div class="bulletRow">
+          <div class="bullet">{% section_body 'about' 'dark.bullet1' %}</div>
+          <div class="bullet">{% section_body 'about' 'dark.bullet2' %}</div>
+          <div class="bullet">{% section_body 'about' 'dark.bullet3' %}</div>
+          <div class="bullet">{% section_body 'about' 'dark.bullet4' %}</div>
+        </div>
+      </div>
+      <div class="col-md-5 offset-md-1 about-dark-text">
+        <p>{% bi "about" "dark.text1" "Метріум — це команда сертифікованих фахівців, яка щодня допомагає власникам нерухомості в Київській області легально оформити свої об'єкти." "Метриум — это команда сертифицированных специалистов, которая ежедневно помогает владельцам недвижимости в Киевской области легально оформить свои объекты." %}</p>
+        <p>{% bi 'about' 'dark.text2' 'Ми не просто видаємо документи — ми пояснюємо кожен крок, консультуємо безкоштовно та залишаємось поруч навіть після завершення роботи.' 'Мы не просто выдаем документы — мы объясняем каждый шаг, консультируем бесплатно и остаемся рядом даже после завершения работы.' %}</p>
+        <p>{% section_body 'about' 'dark.text3' %}</p>
+        <a href="{% lang_url '/' %}#hero" class="accBtn">{% bi 'about' 'dark.cta' 'Замовити консультацію' 'Заказать консультацию' %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark suggest reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12"><h2>{% bi 'about' 'suggest.title' 'Що входить у послугу?' 'Что входит в услугу?' %}</h2></div>
+      <div class="col-12">
+        <div class="suggestItemBox">
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic1.svg' %}" alt="" width="40" height="40">{% bi "about" "suggest.item1" "Виїзд техніка на об'єкт та обмірювання" "Выезд техника на объект и обмер" %}</div>
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic2.svg' %}" alt="" width="40" height="40">{% bi 'about' 'suggest.item2' 'Фотофіксація та складання плану' 'Фотофиксация и составление плана' %}</div>
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic3.svg' %}" alt="" width="40" height="40">{% bi 'about' 'suggest.item3' 'Занесення даних до Реєстру' 'Внесение данных в Реестр' %}</div>
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic4.svg' %}" alt="" width="40" height="40">{% bi 'about' 'suggest.item4' 'Видача паперового та електронного екземплярів' 'Выдача бумажного и электронного экземпляров' %}</div>
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic5.svg' %}" alt="" width="40" height="40">{% bi 'about' 'suggest.item5' 'Консультація щодо подальших дій' 'Консультация по дальнейшим действиям' %}</div>
+          <div class="suggestItem"><img src="{% kata_img 'about' 'ic6.svg' %}" alt="" width="40" height="40">{% bi 'about' 'suggest.item6' 'Безкоштовна доставка в межах Ірпеня' 'Бесплатная доставка в пределах Ирпеня' %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

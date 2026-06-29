@@ -1,0 +1,113 @@
+{% extends "pages/services/_base_service.html" %}
+{% load static cms_tags %}
+
+
+{% block breadcrumb_title %}{% if current_language == 'ru' %}БТИ Киевская область{% else %}БТІ Київська область{% endif %}{% endblock %}
+{% block page_title %}{% if current_language == 'ru' %}БТИ Киевская область{% else %}БТІ Київська область{% endif %}{% endblock %}
+{% block page_subtitle %}{% if current_language == 'ru' %}Услуги технической инвентаризации и БТИ по всей Киевской области. Официально, быстро, с выездом специалиста.{% else %}Послуги технічної інвентаризації та БТІ по всій Київській області. Офіційно, швидко, з виїздом спеціаліста.{% endif %}{% endblock %}
+{% block form_title %}{% if current_language == 'ru' %}Заказать услугу{% else %}Замовити послугу{% endif %}{% endblock %}
+
+{% block service_content %}
+<section class="service-content reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-8">
+
+        <h2>{% if current_language == 'ru' %}Услуги БТИ по Киевской области{% else %}Послуги БТІ по Київській області{% endif %}</h2>
+        <p>
+          {% if current_language == 'ru' %}
+          Компания <strong>Метриум</strong> предоставляет полный спектр услуг технической инвентаризации и БТИ в городах и сёлах Киевской области. Специалист выезжает на объект — вам не нужно никуда ехать.
+          {% else %}
+          Компанія <strong>Метріум</strong> надає повний спектр послуг технічної інвентаризації та БТІ в містах і селах Київської області. Спеціаліст виїжджає на об'єкт — вам нікуди їхати не потрібно.
+          {% endif %}
+        </p>
+
+        <h2>{% if current_language == 'ru' %}Выберите ваш город{% else %}Оберіть ваше місто{% endif %}</h2>
+        <div class="region-cities-grid">
+          {% with cities=cities_list %}
+          <div class="row">
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/bila-tserkva/{% else %}/kyiv-oblast/bila-tserkva/{% endif %}" class="city-link">{% if current_language == 'ru' %}Белая Церковь{% else %}Біла Церква{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/brovary/{% else %}/kyiv-oblast/brovary/{% endif %}" class="city-link">{% if current_language == 'ru' %}Бровары{% else %}Бровари{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/irpin/{% else %}/kyiv-oblast/irpin/{% endif %}" class="city-link">{% if current_language == 'ru' %}Ирпень{% else %}Ірпінь{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/boryspil/{% else %}/kyiv-oblast/boryspil/{% endif %}" class="city-link">{% if current_language == 'ru' %}Борисполь{% else %}Бориспіль{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/vyshhorod/{% else %}/kyiv-oblast/vyshhorod/{% endif %}" class="city-link">{% if current_language == 'ru' %}Вышгород{% else %}Вишгород{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/vasylkiv/{% else %}/kyiv-oblast/vasylkiv/{% endif %}" class="city-link">{% if current_language == 'ru' %}Васильков{% else %}Васильків{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/vyshneve/{% else %}/kyiv-oblast/vyshneve/{% endif %}" class="city-link">{% if current_language == 'ru' %}Вишнёвое{% else %}Вишневе{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/obukhiv/{% else %}/kyiv-oblast/obukhiv/{% endif %}" class="city-link">{% if current_language == 'ru' %}Обухов{% else %}Обухів{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/fastiv/{% else %}/kyiv-oblast/fastiv/{% endif %}" class="city-link">{% if current_language == 'ru' %}Фастов{% else %}Фастів{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/bucha/{% else %}/kyiv-oblast/bucha/{% endif %}" class="city-link">{% if current_language == 'ru' %}Буча{% else %}Буча{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/boyarka/{% else %}/kyiv-oblast/boyarka/{% endif %}" class="city-link">{% if current_language == 'ru' %}Боярка{% else %}Боярка{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/borodyanka/{% else %}/kyiv-oblast/borodyanka/{% endif %}" class="city-link">{% if current_language == 'ru' %}Бородянка{% else %}Бородянка{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/makariv/{% else %}/kyiv-oblast/makariv/{% endif %}" class="city-link">{% if current_language == 'ru' %}Макаров{% else %}Макарів{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/hostomel/{% else %}/kyiv-oblast/hostomel/{% endif %}" class="city-link">{% if current_language == 'ru' %}Гостомель{% else %}Гостомель{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/sofiivska-borschahivka/{% else %}/kyiv-oblast/sofiivska-borschahivka/{% endif %}" class="city-link">{% if current_language == 'ru' %}Софиевская Борщаговка{% else %}Софіївська Борщагівка{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/baryshivka/{% else %}/kyiv-oblast/baryshivka/{% endif %}" class="city-link">{% if current_language == 'ru' %}Барышевка{% else %}Баришівка{% endif %}</a>
+            </div>
+            <div class="col-md-4 col-6">
+              <a href="{% if current_language == 'ru' %}/ru/kyiv-oblast/koziatyn/{% else %}/kyiv-oblast/koziatyn/{% endif %}" class="city-link">{% if current_language == 'ru' %}Казатин{% else %}Козятин{% endif %}</a>
+            </div>
+          </div>
+          {% endwith %}
+        </div>
+
+        <h2>{% if current_language == 'ru' %}Наши услуги{% else %}Наші послуги{% endif %}</h2>
+        <ul>
+          <li><a href="{% if current_language == 'ru' %}/ru/tehnichni-pasporty-bti/{% else %}/tehnichni-pasporty-bti/{% endif %}">{% if current_language == 'ru' %}Технический паспорт БТИ{% else %}Технічний паспорт БТІ{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/tehnichna-inventaryzatsiya/{% else %}/tehnichna-inventaryzatsiya/{% endif %}">{% if current_language == 'ru' %}Техническая инвентаризация{% else %}Технічна інвентаризація{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/dovidky/{% else %}/dovidky/{% endif %}">{% if current_language == 'ru' %}Справки БТИ{% else %}Довідки БТІ{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/vysnovky-bti/{% else %}/vysnovky-bti/{% endif %}">{% if current_language == 'ru' %}Заключения БТИ{% else %}Висновки БТІ{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/legalizatsiya-neruhomosti/{% else %}/legalizatsiya-neruhomosti/{% endif %}">{% if current_language == 'ru' %}Легализация недвижимости{% else %}Легалізація нерухомості{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/dozvilna-dokumentatsiya/{% else %}/dozvilna-dokumentatsiya/{% endif %}">{% if current_language == 'ru' %}Разрешительная документация{% else %}Дозвільна документація{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/zemelna-dokumentatsiya/{% else %}/zemelna-dokumentatsiya/{% endif %}">{% if current_language == 'ru' %}Земельная документация{% else %}Земельна документація{% endif %}</a></li>
+          <li><a href="{% if current_language == 'ru' %}/ru/kadastrovyj-nomer/{% else %}/kadastrovyj-nomer/{% endif %}">{% if current_language == 'ru' %}Кадастровый номер{% else %}Кадастровий номер{% endif %}</a></li>
+        </ul>
+
+      </div>
+      <div class="col-md-4">
+        <div class="darkWidget">
+          <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
+          <h3>{% if current_language == 'ru' %}Нужна консультация?{% else %}Потрібна консультація?{% endif %}</h3>
+          <p>{% if current_language == 'ru' %}Позвоните или напишите в мессенджер{% else %}Зателефонуйте або напишіть у месенджер{% endif %}</p>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

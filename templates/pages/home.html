@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static i18n_tags cms_tags %}
+
+{% block extra_js %}
+<script src="{% static 'js/calculator.js' %}?v=20260629" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="baner pageBaner" id="hero">
+  {% if SITE_SETTINGS and SITE_SETTINGS.hero_image_desktop %}
+  <img src="{{ SITE_SETTINGS.hero_image_desktop.url }}" alt="{% t 'технічний паспорт БТІ' 'технический паспорт БТИ' %}" class="bgPk d-none d-md-block">
+  {% else %}
+  <img src="{% kata_img 'home' 'tehnichnyj-pasport.webp' %}" alt="{% t 'технічний паспорт БТІ' 'технический паспорт БТИ' %}" class="bgPk d-none d-md-block">
+  {% endif %}
+  {% if SITE_SETTINGS and SITE_SETTINGS.hero_image_mobile %}
+  <img src="{{ SITE_SETTINGS.hero_image_mobile.url }}" alt="{% t 'технічний паспорт БТІ' 'технический паспорт БТИ' %}" class="bgMob d-md-none">
+  {% else %}
+  <img src="{% kata_img 'home' 'tehnichnyj-pasport-3.webp' %}" alt="{% t 'технічний паспорт БТІ' 'технический паспорт БТИ' %}" class="bgMob d-md-none">
+  {% endif %}
+  <div class="hero-overlay"></div>
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-6 reveal-left">
+        <h1>{% if current_language == 'ru' %}{{ SITE_SETTINGS.hero_title_ru|default:"Бюро Технической\nИнвентаризации"|linebreaksbr }}{% else %}{{ SITE_SETTINGS.hero_title_ua|default:"Бюро Технічної\nІнвентаризації"|linebreaksbr }}{% endif %}</h1>
+        <p class="descr">{% if current_language == 'ru' %}{{ SITE_SETTINGS.hero_subtitle_ru|default:"Услуги БТИ без скрытых платежей!\nБыстро, удобно, надежно!"|linebreaksbr }}{% else %}{{ SITE_SETTINGS.hero_subtitle_ua|default:"Послуги БТІ без прихованих платежів!\nШвидко, зручно, надійно!"|linebreaksbr }}{% endif %}</p>
+      </div>
+      <div class="col-md-5 offset-md-1 reveal-right">
+        <form class="banerForm" id="banerFormTop" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="hero">
+          {% csrf_token %}
+          <h3>{% if current_language == 'ru' %}{{ SITE_SETTINGS.hero_form_title_ru|default:"Быстрый заказ технического паспорта БТИ" }}{% else %}{{ SITE_SETTINGS.hero_form_title_ua|default:"Швидке замовлення технічного паспорта БТІ" }}{% endif %}</h3>
+          <p>{% if current_language == 'ru' %}{{ SITE_SETTINGS.hero_form_text_ru|default:"Для заказа оставьте Ваш номер телефона и наша команда специалистов с Вами свяжется" }}{% else %}{{ SITE_SETTINGS.hero_form_text_ua|default:"Для замовлення залиште Ваш номер телефону і наша команда спеціалістів з Вами зв'яжеться" }}{% endif %}</p>
+          <input type="tel" name="tel" id="banerFormToptel" class="banerForm__tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" autocomplete="tel" required>
+          <div class="field-error banerForm__error">{% t 'Введіть коректний номер телефону' 'Введите корректный номер телефона' %}</div>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">{% t 'Замовити' 'Заказать' %}</span><span class="btn-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12">
+        <span class="section-label text-center d-block">{% section 'home' 'services.label' 'Наші послуги' 'Наши услуги' %}</span>
+        <h2 class="largeTitle">{% section 'home' 'services.title' 'Послуги' 'Услуги' %}</h2>
+      </div>
+      {% home_services as service_cards %}
+      {% if service_cards %}
+        {% for card in service_cards %}
+        <div class="col-md-4 reveal-up reveal-delay-{{ forloop.counter0 }}">
+          <div class="serv_item">
+            <div class="serv-icon">
+              {% if card.icon %}
+              <img src="{{ card.icon.url }}" alt="" width="48" height="48">
+              {% else %}
+              <img src="{% kata_img 'home' 'i1.svg' %}" alt="" width="48" height="48">
+              {% endif %}
+            </div>
+            <div class="serv_item_bottomPart">
+              <p>{% if current_language == 'ru' %}{{ card.title_ru }}{% else %}{{ card.title_ua }}{% endif %}</p>
+              <div class="serv-descr">{% if current_language == 'ru' %}{{ card.description_ru }}{% else %}{{ card.description_ua }}{% endif %}</div>
+              <a href="{% lang_url card.url %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="col-md-4 reveal-up reveal-delay-0">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'i1.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Технічний паспорт на квартиру' 'Технический паспорт на квартиру' %}</p>
+            <div class="serv-descr">{% t 'Для продажу, іпотеки, реєстрації права власності та перепланування' 'Для продажи, ипотеки, регистрации права собственности и перепланировки' %}</div>
+            <a href="{% lang_url '/tehnichni-pasporty-bti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-1">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'i2.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Технічний паспорт на будинок' 'Технический паспорт на дом' %}</p>
+            <div class="serv-descr">{% t 'Для приватного будинку, дачі або садового будинку. Виїзд по Київщині' 'Для частного дома, дачи или садового дома. Выезд по Киевской области' %}</div>
+            <a href="{% lang_url '/tehnichni-pasporty-bti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-2">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'i4.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Технічний паспорт на гараж' 'Технический паспорт на гараж' %}</p>
+            <div class="serv-descr">{% t 'Гараж, паркувальне місце або боксовий гараж — оформляємо всі типи' 'Гараж, парковочное место или боксовый гараж — оформляем все типы' %}</div>
+            <a href="{% lang_url '/tehnichni-pasporty-bti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-3">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'ic3.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Легалізація самочинного будівництва' 'Легализация самовольного строительства' %}</p>
+            <div class="serv-descr">{% t 'Узаконення незаконних будівель, добудов та реконструкцій' 'Узаконивание незаконных строений, пристроек и реконструкций' %}</div>
+            <a href="{% lang_url '/legalizatsiya-neruhomosti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-4">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'ic4.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Звіт/Висновок про технічне обстеження' 'Отчет/Заключение о техническом обследовании' %}</p>
+            <div class="serv-descr">{% t 'Офіційний висновок про технічний стан будівлі для будь-яких цілей' 'Официальное заключение о техническом состоянии здания для любых целей' %}</div>
+            <a href="{% lang_url '/vysnovky-bti/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 reveal-up reveal-delay-5">
+        <div class="serv_item">
+          <div class="serv-icon"><img src="{% kata_img 'home' 'ic5.svg' %}" alt="" width="48" height="48"></div>
+          <div class="serv_item_bottomPart">
+            <p>{% t 'Присвоєння поштової адреси' 'Присвоение почтового адреса' %}</p>
+            <div class="serv-descr">{% t 'Офіційне присвоєння або підтвердження поштової адреси об\'єкту нерухомості' 'Официальное присвоение или подтверждение почтового адреса объекту недвижимости' %}</div>
+            <a href="{% lang_url '/dozvilna-dokumentatsiya/' %}" class="accBtn">{% t 'Детальніше' 'Подробнее' %}</a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% include "partials/calculator_block.html" %}
+
+<section class="whyItems reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12">
+        <h2>{% section 'home' 'why.title' 'Чому варто обрати наше БТІ?' 'Почему стоит выбрать наше БТИ?' %}</h2>
+      </div>
+      {% home_why_items as why_items %}
+      {% if why_items %}
+        {% for item in why_items %}
+        <div class="col-md-3 col-6">
+          <div class="whyItem">
+            <div class="icoBox">
+              {% if item.icon %}
+              <img src="{{ item.icon.url }}" alt="" width="40" height="40">
+              {% else %}
+              <img src="{% kata_img 'home' 'ic1.svg' %}" alt="" width="40" height="40">
+              {% endif %}
+            </div>
+            <p>{% if current_language == 'ru' %}{{ item.title_ru }}{% else %}{{ item.title_ua }}{% endif %}</p>
+            <span>{% if current_language == 'ru' %}{{ item.text_ru }}{% else %}{{ item.text_ua }}{% endif %}</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'home' 'ic1.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Швидкість' 'Скорость' %}</p>
+          <span>{% t 'Всі проєкти виконуються оперативно, з високою якістю та без зайвих затримок.' 'Все проекты выполняются оперативно, с высоким качеством и без лишних задержек.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'home' 'ic2.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Сертифікація' 'Сертификация' %}</p>
+          <span>{% t 'Найкращі професіонали, обладнання та інструменти, що пройшли відповідну сертифікацію.' 'Лучшие профессионалы, оборудование и инструменты, прошедшие соответствующую сертификацию.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'home' 'ic3.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Досвід' 'Опыт' %}</p>
+          <span>{% t 'Тисячі об\'єктів і десятиріччя плідної праці допоможуть вирішити питання будь-якої складності.' 'Тысячи объектов и десятилетия плодотворной работы помогут решить вопросы любой сложности.' %}</span>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox"><img src="{% kata_img 'home' 'ic4.svg' %}" alt="" width="40" height="40"></div>
+          <p>{% t 'Зручність' 'Удобство' %}</p>
+          <span>{% t 'Процес від замовлення до отримання результату, організований з урахуванням саме Ваших потреб.' 'Процесс от заказа до получения результата организован с учетом именно Ваших потребностей.' %}</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="dark about reveal-up" id="about-stats">
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="accentTitle">{% section 'home' 'about.accent' 'ПРИВАТНЕ БТІ METRIUM' 'ЧАСТНОЕ БТИ METRIUM' %}</p>
+        <div class="bulletRow">
+          {% home_stats as stat_items %}
+          {% if stat_items %}
+            {% for stat in stat_items %}
+            <div class="bullet"><strong class="stat-num">{{ stat.value }}</strong><br>{% if current_language == 'ru' %}{{ stat.label_ru }}{% else %}{{ stat.label_ua }}{% endif %}</div>
+            {% endfor %}
+          {% else %}
+          <div class="bullet"><strong class="stat-num">12</strong><br>{% t 'років досвіду' 'лет опыта' %}</div>
+          <div class="bullet"><strong class="stat-num">10</strong><br>{% t 'філій по Києву та Київській області' 'филиалов по Киеву и Киевской области' %}</div>
+          <div class="bullet"><strong class="stat-num">5000+</strong><br>{% t 'успішних проєктів' 'успешных проектов' %}</div>
+          <div class="bullet"><strong class="stat-num">20+</strong><br>{% t 'об\'єктів на тиждень' 'объектов в неделю' %}</div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-5 offset-md-1">
+        <h2 class="about-passport-title">{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}</h2>
+        <p class="about-passport-descr">{% t '– це інформаційний документ, в якому наведено всі технічні характеристики об\'єкта нерухомості.' '— это информационный документ, в котором приведены все технические характеристики объекта недвижимости.' %}</p>
+        <img src="{% site_image_url 'home' 'about.passport' 'images/kata/Vidnovlennya.jpg' %}" class="img-responsive about-passport-img" alt="{% site_image_alt 'home' 'about.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "partials/foto_marquee.html" %}
+
+<section class="seoBlock reveal-up">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-12">
+        <h3><strong>{% t 'Бюро технічної інвентаризації (БТІ) — професійні послуги з обліку нерухомості' 'Бюро технической инвентаризации (БТИ) — профессиональные услуги по учету недвижимости' %}</strong></h3>
+        <p><strong>{% t 'Бюро технічної інвентаризації (БТІ) МЕТРІУМ' 'Бюро технической инвентаризации (БТИ) МЕТРИУМ' %}</strong> {% t '— це надійний партнер у сфері обліку та реєстрації нерухомого майна. Ми надаємо комплексні послуги з технічної інвентаризації будівель і споруд, оформлення технічних паспортів та надання довідок про нерухомість.' '— это надежный партнер в сфере учета и регистрации недвижимого имущества. Мы предоставляем комплексные услуги по технической инвентаризации зданий и сооружений, оформлению технических паспортов и выдаче справок о недвижимости.' %}</p>
+        <p><strong>{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}</strong> {% t '— це інформаційний документ, в якому наведено всі технічні характеристики об\'єкта нерухомості. Він є обов\'язковим при купівлі-продажу, спадкуванні, перебудові та будь-яких нотаріальних діях із нерухомістю.' '— это информационный документ, в котором приведены все технические характеристики объекта недвижимости. Он обязателен при купле-продаже, наследовании, реконструкции и любых нотариальных действиях с недвижимостью.' %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq reveal-up" id="faq">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-12">
+        <span class="section-label">FAQ</span>
+        <h2>{% t 'Поширені запитання' 'Частые вопросы' %}</h2>
+      </div>
+      <div class="col-md-7">
+        <div class="accordion section-com" id="accordion">
+          <div class="custom-acc">
+            <button class="card-header" aria-expanded="false" aria-controls="tb1" data-target="tb1">
+              <h3 class="card-title">{% t 'Які послуги надає Приватне БТІ Метріум?' 'Какие услуги предоставляет Частное БТИ Метриум?' %}</h3><span class="acc-arrow"></span>
+            </button>
+            <div id="tb1" class="collapse" role="region">
+              <div class="card-body">{% t 'Виготовлення нових техпаспортів на квартири, приватні будинки, садиби, гаражі та інші нежитлові приміщення. Щоб дізнатись більше про послуги, які ми надаємо, перейдіть у відповідний розділ головного меню Послуги.' 'Изготовление новых техпаспортов на квартиры, частные дома, усадьбы, гаражи и другие нежилые помещения. Чтобы узнать больше о наших услугах, перейдите в соответствующий раздел главного меню Услуги.' %}</div>
+            </div>
+          </div>
+          <div class="custom-acc">
+            <button class="card-header" aria-expanded="false" aria-controls="tb2" data-target="tb2">
+              <h3 class="card-title">{% t 'Для чого потрібна технічна інвентаризація?' 'Для чего нужна техническая инвентаризация?' %}</h3><span class="acc-arrow"></span>
+            </button>
+            <div id="tb2" class="collapse" role="region">
+              <div class="card-body">{% t 'Технічна інвентаризація потрібна при введенні в експлуатацію, оформленні спадкової справи, реконструкції, переплануванні/переобладнанні, поділі/об\'єднанні/виділі нерухомого майна, первинній реєстрації права власності чи внесенні в ДРРП, процедурі відшкодування внаслідок військової агресії тощо.' 'Техническая инвентаризация нужна при вводе в эксплуатацию, оформлении наследственного дела, реконструкции, перепланировке/переоборудовании, разделе/объединении/выделении недвижимого имущества, первичной регистрации права собственности или внесении в ГРРП, а также при процедурах компенсации вследствие военной агрессии.' %}</div>
+            </div>
+          </div>
+          <div class="custom-acc">
+            <button class="card-header" aria-expanded="false" aria-controls="tb3" data-target="tb3">
+              <h3 class="card-title">{% t 'Вартість виготовлення технічного паспорта БТІ?' 'Стоимость изготовления технического паспорта БТИ?' %}</h3><span class="acc-arrow"></span>
+            </button>
+            <div id="tb3" class="collapse" role="region">
+              <div class="card-body">{% t 'Для Вашої зручності ми зробили калькулятор технічного паспорта, яким Ви можете скористатися, вказавши параметри Вашої нерухомості.' 'Для Вашего удобства мы сделали калькулятор технического паспорта, которым Вы можете воспользоваться, указав параметры Вашей недвижимости.' %}</div>
+            </div>
+          </div>
+          <div class="custom-acc">
+            <button class="card-header" aria-expanded="false" aria-controls="tb4" data-target="tb4">
+              <h3 class="card-title">{% t 'Які можливі форми оплати?' 'Какие возможны формы оплаты?' %}</h3><span class="acc-arrow"></span>
+            </button>
+            <div id="tb4" class="collapse" role="region">
+              <div class="card-body">{% t 'Розрахунок можливий на офіційний рахунок підприємства, післяплатою під час отримання готових документів на відділенні Нової пошти або готівкою.' 'Оплата возможна на официальный счет предприятия, наложенным платежом при получении готовых документов в отделении Новой почты или наличными.' %}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 offset-md-1">
+        <div class="darkWidget">
+          <img src="{% kata_img 'home' 'askIco.svg' %}" alt="{% t 'питання' 'вопросы' %}" width="48" height="48">
+          <h3>{% t 'Маєте інші питання?' 'Есть другие вопросы?' %}</h3>
+          <p>{% t 'Напишіть нам у месенджер або зателефонуйте' 'Напишите нам в мессенджер или позвоните' %} <a href="tel:+380673986200" class="phoneBgc">+380 067 398 62 00</a> {% t 'якщо не знайшли відповідь' 'если не нашли ответ' %}</p>
+          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img 'home' 'tg.svg' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через Telegram' 'Связаться через Telegram' %}
+          </a>
+          <a href="{{ MESSENGERS.viber }}" class="accBtn">
+            <img src="{% kata_img 'home' 'viber.svg' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через Viber' 'Связаться через Viber' %}
+          </a>
+          <a href="{{ MESSENGERS.whatsapp }}" class="accBtn" target="_blank" rel="noopener noreferrer">
+            <img src="{% kata_img 'home' 'whatsapp.webp' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через WhatsApp' 'Связаться через WhatsApp' %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
