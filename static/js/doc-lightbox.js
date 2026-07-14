@@ -5,6 +5,7 @@
   if (!triggers.length) return;
 
   var overlay = null;
+  var figureEl = null;
   var imgEl = null;
   var closeBtn = null;
   var prevBtn = null;
@@ -14,6 +15,11 @@
   var isOpen = false;
   var gallery = [];
   var currentIndex = 0;
+
+  // Типові кадри паспортів: сторінка ~33% ширини / ~65–75% висоти 1920×1080
+  var DOC_W_FRAC = 0.4;
+  var DOC_H_FRAC = 0.8;
+  var VIEW_PAD = 0.94;
 
   function build() {
     if (overlay) return;
@@ -45,23 +51,23 @@
     nextBtn.innerHTML = '&#10095;';
     nextBtn.hidden = true;
 
-    var figure = document.createElement('div');
-    figure.className = 'doc-lightbox__figure';
+    figureEl = document.createElement('div');
+    figureEl.className = 'doc-lightbox__figure';
 
     imgEl = document.createElement('img');
     imgEl.className = 'doc-lightbox__img';
     imgEl.alt = '';
     imgEl.draggable = false;
 
-    figure.appendChild(imgEl);
+    figureEl.appendChild(imgEl);
     overlay.appendChild(closeBtn);
     overlay.appendChild(prevBtn);
     overlay.appendChild(nextBtn);
-    overlay.appendChild(figure);
+    overlay.appendChild(figureEl);
     document.body.appendChild(overlay);
 
     overlay.addEventListener('click', function (e) {
-      if (e.target === overlay || e.target === figure) close();
+      if (e.target === overlay || e.target === figureEl) close();
     });
     closeBtn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -135,6 +141,50 @@
     return items.length ? items : [trigger];
   }
 
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  function needsDocFit(trigger) {
+    if (!trigger) return false;
+    if (trigger.getAttribute('data-lightbox-fit') === 'doc') return true;
+    return trigger.getAttribute('data-lightbox-group') === 'gallery-portfolio';
+  }
+
+  function resetImageFit() {
+    if (!overlay || !imgEl) return;
+    overlay.classList.remove('doc-lightbox--fitdoc');
+    imgEl.style.width = '';
+    imgEl.style.height = '';
+    imgEl.style.maxWidth = '';
+    imgEl.style.maxHeight = '';
+  }
+
+  function applyDocFit() {
+    if (!overlay || !imgEl || !figureEl) return;
+    resetImageFit();
+
+    var trigger = gallery[currentIndex];
+    if (!isMobileViewport() || !needsDocFit(trigger)) return;
+    if (!imgEl.naturalWidth || !imgEl.naturalHeight) return;
+
+    var nw = imgEl.naturalWidth;
+    var nh = imgEl.naturalHeight;
+    var viewW = figureEl.clientWidth || overlay.clientWidth;
+    var viewH = figureEl.clientHeight || overlay.clientHeight;
+    if (viewW < 80 || viewH < 80) return;
+
+    var contentW = nw * DOC_W_FRAC;
+    var contentH = nh * DOC_H_FRAC;
+    var scale = Math.min((viewW * VIEW_PAD) / contentW, (viewH * VIEW_PAD) / contentH);
+
+    overlay.classList.add('doc-lightbox--fitdoc');
+    imgEl.style.width = Math.round(nw * scale) + 'px';
+    imgEl.style.height = Math.round(nh * scale) + 'px';
+    imgEl.style.maxWidth = 'none';
+    imgEl.style.maxHeight = 'none';
+  }
+
   function updateNav() {
     var multi = gallery.length > 1;
     prevBtn.hidden = !multi;
@@ -148,8 +198,13 @@
     var item = gallery[currentIndex];
     var src = item.getAttribute('href');
     var img = item.querySelector('img');
+    resetImageFit();
+    imgEl.onload = function () {
+      applyDocFit();
+    };
     imgEl.src = src;
     imgEl.alt = img ? (img.getAttribute('alt') || '') : '';
+    if (imgEl.complete && imgEl.naturalWidth) applyDocFit();
     updateNav();
   }
 
@@ -174,6 +229,10 @@
     overlay.removeAttribute('hidden');
     isOpen = true;
     lockScroll();
+    // повторний fit після layout overlay
+    requestAnimationFrame(function () {
+      applyDocFit();
+    });
     focusEl(closeBtn);
   }
 
@@ -184,6 +243,7 @@
     imgEl.removeAttribute('src');
     gallery = [];
     currentIndex = 0;
+    resetImageFit();
     updateNav();
     unlockScroll();
     focusEl(lastFocus);
@@ -215,4 +275,8 @@
       showRelative(1);
     }
   });
+
+  window.addEventListener('resize', function () {
+    if (isOpen) applyDocFit();
+  }, { passive: true });
 })();

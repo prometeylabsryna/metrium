@@ -1868,6 +1868,16 @@ html.doc-lightbox-lock body {
     user-select: none;
     pointer-events: none;
   }
+  .doc-lightbox--fitdoc .doc-lightbox__figure {
+    overflow: hidden;
+    touch-action: none;
+  }
+  .doc-lightbox--fitdoc .doc-lightbox__img {
+    max-width: none;
+    max-height: none;
+    flex-shrink: 0;
+    border-radius: 0;
+  }
   .doc-lightbox__close {
     width: 48px;
     height: 48px;
