@@ -362,19 +362,22 @@
 }
 .service-list li img { margin-top: 3px; flex-shrink: 0; }
 
-.service-steps-list {
-  margin: 16px 0 0;
-  padding-left: 22px;
+.service-steps-list,
+.service-content ol {
+  margin: 16px 0 24px;
+  padding-left: 1.5em;
   list-style: decimal;
 }
-.service-steps-list li {
+.service-steps-list li,
+.service-content ol li {
   font-size: 15px;
   line-height: 1.75;
   color: var(--color-text);
   margin-bottom: 8px;
   padding-left: 6px;
 }
-.service-steps-list li::marker {
+.service-steps-list li::marker,
+.service-content ol li::marker {
   color: var(--color-primary);
   font-weight: 700;
 }
@@ -395,6 +398,13 @@
 @media (max-width: 767px) {
   .service-features-grid { grid-template-columns: 1fr; }
   .service-content { padding: 48px 0; }
+  .service-content .container-max {
+    padding-right: calc(72px + env(safe-area-inset-right, 0px));
+  }
+  .service-content ol,
+  .service-steps-list {
+    padding-left: 1.65em;
+  }
   .service-banner { min-height: auto; }
   .pnevmo { padding: 48px 0 32px; }
   .why-order { padding: 48px 0 32px; }
