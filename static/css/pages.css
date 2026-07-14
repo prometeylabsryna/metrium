@@ -398,13 +398,6 @@
 @media (max-width: 767px) {
   .service-features-grid { grid-template-columns: 1fr; }
   .service-content { padding: 48px 0; }
-  .service-content .container-max {
-    padding-right: calc(72px + env(safe-area-inset-right, 0px));
-  }
-  .service-content ol,
-  .service-steps-list {
-    padding-left: 1.65em;
-  }
   .service-banner { min-height: auto; }
   .pnevmo { padding: 48px 0 32px; }
   .why-order { padding: 48px 0 32px; }
@@ -419,6 +412,72 @@
     grid-column: 1 / -1;
     font-weight: 600;
     background: var(--color-primary-light);
+  }
+}
+
+/* Mobile + tablet: center page texts, keep side insets (header / TOC untouched) */
+@media (max-width: 991px) {
+  .service-content > .container-max,
+  .blogPost > .container-max,
+  .seoBlock > .container-max,
+  .text-block > .container-max {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  .service-content > .container-max > .row,
+  .blogPost > .container-max > .row,
+  .seoBlock > .container-max > .row,
+  .text-block > .container-max > .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .service-content > .container-max > .row > [class*="col-"],
+  .blogPost > .container-max > .row > [class*="col-"],
+  .seoBlock > .container-max > .row > [class*="col-"],
+  .text-block > .container-max > .row > [class*="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .service-content h2,
+  .service-content h3,
+  .service-content p,
+  .service-content li,
+  .blogPost h1,
+  .blogPost .contentBlock,
+  .blogPost .contentBlock h2,
+  .blogPost .contentBlock h3,
+  .blogPost .contentBlock p,
+  .blogPost .contentBlock li,
+  .seoBlock h2,
+  .seoBlock h3,
+  .seoBlock p,
+  .seoBlock li,
+  .text-block h2,
+  .text-block h3,
+  .text-block p,
+  .text-block li,
+  .content-block,
+  .content-block p,
+  .content-block li {
+    text-align: center;
+  }
+
+  .service-content ol,
+  .service-steps-list,
+  .blogPost .contentBlock ul,
+  .blogPost .contentBlock ol,
+  .seoBlock ul,
+  .seoBlock ol,
+  .text-block ul,
+  .text-block ol,
+  .content-block ul,
+  .content-block ol {
+    padding-left: 0;
+    list-style-position: inside;
+    text-align: center;
   }
 }
 
