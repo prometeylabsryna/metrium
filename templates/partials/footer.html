@@ -77,7 +77,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© {% now "Y" %} {{ SITE_SETTINGS.site_name|default:SITE_NAME }}. {% if current_language == 'ru' %}{{ SITE_SETTINGS.footer_rights_ru|default:"Все права защищены." }}{% else %}{{ SITE_SETTINGS.footer_rights_ua|default:"Всі права захищено." }}{% endif %} <a href="{{ SITE_SETTINGS.privacy_url|default:'#' }}">{% if current_language == 'ru' %}{{ SITE_SETTINGS.privacy_label_ru|default:"Политика конфиденциальности" }}{% else %}{{ SITE_SETTINGS.privacy_label_ua|default:"Політика конфіденційності" }}{% endif %}</a></p>
+      <p>© 2018 {{ SITE_SETTINGS.site_name|default:SITE_NAME }}. {% if current_language == 'ru' %}{{ SITE_SETTINGS.footer_rights_ru|default:"Все права защищены." }}{% else %}{{ SITE_SETTINGS.footer_rights_ua|default:"Всі права захищено." }}{% endif %} <a href="{{ SITE_SETTINGS.privacy_url|default:'#' }}">{% if current_language == 'ru' %}{{ SITE_SETTINGS.privacy_label_ru|default:"Политика конфиденциальности" }}{% else %}{{ SITE_SETTINGS.privacy_label_ua|default:"Політика конфіденційності" }}{% endif %}</a></p>
       <p class="footer-credit">{% if current_language == 'ru' %}Сайт от{% else %}Сайт від{% endif %} <a href="https://www.prometeylabs.com/" target="_blank" rel="noopener noreferrer">PrometeyLabs</a></p>
     </div>
   </div>

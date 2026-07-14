@@ -8,6 +8,7 @@ from src.cms.models import PageBlock
 from src.core.models import Office
 from src.i18n.models import Language
 from src.pages.models import StaticPage
+from src.pages.ru_prefix import legacy_ru_prefixed_slug
 from src.reviews.models import Review
 from src.seo.services import get_seo_for_object
 
@@ -34,6 +35,12 @@ class PageDetailView(View):
                 language=self.language,
                 is_published=True,
             ).first()
+            # Legacy WP: RU pages stored as slug "ru-{slug}" with language=ua
+            if not page and self.language == Language.RU:
+                page = StaticPage.objects.filter(
+                    slug=legacy_ru_prefixed_slug(slug),
+                    is_published=True,
+                ).first()
             # Fallback: allow standard slugs to render even without a DB page
             if not page:
                 service_slugs = (
@@ -159,7 +166,12 @@ class PageDetailView(View):
         return render(
             request,
             "pages/constructor.html",
-            {"page": page, "blocks": blocks, "seo": seo},
+            {
+                "page": page,
+                "blocks": blocks,
+                "seo": seo,
+                "page_slug": page.slug,
+            },
         )
 
 

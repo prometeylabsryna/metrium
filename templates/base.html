@@ -50,16 +50,14 @@
   <script src="{% static 'js/gtag-init.js' %}"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  {% include "partials/pulse_chat_head.html" %}
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,700&family=Raleway:wght@400;500;600;700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.min.css">
-  <link rel="stylesheet" href="{% static 'css/main1.css' %}?v=20260615f">
-  <link rel="stylesheet" href="{% static 'css/main2.css' %}?v=20260623">
-  <link rel="stylesheet" href="{% static 'css/enhanced.css' %}?v=20260622e">
-  <link rel="stylesheet" href="{% static 'css/pages.css' %}?v=20260623">
+  <link rel="stylesheet" href="{% static 'css/main1.css' %}?v=20260714c">
+  <link rel="stylesheet" href="{% static 'css/main2.css' %}?v=20260714c">
+  <link rel="stylesheet" href="{% static 'css/enhanced.css' %}?v=20260714c">
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}?v=20260714c">
   <link rel="stylesheet" href="{% static 'css/foto-marquee.css' %}?v=20260612">
   <link rel="stylesheet" href="{% static 'css/csp-compat.css' %}?v=20260615c">
-  <link rel="stylesheet" href="{% static 'css/pulse-chat.css' %}?v=20260623">
   {% block extra_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -88,10 +86,8 @@
     </button>
   </div>
 
-  {% include "partials/pulse_chat.html" %}
-
-  <script src="{% static 'js/main.js' %}?v=20260623b" defer></script>
-  <script src="{% static 'js/pulse-chat.js' %}?v=20260623fix" defer></script>
+  <script src="{% static 'js/main.js' %}?v=20260714" defer></script>
+  <script src="{% static 'js/doc-lightbox.js' %}?v=20260714" defer></script>
   <script src="{% static 'js/foto-marquee.js' %}?v=20260623" defer></script>
   <script src="{% static 'js/nav-toc.js' %}" defer></script>
   {% block extra_js %}{% endblock %}

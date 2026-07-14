@@ -22,22 +22,9 @@
   <div class="hero-overlay"></div>
   <div class="container-max">
     <div class="row align-items-center">
-      <div class="col-md-6 reveal-left">
+      <div class="col-md-8 reveal-left">
         <h1>{% block page_title %}{% endblock %}</h1>
         <p class="descr">{% block page_subtitle %}{% endblock %}</p>
-      </div>
-      <div class="col-md-5 offset-md-1 reveal-right">
-        <form class="banerForm" novalidate
-              data-action="{% url 'leads-phone' %}" data-channel="service-banner">
-          {% csrf_token %}
-          <h3>{% block form_title %}{% t 'Замовлення' 'Заказ' %}{% endblock %}</h3>
-          <p>{% t 'Для замовлення залиште Ваш номер телефону і наша команда спеціалістів з Вами зв\'яжеться' 'Для заказа оставьте Ваш номер телефона и наша команда специалистов свяжется с Вами' %}</p>
-          <input type="tel" name="tel" class="banerForm__tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" autocomplete="tel" required>
-          <div class="field-error banerForm__error">{% t 'Введіть коректний номер телефону' 'Введите корректный номер телефона' %}</div>
-          <button type="submit" class="accBtn btn-submit">
-            <span class="btn-text">{% t 'Замовити' 'Заказать' %}</span><span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -60,11 +47,6 @@
 
 {% block calculator_section %}
 {% include "partials/calculator_block.html" %}
-{% endblock %}
-
-{% block extra_js %}
-{{ block.super }}
-<script src="{% static 'js/calculator.js' %}?v=20260629" defer></script>
 {% endblock %}
 
 <section class="dark garanty reveal-up">
@@ -92,4 +74,9 @@
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/calculator.js' %}?v=20260714" defer></script>
 {% endblock %}

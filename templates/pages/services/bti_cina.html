@@ -4,7 +4,6 @@
 {% block breadcrumb_title %}{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}{% endblock %}
 {% block page_title %}{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}{% endblock %}
 {% block page_subtitle %}{% t 'Офіційний документ з технічними характеристиками вашої нерухомості. Виготовлення від 1 дня по всій Київщині.' 'Официальный документ с техническими характеристиками вашей недвижимости. Изготовление от 1 дня по всей Киевской области.' %}{% endblock %}
-{% block form_title %}{% t 'Замовлення технічного паспорта БТІ' 'Заказ технического паспорта БТИ' %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -39,23 +38,9 @@
         </div>
 
         <h2>{% t 'Вартість технічного паспорта' 'Стоимость технического паспорта' %}</h2>
-        <div class="lightPrice prices">
-          <div class="priceItem titleRow"><span>{% t 'Квартира' 'Квартира' %}</span></div>
-          <div class="priceItem"><span>{% t 'До 80 кв.м.' 'До 80 кв.м.' %}</span><span>{% t 'від 2 500 грн' 'от 2 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t '80 — 160 кв.м.' '80 — 160 кв.м.' %}</span><span>{% t 'від 2 500 грн' 'от 2 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t 'Понад 160 кв.м.' 'Свыше 160 кв.м.' %}</span><span>{% t 'від 4 500 грн' 'от 4 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t 'З перепланування' 'С перепланировкой' %}</span><span>+1 500 грн</span></div>
-          <div class="priceItem titleRow"><span>{% t 'Будинок' 'Дом' %}</span></div>
-          <div class="priceItem"><span>{% t 'До 180 кв.м.' 'До 180 кв.м.' %}</span><span>{% t 'від 5 500 грн' 'от 5 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t '180 — 250 кв.м.' '180 — 250 кв.м.' %}</span><span>{% t 'від 5 500 грн' 'от 5 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t 'Понад 250 кв.м.' 'Свыше 250 кв.м.' %}</span><span>{% t 'від 7 500 грн' 'от 7 500 грн' %}</span></div>
-          <div class="priceItem titleRow"><span>{% t 'Нежитлові приміщення' 'Нежилые помещения' %}</span></div>
-          <div class="priceItem"><span>{% t 'До 100 кв.м.' 'До 100 кв.м.' %}</span><span>{% t 'від 2 500 грн' 'от 2 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t '100 — 300 кв.м.' '100 — 300 кв.м.' %}</span><span>{% t 'від 2 500 грн' 'от 2 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t '300 — 626 кв.м.' '300 — 626 кв.м.' %}</span><span>{% t 'від 7 500 грн' 'от 7 500 грн' %}</span></div>
-          <div class="priceItem"><span>{% t 'Виїзд у межах Бучанського р-ну' 'Выезд в пределах Бучанского р-на' %}</span><span>{% t 'безкоштовно' 'бесплатно' %}</span></div>
-          <div class="priceItem"><span>{% t 'Виїзд до інших районів Київщини' 'Выезд в другие районы Киевской области' %}</span><span>+500 – 1 500 грн</span></div>
-        </div>
+        <p class="calc-cta">
+          <a href="#calcSection" class="link-primary">{% t 'Онлайн-калькулятор вартості послуги' 'Онлайн-калькулятор стоимости услуги' %}</a>
+        </p>
 
         <div class="calcBlock reveal-up calc-block--embedded" id="calcSection">
           <span class="section-label text-center d-block">{% t 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}</span>
@@ -134,15 +119,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% t 'Маєте інші питання?' 'Есть другие вопросы?' %}</h3>
           <p>{% t 'Напишіть нам в месенджер або зателефонуйте' 'Напишите нам в мессенджер или позвоните' %} <a href="tel:+380673986200" class="phoneBgc">+380 067 398 62 00</a></p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через Telegram' 'Связаться через Telegram' %}
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через Viber' 'Связаться через Viber' %}
-          </a>
-          <a href="{{ MESSENGERS.whatsapp }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'whatsapp.webp' %}" alt="" width="18" height="18"> {% t 'Звʼязатись через WhatsApp' 'Связаться через WhatsApp' %}
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

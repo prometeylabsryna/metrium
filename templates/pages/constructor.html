@@ -1,5 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 {% include "cms/render.html" with blocks=blocks %}
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/calculator.js' %}?v=20260714" defer></script>
 {% endblock %}

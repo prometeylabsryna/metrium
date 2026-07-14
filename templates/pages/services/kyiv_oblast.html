@@ -5,7 +5,6 @@
 {% block breadcrumb_title %}{% if current_language == 'ru' %}БТИ Киевская область{% else %}БТІ Київська область{% endif %}{% endblock %}
 {% block page_title %}{% if current_language == 'ru' %}БТИ Киевская область{% else %}БТІ Київська область{% endif %}{% endblock %}
 {% block page_subtitle %}{% if current_language == 'ru' %}Услуги технической инвентаризации и БТИ по всей Киевской области. Официально, быстро, с выездом специалиста.{% else %}Послуги технічної інвентаризації та БТІ по всій Київській області. Офіційно, швидко, з виїздом спеціаліста.{% endif %}{% endblock %}
-{% block form_title %}{% if current_language == 'ru' %}Заказать услугу{% else %}Замовити послугу{% endif %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -99,12 +98,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% if current_language == 'ru' %}Нужна консультация?{% else %}Потрібна консультація?{% endif %}</h3>
           <p>{% if current_language == 'ru' %}Позвоните или напишите в мессенджер{% else %}Зателефонуйте або напишіть у месенджер{% endif %}</p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

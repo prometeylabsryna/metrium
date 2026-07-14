@@ -281,9 +281,25 @@ footer h3 { color: var(--color-white); margin-bottom: 20px; font-size: 18px; }
   .d-md-block { display: none; }
   .d-md-flex { display: none; }
   .order-md-2 { order: 2; } .order-md-3 { order: 3; }
-  section { padding: 48px 0; }
-  .banerForm { padding: 28px 20px; margin-top: 24px; }
-  .baner.pageBaner { min-height: auto; padding: 40px 0; }
+  section {
+    padding: 48px 0;
+    scroll-margin-top: calc(var(--header-h) + 12px);
+  }
+  [id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+  .banerForm {
+    padding: 24px 18px;
+    margin-top: 20px;
+    gap: 14px;
+  }
+  .banerForm p { margin-bottom: 4px; }
+  .banerForm .accBtn,
+  .banerForm .btn-submit { margin-top: 6px; }
+  .baner.pageBaner {
+    min-height: auto;
+    padding: 40px 0;
+    overflow: visible;
+  }
+  .baner.pageBaner .row { align-items: stretch; }
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
   .rev-item { flex: 0 0 calc(85vw); max-width: calc(85vw); min-width: 0; }
   .darkWidget { margin-top: 32px; }

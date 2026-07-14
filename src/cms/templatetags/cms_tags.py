@@ -1,6 +1,7 @@
 from django import template
 from pathlib import Path
 from django.templatetags.static import static
+from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 
 from src.cms.services import get_home_services, get_home_stats, get_home_why_items, get_page_section, get_site_image, get_site_images
@@ -28,14 +29,83 @@ BLOCK_TEMPLATES = {
     "html": "cms/blocks/html.html",
 }
 
+# HTML-блоки без реального тексту лишають порожні секції з padding 72px
+_CONTENT_KINDS = frozenset({"text", "seo_text", "html", "faq"})
+_FALLBACK_BEFORE = frozenset({"calculator", "lead_form", "price_list", "faq", "reviews"})
+_MIN_BODY_CHARS = 40
+
+
+def _plain_text_len(value: str) -> int:
+    return len(" ".join(strip_tags(value or "").split()))
+
+
+def _block_is_renderable(block) -> bool:
+    kind = getattr(block, "kind", "") or ""
+    heading = (getattr(block, "heading", "") or "").strip()
+    body_len = _plain_text_len(getattr(block, "body", "") or "")
+
+    if kind not in _CONTENT_KINDS:
+        return True
+    if body_len >= _MIN_BODY_CHARS:
+        return True
+    # Заголовок без тіла → «дірки» на city-сторінках після WP-імпорту
+    if kind == "text":
+        return False
+    if kind == "seo_text":
+        return False
+    if kind == "faq":
+        return bool(heading and body_len > 0)
+    if kind == "html":
+        return body_len > 0
+    return bool(heading)
+
+
+def _blocks_need_content_fallback(blocks) -> bool:
+    for block in blocks:
+        kind = getattr(block, "kind", "") or ""
+        if kind in _CONTENT_KINDS and _plain_text_len(getattr(block, "body", "") or "") >= _MIN_BODY_CHARS:
+            return False
+    return True
+
 
 @register.inclusion_tag("cms/render_inner.html", takes_context=True)
 def render_blocks(context, blocks):
+    block_list = list(blocks or [])
     rendered = []
-    for block in blocks:
+    needs_fallback = _blocks_need_content_fallback(block_list)
+    fallback_inserted = False
+
+    for block in block_list:
+        if not _block_is_renderable(block):
+            continue
+        if needs_fallback and not fallback_inserted and block.kind in _FALLBACK_BEFORE:
+            rendered.append(
+                {
+                    "is_fallback": True,
+                    "template": "cms/partials/constructor_content_fallback.html",
+                    "block": None,
+                }
+            )
+            fallback_inserted = True
         tpl = BLOCK_TEMPLATES.get(block.kind, "cms/blocks/html.html")
-        rendered.append({"block": block, "template": tpl})
-    return {"blocks": rendered, "request": context.get("request"), "page": context.get("page"), "current_language": context.get("current_language")}
+        rendered.append({"is_fallback": False, "block": block, "template": tpl})
+
+    if needs_fallback and not fallback_inserted:
+        rendered.append(
+            {
+                "is_fallback": True,
+                "template": "cms/partials/constructor_content_fallback.html",
+                "block": None,
+            }
+        )
+
+    return {
+        "blocks": rendered,
+        "request": context.get("request"),
+        "page": context.get("page"),
+        "page_slug": context.get("page_slug") or getattr(context.get("page"), "slug", "") or "",
+        "current_language": context.get("current_language"),
+    }
 
 
 @register.simple_tag(takes_context=True)

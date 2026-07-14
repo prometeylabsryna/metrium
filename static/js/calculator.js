@@ -63,7 +63,8 @@ const REGION_NAMES = [
 ];
 
 (function initCalculator() {
-  const calcSection = document.getElementById('calcSection');
+  const calcSection = document.getElementById('calcSection')
+    || document.querySelector('section.calcBlock');
   if (!calcSection) return;
 
   const regionSel  = calcSection.querySelector('#regionsselect');

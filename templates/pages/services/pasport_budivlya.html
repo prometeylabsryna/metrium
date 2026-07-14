@@ -9,7 +9,6 @@
 {% block breadcrumb_title %}{% t 'Технічний паспорт на будівлю' 'Технический паспорт на здание' %}{% endblock %}
 {% block page_title %}{% t 'Технічний паспорт на будівлю' 'Технический паспорт на здание' %}{% endblock %}
 {% block page_subtitle %}{% t 'Виготовлення технічного паспорта на нежитлову будівлю, склад, офіс, виробниче приміщення' 'Изготовление технического паспорта на нежилое здание, склад, офис, производственное помещение' %}{% endblock %}
-{% block form_title %}{% t 'Замовити техпаспорт на будівлю' 'Заказать техпаспорт на здание' %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -69,12 +68,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% t 'Потрібна консультація?' 'Нужна консультация?' %}</h3>
           <p>{% t 'Зателефонуйте або напишіть у месенджер' 'Позвоните или напишите в мессенджер' %}</p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

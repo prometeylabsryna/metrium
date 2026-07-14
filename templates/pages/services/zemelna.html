@@ -6,7 +6,6 @@
 {% block breadcrumb_title %}{% t "Земельна документація" "Землеустроительная документация" %}{% endblock %}
 {% block page_title %}{% t "Земельна документація" "Землеустроительная документация" %}{% endblock %}
 {% block page_subtitle %}{% t "Текстові та графічні матеріали, якими регулюється використання та охорона земель державної, комунальної та приватної власності." "Текстовые и графические материалы, которыми регулируется использование и охрана земель государственной, коммунальной и частной собственности." %}{% endblock %}
-{% block form_title %}{% t 'Замовлення "Документації з землеустрою"' 'Заказ услуги "Документация по землеустройству"' %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -132,12 +131,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% t "Маєте питання?" "Есть вопросы?" %}</h3>
           <p>{% t "Зателефонуйте нам або напишіть у месенджер" "Позвоните нам или напишите в мессенджер" %}</p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

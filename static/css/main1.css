@@ -255,6 +255,8 @@ body { padding-top: var(--header-h); }
   align-items: center;
   overflow: hidden;
   padding: 60px 0;
+  /* якщо bg-зображення відсутнє/не завантажилось — білий текст лишається читабельним */
+  background-color: #1c2b28;
 }
 .baner.pageBaner .bgPk,
 .baner.pageBaner .bgMob {
@@ -304,37 +306,74 @@ body { padding-top: var(--header-h); }
   border-radius: var(--radius-xl);
   padding: 36px 32px;
   box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
 }
 .banerForm h3 {
   color: var(--color-dark);
   font-size: clamp(16px, 1.6vw, 20px);
   line-height: 1.35;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 .banerForm p {
   font-size: 14px;
   color: var(--color-muted);
   line-height: 1.55;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
-.banerForm__tel {
+.banerForm__tel,
+.banerForm input[type="tel"],
+.banerForm input[name="tel"],
+.lead-form-inline input[type="tel"],
+.subscribe input[type="tel"].subscrInput {
   width: 100%;
+  max-width: 100%;
+  height: 48px;
+  min-height: 48px;
   padding: 14px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.25;
+  font-family: var(--font-main);
   color: var(--color-dark);
   background: var(--color-input-bg);
   outline: none;
-  margin-bottom: 12px;
+  margin: 0;
   display: block;
+  box-sizing: border-box;
   -webkit-appearance: none;
+  appearance: none;
   transition: border-color var(--transition);
 }
-.banerForm__tel:focus { border-color: var(--color-primary); }
-.banerForm__tel::placeholder { color: var(--color-muted); }
-.banerForm__error { display: none; font-size: 12px; color: #e53e3e; margin-bottom: 8px; }
+.banerForm__tel:focus,
+.banerForm input[type="tel"]:focus,
+.banerForm input[name="tel"]:focus,
+.lead-form-inline input[type="tel"]:focus,
+.subscribe input[type="tel"].subscrInput:focus {
+  border-color: var(--color-primary);
+}
+.banerForm__tel::placeholder,
+.banerForm input[type="tel"]::placeholder,
+.banerForm input[name="tel"]::placeholder,
+.lead-form-inline input[type="tel"]::placeholder,
+.subscribe input[type="tel"].subscrInput::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+.banerForm__error { display: none; font-size: 12px; color: #e53e3e; margin: 0; }
 .banerForm__error.visible { display: block; }
+.banerForm .accBtn,
+.banerForm .btn-submit {
+  width: 100%;
+  min-height: 48px;
+  margin: 4px 0 0;
+  flex-shrink: 0;
+}
 .accent-text { color: var(--color-primary); font-weight: 700; }
 
 /* floating label input */

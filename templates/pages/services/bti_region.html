@@ -31,7 +31,7 @@
   <div class="hero-overlay"></div>
   <div class="container-max">
     <div class="row align-items-center">
-      <div class="col-md-6 reveal-left">
+      <div class="col-md-8 reveal-left">
         <h1>{% if current_language == 'ru' %}БТИ {{ city_name }}{% else %}БТІ {{ city_name }}{% endif %}</h1>
         <p class="descr">
           {% if current_language == 'ru' %}
@@ -40,19 +40,6 @@
           Послуги технічної інвентаризації, технічні паспорти, довідки та висновки БТІ в {{ city_name }}. Офіційно, швидко, без черг.
           {% endif %}
         </p>
-      </div>
-      <div class="col-md-5 offset-md-1 reveal-right">
-        <form class="banerForm" novalidate
-              data-action="{% url 'leads-phone' %}" data-channel="region-banner">
-          {% csrf_token %}
-          <h3>{% if current_language == 'ru' %}Заказать услугу{% else %}Замовити послугу{% endif %}</h3>
-          <p>{% if current_language == 'ru' %}Оставьте номер телефона и мы свяжемся с вами в течение 5 минут{% else %}Залиште номер телефону і ми зв'яжемось з вами протягом 5 хвилин{% endif %}</p>
-          <input type="tel" name="tel" class="banerForm__tel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" autocomplete="tel" required>
-          <div class="field-error banerForm__error">{% if current_language == 'ru' %}Введите корректный номер телефона{% else %}Введіть коректний номер телефону{% endif %}</div>
-          <button type="submit" class="accBtn btn-submit">
-            <span class="btn-text">{% if current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}</span><span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -151,35 +138,9 @@
         </ul>
 
         <h2 id="vartist">{% if current_language == 'ru' %}Стоимость услуг в {{ city_name }}{% else %}Вартість послуг в {{ city_name }}{% endif %}</h2>
-        <div class="tableContainer">
-          <div class="tableHeader">
-            <div class="tableHeader_first">{% if current_language == 'ru' %}Услуга{% else %}Послуга{% endif %}</div>
-            <div class="tableHeader_combine single">
-              <div class="tableHeader_first">{% if current_language == 'ru' %}Срок{% else %}Термін{% endif %}</div>
-            </div>
-            <div class="tableHeader_combine single">
-              <div class="tableHeader_first">{% if current_language == 'ru' %}Стоимость{% else %}Вартість{% endif %}</div>
-            </div>
-          </div>
-          <div class="tableItem">
-            <div class="tableItem_row">
-              <div>{% if current_language == 'ru' %}Технический паспорт на квартиру{% else %}Технічний паспорт на квартиру{% endif %}</div>
-              <div>2–3 {% if current_language == 'ru' %}дня{% else %}дні{% endif %}</div>
-              <div>{% if current_language == 'ru' %}от 2 500 грн{% else %}від 2 500 грн{% endif %}</div>
-            </div>
-            <div class="tableItem_row">
-              <div>{% if current_language == 'ru' %}Технический паспорт на дом{% else %}Технічний паспорт на будинок{% endif %}</div>
-              <div>2–3 {% if current_language == 'ru' %}дня{% else %}дні{% endif %}</div>
-              <div>{% if current_language == 'ru' %}от 5 500 грн{% else %}від 5 500 грн{% endif %}</div>
-            </div>
-            <div class="tableItem_row">
-              <div>{% if current_language == 'ru' %}Справка БТИ{% else %}Довідка БТІ{% endif %}</div>
-              <div>3–5 {% if current_language == 'ru' %}дней{% else %}днів{% endif %}</div>
-              <div>{% if current_language == 'ru' %}уточняйте{% else %}уточнюйте{% endif %}</div>
-            </div>
-          </div>
-        </div>
-        <p class="table-note"><em>{% if current_language == 'ru' %}*Точную стоимость уточняйте у менеджера. Цена зависит от типа объекта и удалённости.{% else %}*Точну вартість уточнюйте у менеджера. Ціна залежить від типу об'єкта та віддаленості.{% endif %}</em></p>
+        <p class="calc-cta">
+          <a href="#calcSection" class="link-primary">{% if current_language == 'ru' %}Онлайн-калькулятор стоимости услуги{% else %}Онлайн-калькулятор вартості послуги{% endif %}</a>
+        </p>
 
         <h2 id="yak-zamovyty">{% if current_language == 'ru' %}Как заказать услугу БТИ в {{ city_name }}{% else %}Як замовити послугу БТІ в {{ city_name }}{% endif %}</h2>
         <ol>
@@ -195,12 +156,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% if current_language == 'ru' %}Нужна консультация?{% else %}Потрібна консультація?{% endif %}</h3>
           <p>{% if current_language == 'ru' %}Позвоните или напишите в мессенджер{% else %}Зателефонуйте або напишіть у месенджер{% endif %}</p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>
@@ -270,5 +226,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/calculator.js' %}?v=20260629" defer></script>
+<script src="{% static 'js/calculator.js' %}?v=20260714" defer></script>
 {% endblock %}

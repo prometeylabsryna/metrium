@@ -1,15 +1,23 @@
 <section class="dark mainDarkForm" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
   <div class="container-max">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-md-6">
         {% if block.heading %}<h2 class="Title">{{ block.heading|safe }}</h2>{% endif %}
       </div>
       <div class="col-md-5 offset-md-1">
         {% if block.body %}<p>{{ block.body|safe }}</p>{% endif %}
-        <form class="subscribe" data-lead-form="phone">
-          <input type="tel" name="tel" class="subscrInput" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" required>
+        <form class="subscribe banerForm lead-form-inline" novalidate
+              data-action="{% url 'leads-phone' %}" data-channel="cms-lead">
+          {% csrf_token %}
+          <input type="tel" name="tel" class="banerForm__tel subscrInput"
+                 placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}"
+                 autocomplete="tel" required>
+          <div class="field-error banerForm__error">{% if current_language == 'ru' %}Введите корректный номер{% else %}Введіть коректний номер{% endif %}</div>
           <input type="hidden" name="loc" value="{{ page.title }}">
-          <button type="submit" class="accBtn">{% if current_language == 'ru' %}Отправить{% else %}Відправити{% endif %}</button>
+          <button type="submit" class="accBtn btn-submit">
+            <span class="btn-text">{% if current_language == 'ru' %}Отправить{% else %}Відправити{% endif %}</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
         </form>
       </div>
     </div>

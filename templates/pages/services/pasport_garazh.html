@@ -9,7 +9,6 @@
 {% block breadcrumb_title %}{% t 'Технічний паспорт на гараж' 'Технический паспорт на гараж' %}{% endblock %}
 {% block page_title %}{% t 'Технічний паспорт на гараж' 'Технический паспорт на гараж' %}{% endblock %}
 {% block page_subtitle %}{% t 'Виготовлення технічного паспорта на гараж або машиномісце. Офіційна реєстрація у ЄДЕССБ' 'Изготовление технического паспорта на гараж или машиноместо. Официальная регистрация в ЕДЕССБ' %}{% endblock %}
-{% block form_title %}{% t 'Замовити техпаспорт на гараж' 'Заказать техпаспорт на гараж' %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -35,27 +34,9 @@
         </ul>
 
         <h2>{% t 'Вартість технічного паспорта на гараж' 'Стоимость технического паспорта на гараж' %}</h2>
-        <div class="tableContainer">
-          <div class="tableHeader">
-            <div class="tableHeader_first">{% t 'Тип об’єкту' 'Тип объекта' %}</div>
-            <div class="tableHeader_combine single"><div class="tableHeader_first">{% t 'Площа' 'Площадь' %}</div></div>
-            <div class="tableHeader_combine">
-              <div class="tableHeader_combine_top">{% t 'Вартість' 'Стоимость' %}</div>
-              <div class="tableHeader_combine_half">
-                <div>{% t '2–3 дні' '2–3 дня' %}</div>
-                <div>{% t 'День у день' 'День в день' %}</div>
-              </div>
-            </div>
-          </div>
-          <div class="tableItem">
-            <div class="tableItem_row">
-              <div>{% t 'Гараж / машиномісце' 'Гараж / машиноместо' %}</div>
-              <div>{% t 'до 80 кв.м' 'до 80 кв.м' %}</div>
-              <div>2 500 грн.</div>
-              <div>+1 500 грн.</div>
-            </div>
-          </div>
-        </div>
+        <p class="calc-cta">
+          <a href="#calcSection" class="link-primary">{% t 'Онлайн-калькулятор вартості послуги' 'Онлайн-калькулятор стоимости услуги' %}</a>
+        </p>
 
         <h2>{% t 'Необхідні документи для виготовлення' 'Необходимые документы для изготовления' %}</h2>
         <div class="docs-col">
@@ -96,12 +77,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% t 'Потрібна консультація?' 'Нужна консультация?' %}</h3>
           <p>{% t 'Зателефонуйте або напишіть у месенджер' 'Позвоните или напишите в мессенджер' %}</p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

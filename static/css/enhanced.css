@@ -71,6 +71,17 @@ header.compact .logoBox img { max-height: 36px; }
   transform: none;
 }
 
+/* iOS Safari: transform+opacity reveal can paint over siblings and collapse stack gaps */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .reveal-up,
+  .reveal-left,
+  .reveal-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 
 /* ----- Service card hover ----- */
 .serv_item:hover {
@@ -370,17 +381,28 @@ input:focus-visible {
 
 /* ----- iOS Safari specific fixes ----- */
 @supports (-webkit-touch-callout: none) {
-  /* Fix 100vh on iOS Safari */
+  /* Fix 100vh on iOS Safari — only menu; banner height stays media-query driven */
   .mob-menu { height: -webkit-fill-available; }
-  .baner.pageBaner { min-height: -webkit-fill-available; min-height: 580px; }
 
   /* Fix tap delay */
   a, button { touch-action: manipulation; }
 
-  /* Fix sticky header on iOS */
-  header { -webkit-transform: translateZ(0); }
+  /* sticky header without creating a transform stacking context that breaks form gaps */
+  header {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 
   footer { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (min-width: 768px) {
+  @supports (-webkit-touch-callout: none) {
+    .baner.pageBaner {
+      min-height: -webkit-fill-available;
+      min-height: 580px;
+    }
+  }
 }
 
 /* ----- Tablet (768–1024px) ----- */

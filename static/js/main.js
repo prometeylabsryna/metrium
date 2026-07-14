@@ -358,6 +358,19 @@ function handleFormSubmit(form, callback) {
     bindForm(form, callback);
   });
 
+  document.querySelectorAll('form[data-lead-form]').forEach(function (form) {
+    if (form.dataset.action) return;
+    var kind = form.getAttribute('data-lead-form');
+    form.dataset.action = kind === 'calculator'
+      ? '/api/leads/calculator/'
+      : '/api/leads/phone/';
+    var callback;
+    if (form.id === 'calc-form-data') {
+      callback = function () { form.classList.remove('active'); };
+    }
+    bindForm(form, callback);
+  });
+
   bindForm(document.getElementById('banerFormTop'));
 })();
 

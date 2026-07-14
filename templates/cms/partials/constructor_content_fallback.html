@@ -1,0 +1,71 @@
+{% load static i18n_tags cms_tags %}
+{# Контент для city/SEO constructor-сторінок, де після WP-імпорту залишились лише порожні заголовки #}
+<section class="service-content constructor-fallback">
+  <div class="container-max">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>
+          {% if current_language == 'ru' %}
+          Почему стоит оформить технический паспорт?
+          {% else %}
+          Чому варто оформити технічний паспорт?
+          {% endif %}
+        </h2>
+        <p>
+          {% if current_language == 'ru' %}
+          Компания <strong>Метриум</strong> изготавливает технические паспорта БТИ официально, с регистрацией в ЕДЕССБ.
+          Работаем без очередей: выезд специалиста, оформление документов и консультация.
+          {% else %}
+          Компанія <strong>Метріум</strong> виготовляє технічні паспорти БТІ офіційно, з реєстрацією в ЄДЕССБ.
+          Працюємо без черг: виїзд спеціаліста, оформлення документів і консультація.
+          {% endif %}
+        </p>
+        <ul class="constructor-fallback__list">
+          <li>{% if current_language == 'ru' %}Ввод объекта в эксплуатацию и легализация{% else %}Введення об'єкта в експлуатацію та легалізація{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Регистрация права собственности в ГРРП{% else %}Реєстрація права власності в ДРРП{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Наследство, смена владельца, перепланировка{% else %}Спадщина, зміна власника, перепланування{% endif %}</li>
+          <li>{% if current_language == 'ru' %}Срок изготовления от 1–3 рабочих дней{% else %}Термін виготовлення від 1–3 робочих днів{% endif %}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="docs-section constructor-fallback">
+  <div class="container-max">
+    <h2>
+      {% if current_language == 'ru' %}
+      Какие документы нужны для технического паспорта?
+      {% else %}
+      Які документи потрібні для технічного паспорта?
+      {% endif %}
+    </h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="docs-col">
+          <h5>{% if current_language == 'ru' %}Обычно достаточно:{% else %}Зазвичай достатньо:{% endif %}</h5>
+          <ol>
+            <li>{% if current_language == 'ru' %}Правоустанавливающий документ на объект;{% else %}Правовстановлюючий документ на об'єкт;{% endif %}</li>
+            <li>{% if current_language == 'ru' %}Паспортные данные и ИНН заказчика;{% else %}Паспортні дані та ІПН замовника;{% endif %}</li>
+            <li>{% if current_language == 'ru' %}Предыдущий техпаспорт (при наличии).{% else %}Попередній техпаспорт (за наявності).{% endif %}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="docs-col">
+          <h5>{% if current_language == 'ru' %}Дополнительно могут понадобиться:{% else %}Додатково можуть знадобитися:{% endif %}</h5>
+          <ol>
+            <li>{% if current_language == 'ru' %}Запрос нотариуса (наследство);{% else %}Запит нотаріуса (спадщина);{% endif %}</li>
+            <li>{% if current_language == 'ru' %}Документы инвестора (новострой);{% else %}Документи інвестора (новобудова);{% endif %}</li>
+            <li>{% if current_language == 'ru' %}Справка кооператива (гараж).{% else %}Довідка кооперативу (гараж).{% endif %}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <p class="constructor-fallback__more">
+      <a href="{% if current_language == 'ru' %}/ru/tehnichni-pasporty-bti/{% else %}/tehnichni-pasporty-bti/{% endif %}" class="link-primary">
+        {% if current_language == 'ru' %}Подробнее о техническом паспорте БТИ{% else %}Детальніше про технічний паспорт БТІ{% endif %}
+      </a>
+    </p>
+  </div>
+</section>

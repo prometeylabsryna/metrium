@@ -6,7 +6,6 @@
 {% block breadcrumb_title %}{% t "Легалізація нерухомості" "Легализация недвижимости" %}{% endblock %}
 {% block page_title %}{% t "Легалізація нерухомості" "Легализация недвижимости" %}{% endblock %}
 {% block page_subtitle %}{% t "Надання законної сили об'єктам нерухомості" "Придание объектам недвижимости законного статуса" %}{% endblock %}
-{% block form_title %}{% t 'Замовлення процедури "Легалізації нерухомості"' 'Заказ услуги "Легализация недвижимости"' %}{% endblock %}
 
 {% block service_content %}
 <section class="service-content reveal-up">
@@ -68,15 +67,7 @@
           <img src="{% kata_img page_slug 'askIco.svg' %}" alt="" width="48" height="48">
           <h3>{% t "Маєте інші питання?" "Есть дополнительные вопросы?" %}</h3>
           <p>{% t "Напишіть нам у месенджер або зателефонуйте" "Напишите нам в мессенджер или позвоните" %} <a href="tel:+380673986200" class="phoneBgc">+380 067 398 62 00</a></p>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'tg.svg' %}" alt="" width="18" height="18"> {% t "Звʼязатись через Telegram" "Связаться через Telegram" %}
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img page_slug 'viber.svg' %}" alt="" width="18" height="18"> {% t "Звʼязатись через Viber" "Связаться через Viber" %}
-          </a>
-          <a href="{{ MESSENGERS.whatsapp }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img page_slug 'whatsapp.webp' %}" alt="" width="18" height="18"> {% t "Звʼязатись через WhatsApp" "Связаться через WhatsApp" %}
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
       </div>
     </div>

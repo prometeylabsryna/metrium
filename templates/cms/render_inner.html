@@ -1,3 +1,7 @@
 {% for item in blocks %}
-  {% include item.template with block=item.block page=page current_language=current_language only %}
+  {% if item.is_fallback %}
+    {% include item.template with page=page page_slug=page_slug current_language=current_language only %}
+  {% else %}
+    {% include item.template with block=item.block page=page page_slug=page_slug current_language=current_language only %}
+  {% endif %}
 {% endfor %}

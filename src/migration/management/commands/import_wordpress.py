@@ -18,6 +18,7 @@ from src.migration.wp_sql_parser import (
     parse_htaccess_gone,
 )
 from src.pages.models import StaticPage
+from src.pages.ru_prefix import strip_ru_slug_prefix
 from src.redirects.middleware import RedirectMiddleware
 from src.redirects.models import RedirectRule
 from src.seo.models import SeoMetadata
@@ -68,10 +69,14 @@ class Command(BaseCommand):
             published = self._parse_dt(post.post_date)
 
             if post.post_type == "page":
+                raw_slug = post.post_name or f"page-{post_id}"
+                slug, was_ru_prefixed = strip_ru_slug_prefix(raw_slug)
+                if was_ru_prefixed:
+                    language = Language.RU
                 obj, _ = StaticPage.objects.update_or_create(
                     wp_id=post_id,
                     defaults={
-                        "slug": post.post_name or f"page-{post_id}",
+                        "slug": slug,
                         "title": post.post_title,
                         "language": language,
                         "translation_group_id": group_id,
@@ -85,6 +90,16 @@ class Command(BaseCommand):
                     },
                 )
                 wp_to_page[post_id] = obj
+                if was_ru_prefixed:
+                    RedirectRule.objects.update_or_create(
+                        source_path=f"/{raw_slug}",
+                        defaults={
+                            "target_url": f"/ru/{slug}/",
+                            "status_code": 301,
+                            "is_active": True,
+                            "source": "manual",
+                        },
+                    )
                 self._import_blocks(obj, page_ct, data.postmeta.get(post_id, {}))
                 self._import_seo(obj, post_id, data)
 

@@ -1,27 +1,5 @@
 /* Pulse.is live chat — FAB offsets (mobile / tablet / iOS Safari) */
 (function initPulseChatOffsets() {
-  // #region agent log
-  var _dbgApplyCount = 0;
-  var _dbgMutCount = 0;
-  var _dbgInsetCount = 0;
-  var _dbgStart = Date.now();
-  function _dbgLog(message, data, hypothesisId) {
-    fetch('http://127.0.0.1:7395/ingest/cd1b0c32-25fc-45af-bcd9-1c48029f63fc', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': 'f5ec68' },
-      body: JSON.stringify({
-        sessionId: 'f5ec68',
-        runId: 'post-fix',
-        hypothesisId: hypothesisId,
-        location: 'pulse-chat.js',
-        message: message,
-        data: data,
-        timestamp: Date.now(),
-      }),
-    }).catch(function () {});
-  }
-  // #endregion
-
   var OFFSET_QUERY = '(max-width: 1024px)';
   var MOBILE_QUERY = '(max-width: 767px)';
   var CHAT_BOTTOM_MOBILE = 72;
@@ -33,7 +11,6 @@
   var insetCache = { bottom: 0, left: 0, right: 0 };
   var applyRaf = 0;
   var mountObserver = null;
-  var chatOffsetApplied = false;
 
   function needsOffset() {
     return window.matchMedia(OFFSET_QUERY).matches;
@@ -61,12 +38,6 @@
       insetProbe.style[prop] = 'env(safe-area-inset-' + edge + ')';
       insetCache[edge] = parseFloat(window.getComputedStyle(insetProbe).getPropertyValue(prop)) || 0;
     });
-    // #region agent log
-    _dbgInsetCount += 1;
-    if (_dbgInsetCount <= 3 || _dbgInsetCount % 100 === 0) {
-      _dbgLog('refreshInsetCache', { count: _dbgInsetCount, insetCache: insetCache }, 'H1');
-    }
-    // #endregion
   }
 
   function readSafeInset(edge) {
@@ -128,7 +99,6 @@
       if (resetStyle) resetStyle.remove();
     }
 
-    chatOffsetApplied = true;
     return true;
   }
 
@@ -146,12 +116,6 @@
   }
 
   function applyAllNow() {
-    // #region agent log
-    _dbgApplyCount += 1;
-    if (_dbgApplyCount <= 5 || _dbgApplyCount === 50 || _dbgApplyCount % 500 === 0) {
-      _dbgLog('applyAllNow', { count: _dbgApplyCount, elapsedMs: Date.now() - _dbgStart }, 'H2');
-    }
-    // #endregion
     applyStackOffsets();
     applyChatOffset();
   }
@@ -183,17 +147,6 @@
     if (!window.MutationObserver || mountObserver) return;
     mountObserver = new MutationObserver(function () {
       if (!getChatRoot()) return;
-      // #region agent log
-      _dbgMutCount += 1;
-      if (_dbgMutCount <= 5 || _dbgMutCount === 50 || _dbgMutCount % 500 === 0) {
-        _dbgLog('MutationObserver fired', {
-          count: _dbgMutCount,
-          hasChat: true,
-          chatOffsetApplied: chatOffsetApplied,
-          elapsedMs: Date.now() - _dbgStart,
-        }, 'H1');
-      }
-      // #endregion
       if (applyChatOffset()) {
         stopMountObserver();
         return;

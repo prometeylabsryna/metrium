@@ -128,15 +128,7 @@
           <a href="tel:+380673986200" class="accBtn">
             <img src="{% kata_img 'neobhidni-dokumenty' 'tel.svg' %}" alt="" width="18" height="18"> 067-398-62-00
           </a>
-          <a href="{{ MESSENGERS.telegram }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img 'neobhidni-dokumenty' 'tg.svg' %}" alt="" width="18" height="18"> Telegram
-          </a>
-          <a href="{{ MESSENGERS.viber }}" class="accBtn">
-            <img src="{% kata_img 'neobhidni-dokumenty' 'viber.svg' %}" alt="" width="18" height="18"> Viber
-          </a>
-          <a href="{{ MESSENGERS.whatsapp }}" class="accBtn" target="_blank" rel="noopener noreferrer">
-            <img src="{% kata_img 'neobhidni-dokumenty' 'whatsapp.webp' %}" alt="" width="18" height="18"> WhatsApp
-          </a>
+          {% include "partials/messenger_buttons.html" %}
         </div>
         <div class="darkWidget dark-widget--spaced">
           <h3>Порядок замовлення</h3>
