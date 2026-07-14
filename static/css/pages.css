@@ -1840,10 +1840,10 @@ html.doc-lightbox-lock body {
     margin: 0 auto;
   }
   .doc-lightbox {
-    padding: max(env(safe-area-inset-top, 0px), 0px)
-             max(env(safe-area-inset-right, 0px), 0px)
-             max(env(safe-area-inset-bottom, 0px), 0px)
-             max(env(safe-area-inset-left, 0px), 0px);
+    padding: max(8px, env(safe-area-inset-top, 0px))
+             max(12px, env(safe-area-inset-right, 0px))
+             max(8px, env(safe-area-inset-bottom, 0px))
+             max(12px, env(safe-area-inset-left, 0px));
   }
   .doc-lightbox__figure {
     overflow: hidden;
@@ -1860,8 +1860,15 @@ html.doc-lightbox-lock body {
     width: auto;
     height: auto;
     object-fit: contain;
-    border-radius: 0;
+    border-radius: 10px;
     box-shadow: none;
+  }
+  .doc-lightbox--cover .doc-lightbox__figure {
+    width: calc(100% - 8px);
+    height: calc(100% - 16px);
+    max-width: calc(100% - 8px);
+    max-height: calc(100% - 16px);
+    border-radius: 12px;
   }
   .doc-lightbox--cover .doc-lightbox__img {
     width: 100%;
@@ -1870,6 +1877,11 @@ html.doc-lightbox-lock body {
     max-height: none;
     object-fit: cover;
     object-position: center center;
+    border-radius: 12px;
+    -webkit-transform: scale(0.92);
+    transform: scale(0.92);
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
   }
   .doc-lightbox__close {
     width: 48px;
