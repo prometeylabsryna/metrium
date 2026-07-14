@@ -146,7 +146,7 @@ header.compact .logoBox img { max-height: 36px; }
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
+  gap: 8px;
   pointer-events: none;
   box-sizing: border-box;
 }
@@ -160,32 +160,39 @@ header.compact .logoBox img { max-height: 36px; }
   position: static;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-end;
 }
 
 .float-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 18px;
+  gap: 8px;
+  padding: 8px 14px;
   border-radius: 40px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1.2;
   color: var(--color-white);
-  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  box-shadow: 0 4px 14px rgba(0,0,0,.16);
   transition: transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
 }
-.float-btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,.22); }
-.float-btn img { width: 22px; flex-shrink: 0; }
+.float-btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+.float-btn img { width: 18px; height: 18px; flex-shrink: 0; }
 
 .float-call {
   background: var(--color-primary);
 }
 .float-tg {
   background: #229ED9;
+}
+.float-viber {
+  background: #7360F2;
+}
+.float-wa {
+  background: #25D366;
 }
 
 /* Pulse ring on call button */
@@ -216,10 +223,10 @@ header.compact .logoBox img { max-height: 36px; }
   .float-btn {
     padding: 0;
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     justify-content: center;
     box-sizing: border-box;
     flex-shrink: 0;
@@ -229,15 +236,15 @@ header.compact .logoBox img { max-height: 36px; }
     transform: none;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
-  .float-btn img { width: 22px; height: 22px; }
+  .float-btn img { width: 20px; height: 20px; }
 
   .float-call::before { display: none; }
 
   .scroll-top-btn {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   body.body-lock .site-fab-stack {
@@ -411,7 +418,17 @@ input:focus-visible {
   .rev-item { flex: 0 0 calc(50% - 8px); max-width: calc(50% - 8px); min-width: 0; }
   .banerForm { padding: 28px 24px; }
   .float-btn span { display: none; }
-  .float-btn { padding: 14px; border-radius: 50%; width: 52px; height: 52px; justify-content: center; }
+  .float-btn {
+    padding: 0;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .float-btn img { width: 20px; height: 20px; }
 }
 
 /* ----- Large screens ----- */
