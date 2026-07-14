@@ -71,8 +71,9 @@
     if (e.key === 'Escape') closeMenu();
   });
 
-  // Close menu on nav link click
+  // Close menu on leaf nav link click (expandable parents handled separately)
   menu.querySelectorAll('.mob-main-nav a').forEach(function (link) {
+    if (link.classList.contains('mob-services-toggle') || link.classList.contains('mob-sub-toggle')) return;
     link.addEventListener('click', closeMenu);
   });
 
@@ -510,46 +511,45 @@ function closeModal() {
   });
 })();
 
-/* ----- Mobile services submenu toggle ----- */
-(function initMobServicesToggle() {
-  var btn = document.getElementById('mobServicesToggle');
-  var sub = document.getElementById('mobServicesSubmenu');
-  if (!btn || !sub) return;
+/* ----- Mobile expandable nav: 1st tap opens submenu, 2nd navigates ----- */
+(function initMobExpandableNav() {
+  function bindExpandable(link, sub, leafSelector) {
+    if (!link || !sub) return;
 
-  btn.addEventListener('click', function () {
-    var isOpen = sub.classList.toggle('open');
-    btn.classList.toggle('active', isOpen);
-    btn.setAttribute('aria-expanded', String(isOpen));
-  });
+    function setOpen(isOpen) {
+      sub.classList.toggle('open', isOpen);
+      link.classList.toggle('active', isOpen);
+      link.setAttribute('aria-expanded', String(isOpen));
+    }
 
-  sub.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      sub.classList.remove('open');
-      btn.classList.remove('active');
-      btn.setAttribute('aria-expanded', 'false');
+    link.addEventListener('click', function (e) {
+      var isOpen = sub.classList.contains('open');
+      if (!isOpen) {
+        e.preventDefault();
+        setOpen(true);
+        return;
+      }
+      /* second tap: follow href */
     });
-  });
-})();
 
-/* ----- Mobile passport submenu toggle ----- */
-(function initMobSubPassportToggle() {
-  var btn = document.getElementById('mobSubPassportToggle');
-  var sub = document.getElementById('mobSubPassportMenu');
-  if (!btn || !sub) return;
-
-  btn.addEventListener('click', function () {
-    var isOpen = sub.classList.toggle('open');
-    btn.classList.toggle('active', isOpen);
-    btn.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  sub.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      sub.classList.remove('open');
-      btn.classList.remove('active');
-      btn.setAttribute('aria-expanded', 'false');
+    sub.querySelectorAll(leafSelector).forEach(function (leaf) {
+      leaf.addEventListener('click', function () {
+        setOpen(false);
+      });
     });
-  });
+  }
+
+  bindExpandable(
+    document.getElementById('mobServicesToggle'),
+    document.getElementById('mobServicesSubmenu'),
+    'a:not(.mob-sub-toggle)'
+  );
+
+  bindExpandable(
+    document.getElementById('mobSubPassportToggle'),
+    document.getElementById('mobSubPassportMenu'),
+    'a'
+  );
 })();
 
 /* ----- Desktop nav dropdown keyboard/touch support ----- */

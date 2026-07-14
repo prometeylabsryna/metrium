@@ -14,13 +14,13 @@
         <ul>
           <li><a href="{% lang_url '/' %}" {% if active_slug == '' or active_slug == 'home' %}class="active"{% endif %}>{% bi 'header' 'nav.home' 'Головна' 'Главная' %}</a></li>
           <li>
-            <button class="mob-services-toggle" id="mobServicesToggle" type="button" aria-expanded="false" aria-controls="mobServicesSubmenu">
+            <a class="mob-services-toggle" id="mobServicesToggle" href="{% lang_url '/poslugy-kyiv/' %}" aria-expanded="false" aria-controls="mobServicesSubmenu">
               {% bi 'header' 'nav.services' 'Послуги БТІ' 'Услуги БТИ' %} <span class="mob-services-arrow">▾</span>
-            </button>
+            </a>
             <div class="mob-services-submenu" id="mobServicesSubmenu" role="menu">
-              <button class="mob-sub-toggle" id="mobSubPassportToggle" type="button" aria-expanded="false" aria-controls="mobSubPassportMenu">
+              <a class="mob-sub-toggle" id="mobSubPassportToggle" href="{% lang_url '/tehnichni-pasporty-bti/' %}" aria-expanded="false" aria-controls="mobSubPassportMenu" role="menuitem">
                 {% bi 'header' 'nav.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %} <span class="mob-sub-arrow">▶</span>
-              </button>
+              </a>
               <div class="mob-sub-submenu" id="mobSubPassportMenu">
                 <a href="{% lang_url '/tehnichnyj-pasport-na-kvartyru/' %}">{% bi 'header' 'nav.passport.kvartyra' 'На квартиру' 'На квартиру' %}</a>
                 <a href="{% lang_url '/tehnichnyj-pasport-na-budynok/' %}">{% bi 'header' 'nav.passport.budynok' 'На будинок' 'На дом' %}</a>

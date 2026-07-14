@@ -1541,7 +1541,7 @@
 .header-socials a:hover img { opacity: 1; }
 
 /* mobile services submenu */
-.mob-services-toggle {
+.mob-menu .mob-main-nav .mob-services-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1557,9 +1557,13 @@
   cursor: pointer;
   font-family: inherit;
   text-align: left;
+  text-decoration: none;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.mob-services-toggle:hover,
-.mob-services-toggle.active {
+.mob-menu .mob-main-nav .mob-services-toggle:hover,
+.mob-menu .mob-main-nav .mob-services-toggle.active {
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
@@ -1577,7 +1581,7 @@
   padding: 4px 0 4px 16px;
 }
 .mob-services-submenu.open { display: flex; }
-.mob-services-submenu a {
+.mob-services-submenu > a:not(.mob-sub-toggle) {
   display: block;
   padding: 9px 16px;
   font-size: 14px;
@@ -1586,7 +1590,7 @@
   border-radius: var(--radius-sm);
   transition: background var(--transition), color var(--transition);
 }
-.mob-services-submenu a:hover {
+.mob-services-submenu > a:not(.mob-sub-toggle):hover {
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
@@ -1948,7 +1952,7 @@ header .lang-switcher {
   flex-direction: row;
 }
 
-.mob-sub-toggle {
+.mob-services-submenu .mob-sub-toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1964,12 +1968,14 @@ header .lang-switcher {
   cursor: pointer;
   font-family: inherit;
   text-align: left;
+  text-decoration: none;
+  box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-.mob-sub-toggle:hover,
-.mob-sub-toggle.active {
+.mob-services-submenu .mob-sub-toggle:hover,
+.mob-services-submenu .mob-sub-toggle.active {
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
