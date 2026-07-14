@@ -51,6 +51,7 @@
     imgEl = document.createElement('img');
     imgEl.className = 'doc-lightbox__img';
     imgEl.alt = '';
+    imgEl.draggable = false;
 
     figure.appendChild(imgEl);
     overlay.appendChild(closeBtn);
@@ -147,60 +148,9 @@
     var item = gallery[currentIndex];
     var src = item.getAttribute('href');
     var img = item.querySelector('img');
-    resetImageFit();
-    imgEl.onload = function () {
-      fitMobileImage();
-    };
     imgEl.src = src;
     imgEl.alt = img ? (img.getAttribute('alt') || '') : '';
-    if (imgEl.complete && imgEl.naturalWidth) fitMobileImage();
     updateNav();
-  }
-
-  function isMobileViewport() {
-    return window.matchMedia('(max-width: 767px)').matches;
-  }
-
-  function resetImageFit() {
-    if (!overlay || !imgEl) return;
-    overlay.classList.remove('doc-lightbox--cover', 'doc-lightbox--panzoom');
-    imgEl.style.width = '';
-    imgEl.style.height = '';
-    imgEl.style.maxWidth = '';
-    imgEl.style.maxHeight = '';
-  }
-
-  function fitMobileImage() {
-    if (!overlay || !imgEl) return;
-    resetImageFit();
-    if (!isMobileViewport() || !imgEl.naturalWidth || !imgEl.naturalHeight) return;
-
-    var nw = imgEl.naturalWidth;
-    var nh = imgEl.naturalHeight;
-    // Landscape letterbox (паспорт у центрі широкого кадру) — збільшити сторінку
-    // без object-fit:cover, зі скролом щоб бачити весь документ.
-    if (nw / nh <= 1.35) return;
-
-    var figure = overlay.querySelector('.doc-lightbox__figure');
-    if (!figure) return;
-
-    var viewW = figure.clientWidth || overlay.clientWidth;
-    var contentFrac = 0.36;
-    var sidePad = 0.9;
-    var targetW = Math.round((viewW * sidePad) / contentFrac);
-    var maxW = Math.round(viewW * 2.8);
-    if (targetW > maxW) targetW = maxW;
-
-    overlay.classList.add('doc-lightbox--panzoom');
-    imgEl.style.width = targetW + 'px';
-    imgEl.style.height = 'auto';
-    imgEl.style.maxWidth = 'none';
-    imgEl.style.maxHeight = 'none';
-
-    requestAnimationFrame(function () {
-      figure.scrollLeft = Math.max(0, (figure.scrollWidth - figure.clientWidth) / 2);
-      figure.scrollTop = Math.max(0, (figure.scrollHeight - figure.clientHeight) / 2);
-    });
   }
 
   function showRelative(delta) {
@@ -234,7 +184,6 @@
     imgEl.removeAttribute('src');
     gallery = [];
     currentIndex = 0;
-    resetImageFit();
     updateNav();
     unlockScroll();
     focusEl(lastFocus);
@@ -266,8 +215,4 @@
       showRelative(1);
     }
   });
-
-  window.addEventListener('resize', function () {
-    if (isOpen) fitMobileImage();
-  }, { passive: true });
 })();
