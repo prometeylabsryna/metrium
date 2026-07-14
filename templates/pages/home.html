@@ -202,7 +202,9 @@
       <div class="col-md-5 offset-md-1">
         <h2 class="about-passport-title">{% t 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}</h2>
         <p class="about-passport-descr">{% t '– це інформаційний документ, в якому наведено всі технічні характеристики об\'єкта нерухомості.' '— это информационный документ, в котором приведены все технические характеристики объекта недвижимости.' %}</p>
-        <img src="{% site_image_url 'home' 'about.passport' 'images/kata/Vidnovlennya.jpg' %}" class="img-responsive about-passport-img" alt="{% site_image_alt 'home' 'about.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}" loading="lazy">
+        <a href="{% site_image_url 'home' 'about.passport' 'images/kata/Vidnovlennya.jpg' %}" class="about-passport-zoom" data-doc-lightbox aria-label="{% t 'Збільшити зразок документа' 'Увеличить образец документа' %}">
+          <img src="{% site_image_url 'home' 'about.passport' 'images/kata/Vidnovlennya.jpg' %}" class="img-responsive about-passport-img" alt="{% site_image_alt 'home' 'about.passport' 'Технічний паспорт БТІ' 'Технический паспорт БТИ' %}" loading="lazy">
+        </a>
       </div>
     </div>
   </div>

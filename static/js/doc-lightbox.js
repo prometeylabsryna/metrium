@@ -9,6 +9,7 @@
   var closeBtn = null;
   var lastFocus = null;
   var scrollY = 0;
+  var isOpen = false;
 
   function build() {
     if (overlay) return;
@@ -41,23 +42,41 @@
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay || e.target === figure) close();
     });
-    closeBtn.addEventListener('click', close);
+    closeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      close();
+    });
+  }
+
+  function onTouchMove(e) {
+    if (!isOpen) return;
+    if (overlay && overlay.contains(e.target)) return;
+    e.preventDefault();
   }
 
   function lockScroll() {
-    scrollY = window.scrollY || window.pageYOffset || 0;
-    document.body.classList.add('body-lock');
-    document.body.style.top = '-' + scrollY + 'px';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
+    scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add('doc-lightbox-lock');
+    document.body.classList.add('body-lock', 'doc-lightbox-lock');
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
   }
 
   function unlockScroll() {
-    document.body.classList.remove('body-lock');
-    document.body.style.top = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
+    document.documentElement.classList.remove('doc-lightbox-lock');
+    document.body.classList.remove('body-lock', 'doc-lightbox-lock');
+    document.removeEventListener('touchmove', onTouchMove);
     window.scrollTo(0, scrollY);
+  }
+
+  function focusEl(el) {
+    if (!el || typeof el.focus !== 'function') return;
+    try {
+      el.focus({ preventScroll: true });
+    } catch (err) {
+      el.focus();
+      window.scrollTo(0, scrollY);
+    }
   }
 
   function open(src, alt) {
@@ -66,18 +85,19 @@
     imgEl.src = src;
     imgEl.alt = alt || '';
     overlay.removeAttribute('hidden');
+    isOpen = true;
     lockScroll();
-    closeBtn.focus();
+    focusEl(closeBtn);
   }
 
   function close() {
-    if (!overlay || overlay.hasAttribute('hidden')) return;
+    if (!isOpen || !overlay || overlay.hasAttribute('hidden')) return;
+    isOpen = false;
     overlay.setAttribute('hidden', '');
     imgEl.removeAttribute('src');
     unlockScroll();
-    if (lastFocus && typeof lastFocus.focus === 'function') {
-      lastFocus.focus();
-    }
+    focusEl(lastFocus);
+    window.scrollTo(0, scrollY);
   }
 
   triggers.forEach(function (link) {

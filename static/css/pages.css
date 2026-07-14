@@ -1142,7 +1142,30 @@
 .dark.about .about-dark-text .accBtn { margin-top: 8px; }
 .about-passport-title { color: var(--color-white); margin-bottom: 12px; }
 .about-passport-descr { color: rgba(255,255,255,.8); font-size: 16px; line-height: 1.7; margin-bottom: 20px; }
-.about-passport-img { border-radius: var(--radius-md); box-shadow: 0 8px 32px rgba(0,0,0,.4); max-width: 100%; }
+.about-passport-zoom {
+  display: block;
+  cursor: zoom-in;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.about-passport-zoom:hover,
+.about-passport-zoom:focus-visible {
+  outline: none;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.5);
+}
+.about-passport-zoom:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45), 0 10px 36px rgba(0, 0, 0, 0.5);
+}
+.about-passport-img {
+  display: block;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
 .bulletRow { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .bullet {
   background: rgba(255,255,255,.1);
@@ -1492,6 +1515,12 @@
 }
 .doc-lightbox[hidden] {
   display: none;
+}
+html.doc-lightbox-lock,
+html.doc-lightbox-lock body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 .doc-lightbox__figure {
   display: flex;
