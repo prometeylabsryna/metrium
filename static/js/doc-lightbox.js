@@ -147,9 +147,29 @@
     var item = gallery[currentIndex];
     var src = item.getAttribute('href');
     var img = item.querySelector('img');
+    imgEl.onload = function () {
+      fitMobileImage();
+    };
     imgEl.src = src;
     imgEl.alt = img ? (img.getAttribute('alt') || '') : '';
+    if (imgEl.complete && imgEl.naturalWidth) fitMobileImage();
     updateNav();
+  }
+
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  function fitMobileImage() {
+    if (!overlay || !imgEl) return;
+    if (!isMobileViewport() || !imgEl.naturalWidth || !imgEl.naturalHeight) {
+      overlay.classList.remove('doc-lightbox--cover');
+      return;
+    }
+    var viewRatio = overlay.clientWidth / Math.max(overlay.clientHeight, 1);
+    var imgRatio = imgEl.naturalWidth / imgEl.naturalHeight;
+    // Широкі (landscape) кадри на портреті — як звичайні фото: cover на весь екран
+    overlay.classList.toggle('doc-lightbox--cover', imgRatio > viewRatio);
   }
 
   function showRelative(delta) {
@@ -183,6 +203,7 @@
     imgEl.removeAttribute('src');
     gallery = [];
     currentIndex = 0;
+    if (overlay) overlay.classList.remove('doc-lightbox--cover');
     updateNav();
     unlockScroll();
     focusEl(lastFocus);
@@ -214,4 +235,8 @@
       showRelative(1);
     }
   });
+
+  window.addEventListener('resize', function () {
+    if (isOpen) fitMobileImage();
+  }, { passive: true });
 })();
