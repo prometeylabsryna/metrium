@@ -1,6 +1,40 @@
-<section class="section faq-block" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+{% load i18n_tags %}
+{% with faq_items=block.get_faq_items body_html=block.get_body_html %}
+<section class="faq reveal-up cms-faq" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% else %}id="faq-{{ block.pk }}"{% endif %}>
   <div class="container-max">
-    {% if block.heading %}<h2>{{ block.heading|safe }}</h2>{% endif %}
-    <div class="faq-content">{{ block.body|safe }}</div>
+    <div class="row">
+      <div class="col-md-4">
+        <h2>
+          {% if block.heading %}
+            {{ block.heading|safe }}
+          {% else %}
+            {% t 'Поширені запитання' 'Частые вопросы' %}
+          {% endif %}
+        </h2>
+      </div>
+      <div class="col-md-7">
+        {% if faq_items %}
+        <div class="accordion section-com js-accordion" id="cms-faq-{{ block.pk }}">
+          {% for item in faq_items %}
+          <div class="custom-acc">
+            <button class="card-header" type="button"
+                    aria-expanded="false"
+                    aria-controls="cms-faq-{{ block.pk }}-{{ forloop.counter }}"
+                    data-target="cms-faq-{{ block.pk }}-{{ forloop.counter }}">
+              <h3 class="card-title">{{ item.title }}</h3>
+              <span class="acc-arrow" aria-hidden="true"></span>
+            </button>
+            <div id="cms-faq-{{ block.pk }}-{{ forloop.counter }}" class="collapse" role="region">
+              <div class="card-body">{{ item.text }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% elif body_html %}
+        <div class="faq-content">{{ body_html|safe }}</div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </section>
+{% endwith %}

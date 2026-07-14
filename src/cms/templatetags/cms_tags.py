@@ -4,6 +4,7 @@ from django.templatetags.static import static
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 
+from src.cms.block_extra import block_has_structured_content
 from src.cms.services import get_home_services, get_home_stats, get_home_why_items, get_page_section, get_site_image, get_site_images
 
 register = template.Library()
@@ -48,6 +49,8 @@ def _block_is_renderable(block) -> bool:
         return True
     if body_len >= _MIN_BODY_CHARS:
         return True
+    if block_has_structured_content(block):
+        return True
     # Заголовок без тіла → «дірки» на city-сторінках після WP-імпорту
     if kind == "text":
         return False
@@ -63,7 +66,11 @@ def _block_is_renderable(block) -> bool:
 def _blocks_need_content_fallback(blocks) -> bool:
     for block in blocks:
         kind = getattr(block, "kind", "") or ""
-        if kind in _CONTENT_KINDS and _plain_text_len(getattr(block, "body", "") or "") >= _MIN_BODY_CHARS:
+        if kind not in _CONTENT_KINDS:
+            continue
+        if _plain_text_len(getattr(block, "body", "") or "") >= _MIN_BODY_CHARS:
+            return False
+        if block_has_structured_content(block):
             return False
     return True
 

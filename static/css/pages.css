@@ -1109,11 +1109,27 @@
 }
 .constructor-fallback .docs-col { margin-top: 12px; }
 .constructor-fallback__more { margin-top: 28px; margin-bottom: 0; }
+.cms-text-features__intro {
+  margin: 0 0 28px;
+  color: var(--color-muted);
+  line-height: 1.65;
+  max-width: 920px;
+}
+.cms-text-stats .about-dark-text {
+  margin-bottom: 28px;
+  max-width: 560px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.7;
+}
+.cms-faq { padding: 56px 0; }
+.cms-gallery-fallback { padding-top: 24px; }
 @media (max-width: 767px) {
   .constructor-fallback {
     padding: 40px 0 calc(40px + env(safe-area-inset-bottom, 0px));
   }
   .constructor-fallback__list { gap: 12px; }
+  .cms-faq { padding: 40px 0; }
+  .cms-text-features .whyItem { margin-bottom: 8px; }
 }
 
 /* ----- Bullets (about2 dark) ----- */

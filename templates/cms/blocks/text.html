@@ -1,6 +1,53 @@
+{% load static %}
+{% with feature_items=block.get_feature_items stat_items=block.get_stat_items body_html=block.get_body_html %}
+{% if feature_items %}
+<section class="whyItems reveal-up cms-text-features" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row">
+      {% if block.heading %}
+      <div class="col-12">
+        <h2>{{ block.heading|safe }}</h2>
+      </div>
+      {% endif %}
+      {% if body_html %}
+      <div class="col-12 content-block cms-text-features__intro">{{ body_html|safe }}</div>
+      {% endif %}
+      {% for item in feature_items %}
+      <div class="col-md-3 col-6">
+        <div class="whyItem">
+          <div class="icoBox">
+            <img src="{% static item.icon %}" alt="" width="40" height="40" loading="lazy">
+          </div>
+          {% if item.title %}<p>{{ item.title }}</p>{% endif %}
+          {% if item.text %}<span>{{ item.text }}</span>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% elif stat_items %}
+<section class="dark about reveal-up cms-text-stats" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        {% if block.heading %}<p class="accentTitle">{{ block.heading|safe }}</p>{% endif %}
+        {% if body_html %}<div class="about-dark-text cms-text-stats__body">{{ body_html|safe }}</div>{% endif %}
+        <div class="bulletRow">
+          {% for item in stat_items %}
+          <div class="bullet"><strong class="stat-num">{{ item.value }}</strong><br>{{ item.label }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
 <section class="section text-block" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
   <div class="container-max">
     {% if block.heading %}<h2>{{ block.heading|safe }}</h2>{% endif %}
-    {% if block.body %}<div class="content-block">{{ block.body|safe }}</div>{% endif %}
+    {% if body_html %}<div class="content-block">{{ body_html|safe }}</div>{% endif %}
   </div>
 </section>
+{% endif %}
+{% endwith %}

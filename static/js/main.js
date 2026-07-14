@@ -120,7 +120,7 @@
 
 /* ----- Accordion (FAQ, docs mobile tabs) ----- */
 (function initAccordion() {
-  var roots = document.querySelectorAll('#accordion, #docsAccordion, .mobSServiseTabs');
+  var roots = document.querySelectorAll('#accordion, #docsAccordion, .mobSServiseTabs, .js-accordion');
   roots.forEach(function (root) {
     root.querySelectorAll('.card-header[data-target]').forEach(function (btn) {
       btn.addEventListener('click', function () {

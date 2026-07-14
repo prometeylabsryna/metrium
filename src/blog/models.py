@@ -38,14 +38,9 @@ class BlogPost(models.Model):
 
     def get_body_html(self) -> str:
         """Виправляє артефакти імпорту WordPress (\\r\\n → rn) у HTML-контенті."""
-        body = self.body
-        body = body.replace("</br>", "")
-        body = body.replace("<br></br>", "<br />")
-        body = body.replace("rnrn", "<br /><br />")
-        body = re.sub(r"rn(?=[<\t])", "", body)
-        body = re.sub(r"rn(?=[А-ЯІЇЄҐA-Z])", "<br />", body)
-        body = re.sub(r"rn", " ", body)
-        return body.strip()
+        from src.cms.wp_text import sanitize_wp_newlines
+
+        return sanitize_wp_newlines(self.body or "")
 
     def get_display_excerpt(self, word_limit: int = 22) -> str:
         if self.excerpt.strip():

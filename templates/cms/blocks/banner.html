@@ -37,6 +37,8 @@
           {% endif %}
           {% if block.extra_data.form_subtitle %}
           <p>{{ block.extra_data.form_subtitle }}</p>
+          {% elif block.extra_data.subtitle_form %}
+          <p>{{ block.extra_data.subtitle_form }}</p>
           {% else %}
           <p>{% if current_language == 'ru' %}Оставьте номер — перезвоним в течение 5 минут{% else %}Залиште номер — передзвонимо протягом 5 хвилин{% endif %}</p>
           {% endif %}

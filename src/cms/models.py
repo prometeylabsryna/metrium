@@ -48,6 +48,26 @@ class PageBlock(models.Model):
     def __str__(self) -> str:
         return f"{self.kind} #{self.pk}"
 
+    def get_body_html(self) -> str:
+        from src.cms.wp_text import sanitize_wp_newlines
+
+        return sanitize_wp_newlines(self.body or "")
+
+    def get_feature_items(self) -> list[dict]:
+        from src.cms.block_extra import parse_feature_items
+
+        return parse_feature_items(self.extra_data)
+
+    def get_faq_items(self) -> list[dict]:
+        from src.cms.block_extra import parse_faq_items
+
+        return parse_faq_items(self.extra_data)
+
+    def get_stat_items(self) -> list[dict]:
+        from src.cms.block_extra import parse_stat_items
+
+        return parse_stat_items(self.extra_data)
+
 
 class PageSection(models.Model):
     PAGE_CHOICES = [

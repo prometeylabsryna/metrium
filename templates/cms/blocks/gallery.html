@@ -1,6 +1,22 @@
+{% load static cms_tags i18n_tags %}
 {% if block.heading or block.body %}
 <section class="cms-block cms-block--gallery">
   {% if block.heading %}<h2>{{ block.heading }}</h2>{% endif %}
-  {% if block.body %}<div class="cms-block__gallery">{{ block.body|safe }}</div>{% endif %}
+  {% if block.body %}<div class="cms-block__gallery">{{ block.get_body_html|safe }}</div>{% endif %}
+</section>
+{% else %}
+<section class="foto-section reveal-up cms-gallery-fallback" {% if block.css_anchor %}id="{{ block.css_anchor }}"{% endif %}>
+  <div class="container-max">
+    <div class="foto-section__header">
+      <h2>{% t 'Фото наших робіт' 'Фото наших работ' %}</h2>
+    </div>
+    <div class="foto-marquee" data-marquee-speed="45" data-marquee-speed-mobile="30">
+      <div class="foto-marquee__track">
+        <div class="foto-marquee__group">
+          {% gallery_images 'global' 'gallery.marquee.' %}
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 {% endif %}
