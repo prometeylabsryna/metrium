@@ -43,7 +43,7 @@ def get_messengers() -> dict[str, str]:
     settings_obj = get_site_settings()
     if not settings_obj:
         return {
-            "telegram": "https://t.me/metriumbti",
+            "telegram": "https://telegram.me/metriumbti",
             "viber": "viber://chat?number=%2B380673986200",
             "whatsapp": "https://wa.me/380673986200",
             "instagram": "https://www.instagram.com/pruvatnebti",

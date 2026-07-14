@@ -41,7 +41,7 @@ def organization_schema() -> dict:
         "sameAs": [
             "https://www.instagram.com/pruvatnebti/",
             "https://www.facebook.com/profile.php?id=61584165429803",
-            "https://t.me/metriumbti",
+            "https://telegram.me/metriumbti",
         ],
         "logo": f"{settings.SITE_URL}/wp-content/uploads/2024/08/bti_logo.webp",
         "image": f"{settings.SITE_URL}/wp-content/uploads/2024/08/bti_logo.webp",

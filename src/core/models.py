@@ -36,7 +36,7 @@ class SiteSettings(models.Model):
         default="г. Киев и Киевская область",
     )
 
-    telegram = models.URLField("Telegram", default="https://t.me/metriumbti", blank=True)
+    telegram = models.URLField("Telegram", default="https://telegram.me/metriumbti", blank=True)
     viber = models.CharField("Viber", max_length=300, default="viber://chat?number=%2B380673986200", blank=True)
     whatsapp = models.URLField("WhatsApp", default="https://wa.me/380673986200", blank=True)
     instagram = models.URLField("Instagram", default="https://www.instagram.com/pruvatnebti", blank=True)

@@ -1123,13 +1123,149 @@
 }
 .cms-faq { padding: 56px 0; }
 .cms-gallery-fallback { padding-top: 24px; }
+
+/* ── whyItems / whyItem (home + CMS features) ──── */
+.whyItems {
+  padding: 72px 0 48px;
+}
+.whyItems > .container-max > .row {
+  align-items: stretch;
+}
+.whyItems h2 {
+  margin-bottom: 36px;
+}
+.whyItem {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0 0 24px;
+  padding: 28px 22px;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.whyItem .icoBox {
+  width: 66px;
+  height: 66px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  transition: background-color var(--transition);
+}
+.whyItem .icoBox img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.whyItem .icoBox:hover {
+  background: #1d3c3a;
+}
+.whyItem p {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-dark);
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.whyItem span {
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.whyItem_light {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 24px;
+}
+.whyItem_light .icoBox {
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #474747;
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  transition: background-color var(--transition);
+}
+.whyItem_light .icoBox img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.whyItem_light .icoBox:hover {
+  background: var(--color-primary);
+}
+.whyItem_light p {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--color-dark);
+}
+
+@media (max-width: 991.98px) {
+  .whyItems { padding: 56px 0 40px; }
+  .whyItems h2 { margin-bottom: 28px; text-align: center; }
+  .whyItem,
+  .whyItem_light {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .whyItem .icoBox,
+  .whyItem_light .icoBox {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @media (max-width: 767px) {
   .constructor-fallback {
     padding: 40px 0 calc(40px + env(safe-area-inset-bottom, 0px));
   }
   .constructor-fallback__list { gap: 12px; }
   .cms-faq { padding: 40px 0; }
-  .cms-text-features .whyItem { margin-bottom: 8px; }
+  .whyItems {
+    padding: 40px 0 calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+  .whyItem {
+    padding: 22px 18px;
+    margin-bottom: 16px;
+  }
+  .whyItem .icoBox,
+  .whyItem_light .icoBox {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+  }
+  .whyItem .icoBox img,
+  .whyItem_light .icoBox img {
+    width: 28px;
+    height: 28px;
+  }
+  .whyItem p,
+  .whyItem_light p {
+    font-size: 16px;
+  }
+  .whyItem span {
+    font-size: 13px;
+    line-height: 1.5;
+  }
 }
 
 /* ----- Bullets (about2 dark) ----- */
