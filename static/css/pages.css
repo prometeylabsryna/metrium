@@ -1715,6 +1715,40 @@ html.doc-lightbox-lock body {
   background: rgba(255, 255, 255, 0.28);
   outline: none;
 }
+.doc-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--transition);
+}
+.doc-lightbox__nav:hover,
+.doc-lightbox__nav:focus-visible {
+  background: rgba(255, 255, 255, 0.28);
+  outline: none;
+}
+.doc-lightbox__nav--prev {
+  left: max(12px, env(safe-area-inset-left, 0px));
+}
+.doc-lightbox__nav--next {
+  right: max(12px, env(safe-area-inset-right, 0px));
+}
+.doc-lightbox__nav[hidden] {
+  display: none;
+}
 .doc-example-caption {
   flex: 1;
   display: flex;
@@ -1814,6 +1848,15 @@ html.doc-lightbox-lock body {
   .doc-lightbox__close {
     width: 48px;
     height: 48px;
+  }
+  .doc-lightbox__nav {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    font-size: 18px;
+  }
+  .doc-lightbox--gallery .doc-lightbox__figure {
+    max-width: min(960px, calc(100% - 104px));
   }
 }
 

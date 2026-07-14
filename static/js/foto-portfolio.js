@@ -16,6 +16,7 @@
   var total = items.length;
   var startX = 0;
   var isDragging = false;
+  var suppressClick = false;
   var autoTimer = null;
 
   function getVisible() {
@@ -128,10 +129,18 @@
     var diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) {
       goTo(diff > 0 ? current + 1 : current - 1);
+      suppressClick = true;
     }
     isDragging = false;
     startAutoplay();
   }, { passive: true });
+
+  track.addEventListener('click', function (e) {
+    if (!suppressClick) return;
+    e.preventDefault();
+    e.stopPropagation();
+    suppressClick = false;
+  }, true);
 
   slider.addEventListener('mouseenter', stopAutoplay);
   slider.addEventListener('mouseleave', startAutoplay);

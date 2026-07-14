@@ -64,11 +64,25 @@
   background: #e8e8e8;
 }
 
+.foto-portfolio-item__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.foto-portfolio-item__link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
 .foto-portfolio-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 .foto-portfolio-dots {

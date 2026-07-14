@@ -1,5 +1,7 @@
 {% for image in images %}
 <div class="foto-portfolio-item">
-  <img src="{{ image.url }}" alt="{{ image.alt }}" loading="lazy" class="img-responsive">
+  <a href="{{ image.url }}" class="foto-portfolio-item__link" data-doc-lightbox data-lightbox-group="gallery-portfolio" aria-label="{% if language == 'ru' %}Увеличить фото{% else %}Збільшити фото{% endif %}">
+    <img src="{{ image.url }}" alt="{{ image.alt }}" loading="lazy" class="img-responsive">
+  </a>
 </div>
 {% endfor %}

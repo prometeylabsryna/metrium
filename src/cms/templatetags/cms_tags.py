@@ -258,7 +258,7 @@ def gallery_images(context, page_slug, key_prefix):
                     "alt": "Фото роботи БТІ Метріум" if language != "ru" else "Фото работы БТИ Метриум",
                 }
             )
-    return {"images": items}
+    return {"images": items, "language": language}
 
 
 def _gallery_items(page_slug: str, key_prefix: str, language: str) -> list[dict]:
@@ -295,4 +295,4 @@ def gallery_portfolio(context, page_slug, key_prefix):
                     "alt": alt_ru if language == "ru" else alt_ua,
                 }
             )
-    return {"images": items}
+    return {"images": items, "language": language}
