@@ -174,7 +174,7 @@ DOC_EXAMPLE_IMAGES: dict[str, tuple[str, str, str]] = {
         "Образец технического паспорта на дом",
     ),
     "tehnichnyj-pasport-na-budivlyu": (
-        "images/kata/pasport-budynok-zrazok.webp",
+        "images/kata/pasport-budivlya-zrazok.webp",
         "Зразок технічного паспорта на будівлю",
         "Образец технического паспорта на здание",
     ),
