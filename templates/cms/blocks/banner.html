@@ -46,7 +46,7 @@
                  placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}"
                  autocomplete="tel" required>
           <div class="field-error banerForm__error">{% if current_language == 'ru' %}Введите корректный номер телефона{% else %}Введіть коректний номер телефону{% endif %}</div>
-          <input type="hidden" name="loc" value="{{ page.title }}">
+          <input type="hidden" name="loc" value="{{ page.title }} | {{ request.path }}">
           <button type="submit" class="accBtn btn-submit">
             <span class="btn-text">{% if block.button_text %}{{ block.button_text }}{% elif current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}</span>
             <span class="btn-loader" aria-hidden="true"></span>

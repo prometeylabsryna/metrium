@@ -276,15 +276,50 @@ function getCsrf() {
   const meta = document.querySelector('meta[name="csrf-token"]');
   if (meta) return meta.getAttribute('content');
   const cookie = document.cookie.split(';').find(function (c) { return c.trim().startsWith('csrftoken='); });
-  return cookie ? cookie.split('=')[1] : '';
+  if (!cookie) return '';
+  try {
+    return decodeURIComponent(cookie.split('=').slice(1).join('=').trim());
+  } catch (err) {
+    return cookie.split('=')[1] || '';
+  }
+}
+
+function clearFieldErrors(form) {
+  form.querySelectorAll('.form-field-wrap.has-error').forEach(function (el) {
+    el.classList.remove('has-error');
+  });
+  form.querySelectorAll('.banerForm__error.visible, .field-error.visible').forEach(function (el) {
+    el.classList.remove('visible');
+  });
+}
+
+function markFieldError(input) {
+  if (!input) return;
+  const wrap = input.closest('.form-field-wrap');
+  if (wrap) wrap.classList.add('has-error');
+  const errEl = wrap
+    ? wrap.querySelector('.field-error')
+    : input.form && input.form.querySelector('.banerForm__error, .field-error');
+  if (errEl) errEl.classList.add('visible');
+  input.focus();
 }
 
 function handleFormSubmit(form, callback) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    clearFieldErrors(form);
+
+    const nameInput = form.querySelector('input[name="name"]');
     const input   = form.querySelector('[type="tel"]');
     const wrap    = input ? input.closest('.form-field-wrap') : null;
-    const errEl   = form.querySelector('.banerForm__error, .field-error');
+    const errEl   = wrap
+      ? wrap.querySelector('.field-error')
+      : form.querySelector('.banerForm__error, .field-error');
+
+    if (nameInput && nameInput.hasAttribute('required') && !(nameInput.value || '').trim()) {
+      markFieldError(nameInput);
+      return;
+    }
 
     if (input && !validatePhone(input.value)) {
       if (wrap)  wrap.classList.add('has-error');
@@ -292,8 +327,6 @@ function handleFormSubmit(form, callback) {
       input.focus();
       return;
     }
-    if (wrap)  wrap.classList.remove('has-error');
-    if (errEl) errEl.classList.remove('visible');
 
     const btn = form.querySelector('.btn-submit');
     if (btn) btn.classList.add('loading');
@@ -302,41 +335,52 @@ function handleFormSubmit(form, callback) {
     const channel = form.dataset.channel || '';
     const data    = new FormData(form);
     if (channel && !data.get('channel')) data.append('channel', channel);
-    if (!data.get('loc')) data.append('loc', document.title);
+    if (!data.get('loc')) {
+      data.append('loc', (document.title || '') + ' | ' + window.location.pathname);
+    }
 
     fetch(action, {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'X-CSRFToken': getCsrf() },
       body: data,
     })
-      .then(function (res) { return res.json(); })
-      .then(function (json) {
+      .then(function (res) {
+        return res.json().then(function (json) {
+          return { okHttp: res.ok, json: json };
+        });
+      })
+      .then(function (result) {
         if (btn) btn.classList.remove('loading');
-        if (json.ok) {
+        if (result.okHttp && result.json && result.json.ok) {
           form.reset();
           showToast();
           if (typeof callback === 'function') callback();
-        } else {
-          if (wrap)  wrap.classList.add('has-error');
-          if (errEl) errEl.classList.add('visible');
+          return;
         }
+        const errors = result.json && result.json.errors;
+        if (errors && errors.name && nameInput) {
+          markFieldError(nameInput);
+          return;
+        }
+        if (wrap)  wrap.classList.add('has-error');
+        if (errEl) errEl.classList.add('visible');
       })
       .catch(function () {
         if (btn) btn.classList.remove('loading');
-        showToast();
-        if (typeof callback === 'function') callback();
+        if (wrap)  wrap.classList.add('has-error');
+        if (errEl) errEl.classList.add('visible');
       });
   });
 
-  const phoneInput = form.querySelector('[type="tel"]');
-  if (phoneInput) {
-    phoneInput.addEventListener('input', function () {
-      const wrap  = this.closest('.form-field-wrap');
-      const errEl = form.querySelector('.banerForm__error, .field-error');
-      if (wrap)  wrap.classList.remove('has-error');
-      if (errEl) errEl.classList.remove('visible');
+  form.querySelectorAll('input[name="name"], [type="tel"]').forEach(function (field) {
+    field.addEventListener('input', function () {
+      const fieldWrap = this.closest('.form-field-wrap');
+      if (fieldWrap) fieldWrap.classList.remove('has-error');
+      const localErr = fieldWrap && fieldWrap.querySelector('.field-error');
+      if (localErr) localErr.classList.remove('visible');
     });
-  }
+  });
 }
 
 /* ----- Init forms ----- */

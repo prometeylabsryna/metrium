@@ -10,8 +10,9 @@ SECURE_HSTS_SECONDS = 31_536_000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = "Strict"
-CSRF_COOKIE_SAMESITE = "Strict"
+# Lax: cookie CSRF працює після переходу з Google (Strict ламає перший POST).
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default="https://metrium.com.ua",

@@ -84,44 +84,11 @@
   </div>
 </section>
 
-<section class="calcBlock reveal-up" id="calcSection">
-  <div class="container-max">
-    <span class="section-label text-center d-block">{% t 'Онлайн-калькулятор' 'Онлайн-калькулятор' %}</span>
-    <h2>{% t 'Вартість техпаспорта на гараж' 'Стоимость техпаспорта на гараж' %}</h2>
-    <div class="calc-tabs">
-      <a href="#" class="calcTabBtn active" data-cat="kvartira">{% t 'Гараж / машиномісце' 'Гараж / машиноместо' %}</a>
-    </div>
-    <form id="calc1" class="calc-form" novalidate>
-      <div>
-        <p>{% t 'Площа кв. м.' 'Площадь кв. м.' %}</p>
-        <input type="number" id="squareVal" placeholder="{% t 'Введіть площу' 'Введите площадь' %}" min="1">
-      </div>
-      <div><p>{% t 'Район/місто' 'Район/город' %}</p><select name="region" id="regionsselect"></select></div>
-      <div>
-        <p>{% t 'Громада' 'Громада' %}</p>
-        <select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select>
-      </div>
-    </form>
-    <div class="notation"></div>
-    <div class="calc-actions">
-      <button class="doCalc">{% t 'Розрахувати' 'Рассчитать' %}</button>
-      <button class="callFormCalc hideFormBtn">{% t 'Замовити' 'Заказать' %}</button>
-    </div>
-    <div class="form-result">{% t 'Вартість становить:' 'Стоимость составляет:' %} <span id="cost">0</span> грн</div>
-    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
-      {% csrf_token %}
-      <input type="text" name="name" placeholder="{% t 'Ваше ім’я' 'Ваше имя' %}">
-      <input type="tel" name="tel" placeholder="{% t 'Ваш телефон' 'Ваш телефон' %}" required>
-      <input type="hidden" name="price">
-      <input type="hidden" name="type" value="Гараж">
-      <input type="hidden" name="square">
-      <input type="hidden" name="region" value="Київ">
-      <input type="hidden" name="cityInput">
-      <input type="hidden" name="plan" value="без змін">
-      <button type="submit">{% t 'Відправити заявку' 'Отправить заявку' %}</button>
-    </form>
-  </div>
-</section>
+{% if current_language == 'ru' %}
+{% include "partials/calculator_block.html" with calc_variant="garage" calc_title="Стоимость техпаспорта на гараж" %}
+{% else %}
+{% include "partials/calculator_block.html" with calc_variant="garage" calc_title="Вартість техпаспорта на гараж" %}
+{% endif %}
 
 {% block calculator_section %}{% endblock %}
 {% endblock %}

@@ -163,40 +163,7 @@
   </div>
 </section>
 
-<section class="calcBlock reveal-up" id="calcSection">
-  <div class="container-max">
-    <span class="section-label text-center d-block">{% if current_language == 'ru' %}Онлайн-калькулятор{% else %}Онлайн-калькулятор{% endif %}</span>
-    <h2>{% if current_language == 'ru' %}Расчёт стоимости услуги в {{ city_name }}{% else %}Розрахунок вартості послуги в {{ city_name }}{% endif %}</h2>
-    <div class="calc-tabs">
-      <a href="#" class="calcTabBtn active" data-cat="kvartira">{% if current_language == 'ru' %}Квартира{% else %}Квартира{% endif %}</a>
-      <a href="#" class="calcTabBtn" data-cat="budynky">{% if current_language == 'ru' %}Дом{% else %}Будинок{% endif %}</a>
-      <a href="#" class="calcTabBtn" data-cat="komerc">{% if current_language == 'ru' %}Нежилое{% else %}Нежитлові{% endif %}</a>
-    </div>
-    <form id="calc1" class="calc-form" novalidate>
-      <div><p>{% if current_language == 'ru' %}Площадь кв. м.{% else %}Площа кв. м.{% endif %}</p><input type="number" id="squareVal" placeholder="{% if current_language == 'ru' %}Введите площадь{% else %}Введіть площу{% endif %}" min="1"></div>
-      <div><p>{% if current_language == 'ru' %}Район/город{% else %}Район/місто{% endif %}</p><select name="region" id="regionsselect"></select></div>
-      <div><p>{% t 'Громада' 'Громада' %}</p><select name="city" id="cityselect"><option value="">{% t 'Вибрати' 'Выбрать' %}</option></select></div>
-    </form>
-    <div class="notation"></div>
-    <div class="calc-actions">
-      <button class="doCalc">{% if current_language == 'ru' %}Рассчитать{% else %}Розрахувати{% endif %}</button>
-      <button class="callFormCalc hideFormBtn">{% if current_language == 'ru' %}Заказать{% else %}Замовити{% endif %}</button>
-    </div>
-    <div class="form-result">{% if current_language == 'ru' %}Стоимость составляет:{% else %}Вартість становить:{% endif %} <span id="cost">0</span> {% if current_language == 'ru' %}грн{% else %}грн{% endif %}</div>
-    <form id="calc-form-data" novalidate data-action="{% url 'leads-calculator' %}">
-      {% csrf_token %}
-      <input type="text" name="name" placeholder="{% if current_language == 'ru' %}Ваше имя{% else %}Ваше ім'я{% endif %}">
-      <input type="tel" name="tel" placeholder="{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}" required>
-      <input type="hidden" name="price">
-      <input type="hidden" name="type" value="Квартира">
-      <input type="hidden" name="square">
-      <input type="hidden" name="region" value="Київ">
-      <input type="hidden" name="cityInput">
-      <input type="hidden" name="plan" value="без змін">
-      <button type="submit">{% if current_language == 'ru' %}Отправить заявку{% else %}Відправити заявку{% endif %}</button>
-    </form>
-  </div>
-</section>
+{% include "partials/calculator_block.html" with calc_city_name=city_name %}
 
 <section class="dark garanty reveal-up">
   <div class="container-max">
@@ -226,5 +193,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/calculator.js' %}?v=20260714" defer></script>
+<script src="{% static 'js/calculator.js' %}?v=20260715c" defer></script>
 {% endblock %}

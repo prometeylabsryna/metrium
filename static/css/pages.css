@@ -666,7 +666,13 @@
   overflow: hidden;
   transition: max-height .35s ease;
 }
-#calc-form-data.active { max-height: 300px; }
+#calc-form-data.active { max-height: 420px; }
+#calc-form-data .form-field-wrap {
+  margin-bottom: 12px;
+}
+#calc-form-data .form-field-wrap input {
+  margin-bottom: 0;
+}
 #calc-form-data input {
   width: 100%; padding: 12px 16px;
   background: var(--color-input-bg);

@@ -62,9 +62,15 @@ const REGION_NAMES = [
   "Обухівський район","Фастівський район"
 ];
 
+const TYPE_MAP = {
+  kvartira: 'Квартира',
+  budynky: 'Будинок',
+  komerc: 'Нежитлове приміщення'
+};
+
 (function initCalculator() {
   const calcSection = document.getElementById('calcSection')
-    || document.querySelector('section.calcBlock');
+    || document.querySelector('.calcBlock');
   if (!calcSection) return;
 
   const regionSel  = calcSection.querySelector('#regionsselect');
@@ -83,7 +89,22 @@ const REGION_NAMES = [
   const hiddenRegion = calcSection.querySelector('input[name=region]');
   const hiddenCity   = calcSection.querySelector('input[name=cityInput]');
 
-  let x = 0, y = 0, calcType = 'kvartira';
+  if (!regionSel || !squareInp) return;
+
+  function resolveTypeLabel(btn) {
+    if (!btn) return TYPE_MAP.kvartira;
+    if (btn.dataset.typeLabel) return btn.dataset.typeLabel;
+    return TYPE_MAP[btn.dataset.cat] || TYPE_MAP.kvartira;
+  }
+
+  function getActiveTab() {
+    return calcSection.querySelector('.calcTabBtn.active') || calcTabs[0] || null;
+  }
+
+  const activeTab = getActiveTab();
+  let calcType = (activeTab && activeTab.dataset.cat) || 'kvartira';
+
+  if (hiddenType) hiddenType.value = resolveTypeLabel(activeTab);
 
   function buildRegions() {
     regionSel.innerHTML = '';
@@ -93,6 +114,7 @@ const REGION_NAMES = [
       regionSel.appendChild(opt);
     });
     buildCities('Вибрати');
+    syncLocationFields();
   }
 
   function buildCities(region) {
@@ -106,80 +128,108 @@ const REGION_NAMES = [
     });
   }
 
-  function getRate(city) {
-    const found = REGIONS_DATA.find(function(d) { return d.city === city; });
-    return found ? found.rate : 0;
-  }
-  function getRateByRegion(region) {
-    const found = REGIONS_DATA.find(function(d) { return d.region === region; });
-    return found ? found.rate : 0;
+  function isKyivCity() {
+    return regionSel.value === 'Київ';
   }
 
-  function calcBase(sq) {
+  function calcKomercLarge(sq) {
+    if (sq <= 699) return sq * 20;
+    if (sq <= 999) return sq * 18;
+    if (sq <= 1999) return sq * 12;
+    return sq * 10;
+  }
+
+  function calcPrice(sq) {
     if (calcType === 'kvartira') {
-      if (sq < 80)  return 2500;
-      if (sq < 160) return Math.max(2500, sq * 25);
-      return 4500;
+      // Київ: 40 грн/м², мін. 2500 | область: 50 грн/м², мін. 3000
+      if (isKyivCity()) return Math.max(2500, sq * 40);
+      return Math.max(3000, sq * 50);
     }
+
     if (calcType === 'budynky') {
+      // до 250 м² — попередня логіка; від 251 — площа × 25
       if (sq < 180) return 5500;
       if (sq < 250) return Math.max(5500, sq * 30);
-      return 7500;
+      if (sq <= 250) return 7500;
+      return sq * 25;
     }
+
     if (calcType === 'komerc') {
-      if (sq < 100)  return 2500;
-      if (sq < 300)  return Math.max(2500, sq * 25);
-      if (sq < 626)  return 7500;
-      return sq * 12;
+      // до 300 м² включно — попередня логіка; від 301 — нова сітка
+      if (sq < 100) return 2500;
+      if (sq < 300) return Math.max(2500, sq * 25);
+      if (sq < 301) return 7500;
+      return calcKomercLarge(sq);
     }
+
     return 0;
   }
 
-  function getRegionalSurcharge() {
-    return calcType === 'budynky' ? 0 : y;
+  function readSquare() {
+    const raw = String(squareInp.value || '').trim();
+    if (!raw) return null;
+    const sq = parseFloat(raw.replace(',', '.'));
+    if (!isFinite(sq) || sq < 1) return null;
+    return sq;
+  }
+
+  function syncLocationFields() {
+    const region = regionSel.value || '';
+    const city = citySel ? (citySel.value || '') : '';
+    const regionOk = region && region !== 'Вибрати';
+    const cityOk = city && city !== 'Вибрати';
+
+    if (hiddenRegion) hiddenRegion.value = regionOk ? region : '';
+    if (hiddenCity) hiddenCity.value = cityOk ? city : '';
+  }
+
+  function syncLeadFields(sq, total) {
+    syncLocationFields();
+    if (hiddenSquare) hiddenSquare.value = sq;
+    if (hiddenPrice) hiddenPrice.value = total;
+    if (hiddenType) hiddenType.value = resolveTypeLabel(getActiveTab());
   }
 
   function reset() {
-    x = 0; y = 0;
     squareInp.value = '';
     if (resultBox)  resultBox.classList.remove('visible');
     if (orderBtn)   orderBtn.classList.add('hideFormBtn');
     if (calcForm)   calcForm.classList.remove('active');
     if (notation)   notation.innerHTML = '';
+    if (hiddenSquare) hiddenSquare.value = '';
+    if (hiddenPrice)  hiddenPrice.value = '';
     buildRegions();
   }
 
   buildRegions();
 
   regionSel.addEventListener('change', function() {
-    if (hiddenRegion) hiddenRegion.value = this.value;
     buildCities(this.value);
-    y = getRateByRegion(this.value);
+    syncLocationFields();
   });
 
   citySel && citySel.addEventListener('change', function() {
-    if (hiddenCity) hiddenCity.value = this.value;
-    y = getRate(this.value);
+    syncLocationFields();
   });
 
   squareInp.addEventListener('input', function() {
-    const sq = parseFloat(this.value) || 0;
-    x = calcBase(sq);
-    if (hiddenSquare) hiddenSquare.value = sq;
+    if (notation) notation.innerHTML = '';
   });
 
   doCalcBtn && doCalcBtn.addEventListener('click', function(e) {
     e.preventDefault();
-    if (x < 1) {
+    const sq = readSquare();
+    if (sq === null) {
       if (notation) notation.innerHTML = '<p class="notion-p">Введіть площу об\'єкта</p>';
       squareInp.focus();
       return;
     }
-    const total = x + getRegionalSurcharge();
+    syncLocationFields();
+    const total = Math.round(calcPrice(sq));
+    syncLeadFields(sq, total);
     if (costOut) costOut.textContent = total.toLocaleString('uk-UA');
-    if (hiddenPrice) hiddenPrice.value = total;
-    if (resultBox)   resultBox.classList.add('visible');
-    if (orderBtn)    orderBtn.classList.remove('hideFormBtn');
+    if (resultBox) resultBox.classList.add('visible');
+    if (orderBtn)  orderBtn.classList.remove('hideFormBtn');
   });
 
   orderBtn && orderBtn.addEventListener('click', function(e) {
@@ -192,9 +242,8 @@ const REGION_NAMES = [
       e.preventDefault();
       calcTabs.forEach(function(b) { b.classList.remove('active'); });
       this.classList.add('active');
-      calcType = this.dataset.cat;
-      const typeMap = { kvartira:'Квартира', budynky:'Будинок', komerc:'Нежитлове приміщення' };
-      if (hiddenType) hiddenType.value = typeMap[calcType] || '';
+      calcType = this.dataset.cat || 'kvartira';
+      if (hiddenType) hiddenType.value = resolveTypeLabel(this);
       reset();
     });
   });
