@@ -206,6 +206,6 @@ DOC_EXAMPLE_IMAGES: dict[str, tuple[str, str, str]] = {
     "vytiah-dzk": (
         "images/kata/vytiah-zrazok.webp",
         "Зразок витягу з ДЗК",
-        "Образец выписки из ГЗК",
+        "Образец выписки из ДЗК",
     ),
 }
