@@ -317,6 +317,13 @@
   line-height: 1.4;
   color: var(--color-dark);
 }
+.item_bullet_2 .item_bullet_2_right div {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin-top: 8px;
+}
 @media (max-width: 767px) {
   .item_bullet_2 {
     flex-direction: column;
