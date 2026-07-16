@@ -231,7 +231,8 @@
   border-radius: var(--radius-md);
   padding: 24px;
 }
-.docs-col h5 {
+.docs-col h5,
+.docs-col-label {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -239,6 +240,7 @@
   color: var(--color-primary);
   margin-bottom: 12px;
 }
+.docs-col-label { margin-top: 0; }
 .docs-col ol {
   padding-left: 18px;
   margin: 0;
@@ -253,11 +255,13 @@
 .mobSServiseTabs .card-body {
   padding: 0 16px 20px;
 }
-.mobSServiseTabs .card-body h5 {
+.mobSServiseTabs .card-body h5,
+.mobSServiseTabs .card-body .docs-col-label {
   font-size: 13px;
   margin: 16px 0 8px;
 }
-.mobSServiseTabs .card-body h5:first-child {
+.mobSServiseTabs .card-body h5:first-child,
+.mobSServiseTabs .card-body .docs-col-label:first-child {
   margin-top: 0;
 }
 .mobSServiseTabs .card-body ol {
@@ -1664,6 +1668,10 @@
 .doc-example-section {
   padding: 64px 0;
   background: var(--color-bg);
+}
+.doc-example-subtext {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
 }
 .doc-example-wrap {
   margin-top: 32px;
