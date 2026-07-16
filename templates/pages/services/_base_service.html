@@ -48,32 +48,6 @@
 {% block calculator_section %}
 {% include "partials/calculator_block.html" %}
 {% endblock %}
-
-<section class="dark garanty reveal-up">
-  <div class="container-max">
-    <div class="row align-items-center">
-      <div class="col-md-8">
-        <h2>{% t 'Швидкий запис' 'Быстрая запись' %}</h2>
-        <p>{% t 'Надішліть заявку і наша команда спеціалістів зв\'яжеться з Вами протягом 5 хвилин.' 'Отправьте заявку и наша команда специалистов свяжется с Вами в течение 5 минут.' %}</p>
-        <form class="garanty-form" novalidate
-              data-action="{% url 'leads-phone' %}" data-channel="service-bottom">
-          {% csrf_token %}
-          <div class="form-field-wrap">
-            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
-            <label>{% t 'Ваш телефон' 'Ваш телефон' %}</label>
-            <div class="field-error">{% t 'Введіть коректний номер' 'Введите корректный номер' %}</div>
-          </div>
-          <button type="submit" class="accBtn btn-submit">
-            <span class="btn-text">{% t 'Відправити' 'Отправить' %}</span><span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
-      </div>
-      <div class="col-md-3 offset-md-1 d-none d-md-block text-center">
-        <img src="{% site_image_url 'global' 'garanty.badge' 'images/kata/100.webp' %}" class="img-responsive img-garant-badge" alt="{% site_image_alt 'global' 'garanty.badge' '100% гарантія' '100% гарантия' %}" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock %}
 
 {% block extra_js %}

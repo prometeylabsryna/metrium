@@ -164,32 +164,6 @@
 </section>
 
 {% include "partials/calculator_block.html" with calc_city_name=city_name %}
-
-<section class="dark garanty reveal-up">
-  <div class="container-max">
-    <div class="row align-items-center">
-      <div class="col-md-8">
-        <h2>{% if current_language == 'ru' %}Быстрая запись{% else %}Швидкий запис{% endif %}</h2>
-        <p>{% if current_language == 'ru' %}Отправьте заявку и наш специалист свяжется с вами в течение 5 минут.{% else %}Надішліть заявку і наш спеціаліст зв'яжеться з вами протягом 5 хвилин.{% endif %}</p>
-        <form class="garanty-form" novalidate
-              data-action="{% url 'leads-phone' %}" data-channel="region-bottom">
-          {% csrf_token %}
-          <div class="form-field-wrap">
-            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
-            <label>{% if current_language == 'ru' %}Ваш телефон{% else %}Ваш телефон{% endif %}</label>
-            <div class="field-error">{% if current_language == 'ru' %}Введите корректный номер{% else %}Введіть коректний номер{% endif %}</div>
-          </div>
-          <button type="submit" class="accBtn btn-submit">
-            <span class="btn-text">{% if current_language == 'ru' %}Отправить{% else %}Відправити{% endif %}</span><span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
-      </div>
-      <div class="col-md-3 offset-md-1 d-none d-md-block text-center">
-        <img src="{% kata_img page_slug '100.webp' %}" class="img-responsive img-garant-badge" alt="100% гарантія" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock %}
 
 {% block extra_js %}

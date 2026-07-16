@@ -152,25 +152,4 @@
   </div>
 </section>
 
-<section class="dark garanty reveal-up">
-  <div class="container-max">
-    <div class="row align-items-center">
-      <div class="col-md-8">
-        <h2>Швидкий запис</h2>
-        <p>Надішліть заявку і наша команда спеціалістів зв'яжеться з Вами протягом 5 хвилин.</p>
-        <form novalidate data-action="{% url 'leads-phone' %}" data-channel="neobhidni-bottom">
-          {% csrf_token %}
-          <div class="form-field-wrap form-field-wrap--spaced">
-            <input type="tel" placeholder=" " name="tel" autocomplete="tel" required>
-            <label>Ваш телефон</label>
-            <div class="field-error">Введіть коректний номер</div>
-          </div>
-          <button type="submit" class="accBtn btn-submit">
-            <span class="btn-text">Відправити</span><span class="btn-loader" aria-hidden="true"></span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
 {% endblock %}
