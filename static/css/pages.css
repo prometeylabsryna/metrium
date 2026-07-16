@@ -348,6 +348,20 @@
   padding: 24px;
   border: 1px solid var(--color-border);
 }
+.service-feature-item .serv-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--color-primary);
+  border-radius: 14px;
+}
+.service-feature-item .serv-icon img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(10);
+}
 .service-feature-item h3 {
   font-size: 16px;
   margin: 12px 0 8px;
