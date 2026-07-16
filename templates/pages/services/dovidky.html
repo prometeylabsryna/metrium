@@ -3,9 +3,7 @@
 {% load i18n_tags cms_tags %}
 
 
-{% block doc_example_section %}
-{% include "pages/services/_doc_example_section.html" with doc_img="images/kata/dovidka-zrazok.webp" doc_alt_ua="Зразок довідки БТІ" doc_alt_ru="Образец справки БТИ" doc_heading_ua="Довідка БТІ: як виглядає готовий документ" doc_heading_ru="Справка БТИ: как выглядит готовый документ" %}
-{% endblock %}
+{% block doc_example_section %}{% endblock %}
 
 {% block breadcrumb_title %}{% t "Довідка БТІ" "Справка БТИ" %}{% endblock %}
 {% block page_title %}{% t "Довідка БТІ" "Справка БТИ" %}{% endblock %}
@@ -254,6 +252,8 @@
     </div>
   </div>
 </section>
+
+{% include "pages/services/_doc_example_section.html" with doc_img="images/kata/dovidka-zrazok.webp" doc_alt_ua="Зразок довідки БТІ" doc_alt_ru="Образец справки БТИ" doc_heading_ua="Довідка БТІ: як виглядає готовий документ" doc_heading_ru="Справка БТИ: как выглядит готовый документ" %}
 
 <!-- FAQ -->
 <section class="faq reveal-up faq--spaced">
