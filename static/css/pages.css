@@ -5,7 +5,15 @@
 /* ── Service pages ──────────────────────────────────────────── */
 .service-banner { min-height: 460px; }
 
-.service-content { padding: 72px 0; }
+.service-content { padding: 56px 0; }
+
+/* Sections with no background of their own share the page's white
+   background — when two of them sit back to back the combined padding
+   reads as a huge empty gap. A thin divider gives a visual break
+   without touching any copy or layout width. */
+:is(.service-content, .docs-section, .why-order) + :is(.service-content, .docs-section, .why-order) {
+  border-top: 1px solid var(--color-border);
+}
 
 /* ── item_bullet_1 (why-order cards, block4.php) ──── */
 .item_bullet_1 {
@@ -37,11 +45,11 @@
   line-height: 22px;
   color: var(--color-muted);
 }
-.why-order { padding: 72px 0 48px; }
+.why-order { padding: 56px 0 40px; }
 .why-order h2 { margin-bottom: 36px; }
 
 /* ── pnevmo price table ────────────────────────────── */
-.pnevmo { padding: 72px 0 48px; background: var(--color-bg); }
+.pnevmo { padding: 56px 0 40px; background: var(--color-bg); }
 .pnevmo h2 { margin-bottom: 32px; }
 
 .tableContainer {
@@ -134,7 +142,7 @@
 }
 
 /* ── servBtn / servList tabs (cats.php) ────────────── */
-.docs-section { padding: 72px 0; }
+.docs-section { padding: 56px 0; }
 .docs-section h2 { margin-bottom: 32px; }
 
 .docs-section .servBtn {
@@ -228,8 +236,9 @@
   flex: 1 1 280px;
   min-width: 240px;
   background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 24px 28px;
 }
 .docs-col h5,
 .docs-col-label {
@@ -242,14 +251,19 @@
 }
 .docs-col-label { margin-top: 0; }
 .docs-col ol {
-  padding-left: 18px;
+  padding-left: 20px;
   margin: 0;
 }
 .docs-col ol li {
   font-size: 14px;
   line-height: 1.7;
   color: var(--color-text);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+}
+.docs-col ol li:last-child { margin-bottom: 0; }
+.docs-col ol li::marker {
+  color: var(--color-primary);
+  font-weight: 700;
 }
 .mobSServiseTabs { margin-top: 16px; }
 .mobSServiseTabs .card-body {
@@ -422,11 +436,11 @@
 }
 @media (max-width: 767px) {
   .service-features-grid { grid-template-columns: 1fr; }
-  .service-content { padding: 48px 0; }
+  .service-content { padding: 40px 0; }
   .service-banner { min-height: auto; }
-  .pnevmo { padding: 48px 0 32px; }
-  .why-order { padding: 48px 0 32px; }
-  .docs-section { padding: 48px 0; }
+  .pnevmo { padding: 40px 0 28px; }
+  .why-order { padding: 40px 0 28px; }
+  .docs-section { padding: 40px 0; }
   .tableHeader { grid-template-columns: 1fr; display: none; }
   .tableItem_row {
     grid-template-columns: 1fr 1fr;
