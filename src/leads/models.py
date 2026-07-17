@@ -12,7 +12,7 @@ class LeadSubmission(models.Model):
     phone = models.CharField(max_length=50, blank=True)
     page_title = models.CharField(max_length=500, blank=True)
     payload = models.JSONField(default=dict, blank=True)
-    channel = models.CharField(max_length=20, blank=True)
+    channel = models.CharField(max_length=40, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

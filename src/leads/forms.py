@@ -4,7 +4,7 @@ from django import forms
 class PhoneLeadForm(forms.Form):
     tel = forms.CharField(max_length=30)
     loc = forms.CharField(max_length=500, required=False)
-    channel = forms.CharField(max_length=20, required=False)
+    channel = forms.CharField(max_length=40, required=False)
 
 
 class CalculatorLeadForm(forms.Form):
