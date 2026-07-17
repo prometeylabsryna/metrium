@@ -106,6 +106,12 @@ class PageSection(models.Model):
     section_key = models.SlugField("Ключ секції", max_length=100)
     label = models.CharField("Назва в адмінці", max_length=200)
 
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.SET_NULL, null=True, blank=True, editable=False,
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    owner = GenericForeignKey("content_type", "object_id")
+
     text_ua = models.TextField("Текст (UA)", blank=True)
     text_ru = models.TextField("Текст (RU)", blank=True)
     body_ua = models.TextField("HTML / довгий текст (UA)", blank=True)
@@ -130,6 +136,7 @@ class PageSection(models.Model):
                 name="unique_page_section_key",
             )
         ]
+        indexes = [models.Index(fields=["content_type", "object_id"])]
 
     def __str__(self) -> str:
         return f"{self.get_page_slug_display()} · {self.label}"
@@ -204,6 +211,12 @@ class SiteImage(models.Model):
     image_key = models.SlugField("Ключ зображення", max_length=100)
     label = models.CharField("Назва в адмінці", max_length=200)
 
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.SET_NULL, null=True, blank=True, editable=False,
+    )
+    object_id = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    owner = GenericForeignKey("content_type", "object_id")
+
     image = models.ImageField("Зображення", upload_to="site-images/", blank=True)
     image_mobile = models.ImageField("Зображення (мобільне)", upload_to="site-images/", blank=True)
     image_alt_ua = models.CharField("Alt (UA)", max_length=255, blank=True)
@@ -234,6 +247,7 @@ class SiteImage(models.Model):
                 name="unique_site_image_key",
             )
         ]
+        indexes = [models.Index(fields=["content_type", "object_id"])]
 
     def __str__(self) -> str:
         return f"{self.get_page_slug_display()} · {self.label}"

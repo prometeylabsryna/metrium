@@ -8,6 +8,48 @@ SECTION_CACHE_TTL = 300
 IMAGE_CACHE_TTL = 300
 
 
+def resolve_page_anchor(slug: str):
+    """Детермінована «якірна» сторінка для slug — та, де редагуються тексти/зображення.
+
+    Якщо для slug існує кілька StaticPage (укр./рос. версії), якорем завжди
+    є українська версія — незалежно від того, яку зі сторінок відкрив редактор.
+    """
+    from src.i18n.models import Language
+    from src.pages.models import StaticPage
+
+    return (
+        StaticPage.objects.filter(slug=slug, language=Language.UA).first()
+        or StaticPage.objects.filter(slug=slug).order_by("language").first()
+    )
+
+
+def ensure_static_page_links(static_page) -> None:
+    """Прив'язує «безхазяйні» PageSection/SiteImage до їхньої якірної StaticPage.
+
+    Викликається лениво при відкритті сторінки в адмінці — самовідновлювальна
+    заміна ручного списку відповідностей slug → page_slug.
+    """
+    from django.contrib.contenttypes.models import ContentType
+
+    from src.pages.models import StaticPage
+
+    anchor = resolve_page_anchor(static_page.slug)
+    if not anchor:
+        return
+
+    aliases = {anchor.slug}
+    if anchor.is_home:
+        aliases.add("home")
+
+    content_type = ContentType.objects.get_for_model(StaticPage)
+    PageSection.objects.filter(page_slug__in=aliases, content_type__isnull=True).update(
+        content_type=content_type, object_id=anchor.pk
+    )
+    SiteImage.objects.filter(page_slug__in=aliases, content_type__isnull=True).update(
+        content_type=content_type, object_id=anchor.pk
+    )
+
+
 def _section_cache_key(page_slug: str, section_key: str) -> str:
     return f"section:{page_slug}:{section_key}"
 

@@ -278,50 +278,22 @@ UNFOLD = {
         "show_all_applications": False,
         "navigation": [
             {
-                "title": "Сайт",
+                "title": "Сторінки",
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": "Усі сторінки сайту",
+                        "icon": "description",
+                        "link": reverse_lazy("admin:pages_staticpage_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Головна сторінка",
                 "separator": True,
                 "collapsible": True,
                 "items": [
-                    {
-                        "title": "Лого, Hero, контакти, футер",
-                        "icon": "settings",
-                        "link": reverse_lazy("admin:core_sitesettings_changelist"),
-                    },
-                    {
-                        "title": "Тексти сторінок",
-                        "icon": "view_quilt",
-                        "link": reverse_lazy("admin:cms_pagesection_changelist"),
-                    },
-                    {
-                        "title": "Зображення сайту",
-                        "icon": "image",
-                        "link": reverse_lazy("admin:cms_siteimage_changelist"),
-                    },
-                    {
-                        "title": "Меню (шапка)",
-                        "icon": "menu",
-                        "link": "/admin/cms/pagesection/?page_slug__exact=header",
-                    },
-                    {
-                        "title": "Футер",
-                        "icon": "bottom_navigation",
-                        "link": "/admin/cms/pagesection/?page_slug__exact=footer",
-                    },
-                    {
-                        "title": "Головна — тексти",
-                        "icon": "home",
-                        "link": "/admin/cms/pagesection/?page_slug__exact=home",
-                    },
-                    {
-                        "title": "Про нас — тексти",
-                        "icon": "groups",
-                        "link": "/admin/cms/pagesection/?page_slug__exact=about",
-                    },
-                    {
-                        "title": "Загальні тексти (форми, popup)",
-                        "icon": "translate",
-                        "link": "/admin/cms/pagesection/?page_slug__exact=global",
-                    },
                     {
                         "title": "Послуги на головній",
                         "icon": "grid_view",
@@ -337,6 +309,45 @@ UNFOLD = {
                         "icon": "analytics",
                         "link": reverse_lazy("admin:cms_homestatitem_changelist"),
                     },
+                ],
+            },
+            {
+                "title": "Спільні елементи",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Лого, Hero, контакти, футер",
+                        "icon": "settings",
+                        "link": reverse_lazy("admin:core_sitesettings_changelist"),
+                    },
+                    {
+                        "title": "Меню (шапка)",
+                        "icon": "menu",
+                        "link": "/admin/cms/pagesection/?page_slug__exact=header",
+                    },
+                    {
+                        "title": "Футер",
+                        "icon": "bottom_navigation",
+                        "link": "/admin/cms/pagesection/?page_slug__exact=footer",
+                    },
+                    {
+                        "title": "Загальні тексти (форми, popup)",
+                        "icon": "translate",
+                        "link": "/admin/cms/pagesection/?page_slug__exact=global",
+                    },
+                    {
+                        "title": "Офіси на карті",
+                        "icon": "location_on",
+                        "link": reverse_lazy("admin:core_office_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Контент",
+                "separator": True,
+                "collapsible": True,
+                "items": [
                     {
                         "title": "Блог",
                         "icon": "newspaper",
@@ -346,11 +357,6 @@ UNFOLD = {
                         "title": "Відгуки",
                         "icon": "star",
                         "link": reverse_lazy("admin:reviews_review_changelist"),
-                    },
-                    {
-                        "title": "Офіси на карті",
-                        "icon": "location_on",
-                        "link": reverse_lazy("admin:core_office_changelist"),
                     },
                     {
                         "title": "SEO метадані",
@@ -377,9 +383,14 @@ UNFOLD = {
                 "collapsible": True,
                 "items": [
                     {
-                        "title": "SEO-записи сторінок",
-                        "icon": "article",
-                        "link": reverse_lazy("admin:pages_staticpage_changelist"),
+                        "title": "Усі тексти сторінок (пошук)",
+                        "icon": "view_quilt",
+                        "link": reverse_lazy("admin:cms_pagesection_changelist"),
+                    },
+                    {
+                        "title": "Усі зображення сайту (пошук)",
+                        "icon": "image",
+                        "link": reverse_lazy("admin:cms_siteimage_changelist"),
                     },
                     {
                         "title": "Блоки конструктора",
