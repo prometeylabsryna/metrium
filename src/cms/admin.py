@@ -4,19 +4,26 @@ from django.contrib import admin
 from django.utils.html import format_html, strip_tags
 from unfold.admin import ModelAdmin
 
-from src.admin_base import ImagePreviewMixin, RichTextAdminMixin
+from src.admin_base import ImagePreviewMixin, ImageSizeHintMixin, RichTextAdminMixin
+from src.cms.image_size_hints import (
+    HINT_BLOCK,
+    HINT_ICON,
+    HINT_SECTION,
+    apply_site_image_hints,
+)
 from src.cms.models import HomeServiceCard, HomeStatItem, HomeWhyItem, PageBlock, PageSection, SiteImage
 from src.cms.page_labels import page_label, page_public_url
 from src.cms.services import clear_image_cache, clear_section_cache
 
 
 @admin.register(PageBlock)
-class PageBlockAdmin(ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
+class PageBlockAdmin(ImageSizeHintMixin, ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
     list_display = ("kind", "sort_order", "is_visible", "content_type", "object_id", "get_image_preview")
     list_filter = ("kind", "is_visible")
     search_fields = ("heading", "body", "css_anchor")
     readonly_fields = ("get_image_preview",)
     rich_text_fields = ("body",)
+    image_size_hints = {"image": HINT_BLOCK}
 
     fieldsets = (
         (
@@ -51,7 +58,7 @@ class PageBlockAdmin(ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
 
 
 @admin.register(PageSection)
-class PageSectionAdmin(ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
+class PageSectionAdmin(ImageSizeHintMixin, ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
     list_before_template = "admin/cms/pagesection_changelist_before.html"
     list_display = (
         "label",
@@ -71,6 +78,10 @@ class PageSectionAdmin(ImagePreviewMixin, RichTextAdminMixin, ModelAdmin):
     )
     rich_text_fields = ("body_ua", "body_ru")
     ordering = ("page_slug", "sort_order", "section_key")
+    image_size_hints = {
+        "image": HINT_SECTION,
+        "icon": HINT_ICON,
+    }
 
     fieldsets = (
         (
@@ -214,6 +225,18 @@ class SiteImageAdmin(ImagePreviewMixin, ModelAdmin):
     readonly_fields = ("get_image_preview", "get_mobile_preview", "site_preview_link")
     ordering = ("page_slug", "sort_order", "image_key")
 
+    def get_form(self, request, obj=None, **kwargs):
+        form_class = super().get_form(request, obj, **kwargs)
+        image_key = obj.image_key if obj else ""
+
+        class SiteImageAdminForm(form_class):
+            def __init__(self, *args, **form_kwargs):
+                super().__init__(*args, **form_kwargs)
+                key = image_key or getattr(self.instance, "image_key", "")
+                apply_site_image_hints(self, image_key=key)
+
+        return SiteImageAdminForm
+
     fieldsets = (
         (
             "Де показується",
@@ -291,12 +314,13 @@ class SiteImageAdmin(ImagePreviewMixin, ModelAdmin):
 
 
 @admin.register(HomeServiceCard)
-class HomeServiceCardAdmin(ImagePreviewMixin, ModelAdmin):
+class HomeServiceCardAdmin(ImageSizeHintMixin, ImagePreviewMixin, ModelAdmin):
     list_display = ("title_ua", "sort_order", "is_active", "get_image_preview")
     list_editable = ("sort_order", "is_active")
     search_fields = ("title_ua", "title_ru")
     readonly_fields = ("get_image_preview",)
     preview_field = "icon"
+    image_size_hints = {"icon": HINT_ICON}
 
     fieldsets = (
         (
@@ -325,11 +349,12 @@ class HomeServiceCardAdmin(ImagePreviewMixin, ModelAdmin):
 
 
 @admin.register(HomeWhyItem)
-class HomeWhyItemAdmin(ImagePreviewMixin, ModelAdmin):
+class HomeWhyItemAdmin(ImageSizeHintMixin, ImagePreviewMixin, ModelAdmin):
     list_display = ("title_ua", "sort_order", "is_active", "get_image_preview")
     list_editable = ("sort_order", "is_active")
     readonly_fields = ("get_image_preview",)
     preview_field = "icon"
+    image_size_hints = {"icon": HINT_ICON}
 
 
 @admin.register(HomeStatItem)

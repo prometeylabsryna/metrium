@@ -9,6 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.models import BaseModelFormSet
 from django.utils.html import format_html
 
+from src.cms.image_size_hints import apply_site_image_hints
 from src.cms.models import PageBlock, PageSection, SiteImage
 from src.cms.services import ensure_static_page_links, resolve_page_anchor
 from src.i18n.models import Language
@@ -156,6 +157,11 @@ class SiteImageUAForm(forms.ModelForm):
             "is_active": "Показувати на сайті",
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        key = self.instance.image_key if getattr(self.instance, "pk", None) else ""
+        apply_site_image_hints(self, image_key=key)
+
 
 class SiteImageRUForm(forms.ModelForm):
     class Meta:
@@ -168,6 +174,11 @@ class SiteImageRUForm(forms.ModelForm):
             "image_alt_ru": "Описание фото (alt)",
             "is_active": "Показывать на сайте",
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        key = self.instance.image_key if getattr(self.instance, "pk", None) else ""
+        apply_site_image_hints(self, image_key=key)
 
 
 class SiteImageInlineBase(UnfoldGenericStackedInline):

@@ -7,6 +7,18 @@ from django.utils.html import format_html
 from tinymce.widgets import TinyMCE
 
 
+class ImageSizeHintMixin:
+    """Підказки рекомендованого розміру для ImageField у адмінці."""
+
+    image_size_hints: dict[str, str] = {}
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if formfield is not None and db_field.name in getattr(self, "image_size_hints", {}):
+            formfield.help_text = self.image_size_hints[db_field.name]
+        return formfield
+
+
 class SingletonAdminMixin:
     def has_add_permission(self, request: HttpRequest) -> bool:
         return not self.model.objects.exists()

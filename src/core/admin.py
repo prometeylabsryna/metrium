@@ -1,7 +1,8 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline
 
-from src.admin_base import ImagePreviewMixin, SingletonAdminMixin
+from src.admin_base import ImagePreviewMixin, ImageSizeHintMixin, SingletonAdminMixin
+from src.cms.image_size_hints import HINT_HERO_DESKTOP, HINT_HERO_MOBILE, HINT_LOGO
 from src.core.models import Office, SitePhone, SiteSettings
 
 
@@ -13,10 +14,15 @@ class SitePhoneInline(TabularInline):
 
 
 @admin.register(SiteSettings)
-class SiteSettingsAdmin(SingletonAdminMixin, ImagePreviewMixin, ModelAdmin):
+class SiteSettingsAdmin(SingletonAdminMixin, ImageSizeHintMixin, ImagePreviewMixin, ModelAdmin):
     inlines = [SitePhoneInline]
     readonly_fields = ("get_logo_preview", "get_hero_desktop_preview", "get_hero_mobile_preview")
     preview_field = "logo"
+    image_size_hints = {
+        "logo": HINT_LOGO,
+        "hero_image_desktop": HINT_HERO_DESKTOP,
+        "hero_image_mobile": HINT_HERO_MOBILE,
+    }
 
     fieldsets = (
         (
