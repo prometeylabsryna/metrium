@@ -1,75 +1,67 @@
 {% load i18n admin_urls static %}
-<style>
-  .page-images-inline,
-  .page-images-inline label,
-  .page-images-inline .help,
-  .page-images-inline .helptext {
-    color: #0f172a;
-  }
-  .page-images-inline .help,
-  .page-images-inline .helptext {
-    color: #334155;
-    font-size: 0.875rem;
-    line-height: 1.4;
-    margin-top: 0.35rem;
-  }
-</style>
 <div class="js-inline-admin-formset inline-group page-images-inline"
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
-     data-inline-formset="{{ inline_admin_formset.inline_formset_data }}"
-     style="color:#0f172a;">
+     data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
   <fieldset class="module {{ inline_admin_formset.classes }}">
-    <h2 style="color:#0f172a;">{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h2>
+    <h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h2>
+    <p class="help">Завантажте або замініть фото. Під кожним полем — рекомендований розмір.</p>
     {{ inline_admin_formset.formset.management_form }}
     {{ inline_admin_formset.formset.non_form_errors }}
 
     {% for inline_admin_form in inline_admin_formset %}
-      <div class="inline-related"
-           id="{{ inline_admin_formset.formset.prefix }}-{{ forloop.counter0 }}"
-           style="margin:0.75rem 0;padding:1rem;border:1px solid #e2e8f0;border-radius:0.6rem;background:#fff;color:#0f172a;">
-        <h3 style="margin:0 0 0.75rem;color:#0f172a;font-size:1.05rem;">
+      <div class="inline-related page-images-card"
+           id="{{ inline_admin_formset.formset.prefix }}-{{ forloop.counter0 }}">
+        <h3 class="page-images-card__title">
           {% if inline_admin_form.original %}
             {{ inline_admin_form.original.label|default:inline_admin_form.original }}
           {% else %}
             #{{ forloop.counter }}
           {% endif %}
         </h3>
+
+        {% if inline_admin_form.original and inline_admin_form.original.image %}
+          <div class="page-images-preview">
+            <img src="{{ inline_admin_form.original.image.url }}" alt="" />
+          </div>
+        {% elif inline_admin_form.original and inline_admin_form.original.fallback_static %}
+          <div class="page-images-preview">
+            <code>{{ inline_admin_form.original.fallback_static }}</code>
+          </div>
+        {% endif %}
+
         {% if inline_admin_form.form.non_field_errors %}
           {{ inline_admin_form.form.non_field_errors }}
         {% endif %}
+
         {% for field in inline_admin_form.form.visible_fields %}
-          <div style="margin:0.65rem 0;color:#0f172a;">
-            {% if field.name != "is_active" %}
-              <label for="{{ field.id_for_label }}" style="display:block;font-weight:700;color:#0f172a;margin-bottom:0.35rem;">
+          {% if field.name == "is_active" %}
+            <label class="page-images-active" for="{{ field.id_for_label }}">
+              {{ field }}
+              <span>{{ field.label }}</span>
+            </label>
+          {% else %}
+            <div class="page-images-field">
+              <label class="page-images-field__label" for="{{ field.id_for_label }}">
                 {{ field.label }}
               </label>
               {{ field }}
               {% if field.help_text %}
-                <p class="help" style="color:#334155;">{{ field.help_text }}</p>
+                <p class="help">{{ field.help_text }}</p>
               {% endif %}
-            {% else %}
-              <label for="{{ field.id_for_label }}" style="display:flex;align-items:center;gap:0.65rem;color:#0f172a;font-weight:700;">
-                {{ field }}
-                <span style="color:#0f172a;">{{ field.label }}</span>
-              </label>
-            {% endif %}
-            {% if field.errors %}<div style="color:#b91c1c;">{{ field.errors }}</div>{% endif %}
-          </div>
-        {% endfor %}
-        {% for field in inline_admin_form %}
-          {% if field.is_readonly %}
-            <div style="margin:0.65rem 0;color:#0f172a;">
-              <div style="font-weight:700;margin-bottom:0.35rem;">{{ field.contents|safe }}</div>
+              {% if field.errors %}
+                <div style="color:#b91c1c;">{{ field.errors }}</div>
+              {% endif %}
             </div>
           {% endif %}
         {% endfor %}
+
         {% for hidden in inline_admin_form.form.hidden_fields %}{{ hidden }}{% endfor %}
         {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
         {% if inline_admin_form.fk_field %}{{ inline_admin_form.fk_field.field }}{% endif %}
       </div>
     {% empty %}
-      <p style="color:#334155;">Немає зображень для цієї сторінки.</p>
+      <p class="page-images-empty">Немає зображень для цієї сторінки.</p>
     {% endfor %}
   </fieldset>
 </div>

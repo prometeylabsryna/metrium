@@ -7,8 +7,6 @@ from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericInlineModelAdmin, GenericStackedInline, GenericTabularInline
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import BaseModelFormSet
-from django.utils.html import format_html
-
 from src.cms.image_size_hints import apply_site_image_hints
 from src.cms.models import PageBlock, PageSection, SiteImage
 from src.cms.services import ensure_static_page_links, resolve_page_anchor
@@ -151,6 +149,26 @@ class PageSectionInlineRU(PageSectionInlineBase):
 PageSectionInline = PageSectionInlineUA
 
 
+_IMAGE_TEXT_STYLE = (
+    "width:100%;max-width:100%;min-height:2.5rem;font-size:1rem;line-height:1.4;"
+    "color:#0f172a;background:#ffffff;-webkit-text-fill-color:#0f172a;"
+    "border:1px solid #94a3b8;border-radius:0.4rem;padding:0.55rem 0.75rem;"
+)
+
+
+def _force_light_image_widgets(form: forms.ModelForm) -> None:
+    """Без Unfold dark-віджетів — інакше темний текст на темному полі."""
+    text_names = ("label", "image_alt_ua", "image_alt_ru")
+    for name in text_names:
+        if name in form.fields:
+            form.fields[name].widget = forms.TextInput(attrs={"style": _IMAGE_TEXT_STYLE})
+    for name in ("image", "image_mobile"):
+        if name in form.fields:
+            form.fields[name].widget = forms.ClearableFileInput(
+                attrs={"style": "color:#0f172a;background:#f8fafc;"}
+            )
+
+
 class SiteImageUAForm(forms.ModelForm):
     class Meta:
         model = SiteImage
@@ -165,6 +183,7 @@ class SiteImageUAForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        _force_light_image_widgets(self)
         key = self.instance.image_key if getattr(self.instance, "pk", None) else ""
         apply_site_image_hints(self, image_key=key)
 
@@ -183,12 +202,13 @@ class SiteImageRUForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        _force_light_image_widgets(self)
         key = self.instance.image_key if getattr(self.instance, "pk", None) else ""
         apply_site_image_hints(self, image_key=key)
 
 
 class SiteImageInlineBase(GenericStackedInline):
-    """Django stacked + атрибути, яких очікує Unfold при рендері fieldset."""
+    """Світлі картки зображень (без Unfold stacked / dark widgets)."""
 
     model = SiteImage
     extra = 0
@@ -197,15 +217,14 @@ class SiteImageInlineBase(GenericStackedInline):
     verbose_name = "Зображення"
     verbose_name_plural = "Зображення сторінки"
     ordering = ("sort_order", "image_key")
-    readonly_fields = ("image_preview",)
     template = "admin/cms/edit_inline/stacked_images.html"
-    formfield_overrides = FORMFIELD_OVERRIDES_INLINE
+    formfield_overrides = {}
     ordering_field = None
     hide_ordering_field = False
     readonly_preprocess_fields: dict = {}
 
     class Media:
-        css = {"all": ("admin/css/page_blocks.css",)}
+        css = {"all": ("admin/css/page_images.css",)}
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -214,28 +233,15 @@ class SiteImageInlineBase(GenericStackedInline):
         FormSet = super().get_formset(request, obj, **kwargs)
         return _make_anchored_formset(FormSet, ("sort_order", "image_key"))
 
-    @admin.display(description="Поточне фото")
-    def image_preview(self, obj: SiteImage) -> str:
-        if not obj or not obj.pk:
-            return "—"
-        if obj.image:
-            return format_html(
-                '<img src="{}" alt="" style="max-height:140px;border-radius:8px;" />',
-                obj.image.url,
-            )
-        if obj.fallback_static:
-            return format_html("<code>{}</code>", obj.fallback_static)
-        return "—"
-
 
 class SiteImageInlineUA(SiteImageInlineBase):
     form = SiteImageUAForm
-    fields = ("label", "image_preview", "image", "image_mobile", "image_alt_ua", "is_active")
+    fields = ("label", "image", "image_mobile", "image_alt_ua", "is_active")
 
 
 class SiteImageInlineRU(SiteImageInlineBase):
     form = SiteImageRUForm
-    fields = ("label", "image_preview", "image", "image_mobile", "image_alt_ru", "is_active")
+    fields = ("label", "image", "image_mobile", "image_alt_ru", "is_active")
 
 
 SiteImageInline = SiteImageInlineUA
