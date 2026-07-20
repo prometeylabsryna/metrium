@@ -50,6 +50,49 @@ def ensure_static_page_links(static_page) -> None:
     )
 
 
+def link_all_page_content() -> dict[str, int]:
+    """Прив'язує всі PageSection/SiteImage до якірних StaticPage за page_slug."""
+    from src.i18n.models import Language
+    from src.pages.models import StaticPage
+
+    sections_linked = 0
+    images_linked = 0
+    pages_touched = 0
+    seen_slugs: set[str] = set()
+
+    def _link(page) -> None:
+        nonlocal sections_linked, images_linked, pages_touched
+        aliases = {page.slug}
+        if page.is_home:
+            aliases.add("home")
+        before_s = PageSection.objects.filter(
+            page_slug__in=aliases, content_type__isnull=True
+        ).count()
+        before_i = SiteImage.objects.filter(
+            page_slug__in=aliases, content_type__isnull=True
+        ).count()
+        ensure_static_page_links(page)
+        sections_linked += before_s
+        images_linked += before_i
+        pages_touched += 1
+
+    for page in StaticPage.objects.filter(language=Language.UA).order_by("slug"):
+        seen_slugs.add(page.slug)
+        _link(page)
+
+    # Якщо для slug немає UA — якір з першої доступної мови
+    for page in StaticPage.objects.exclude(slug__in=seen_slugs).order_by("slug", "language"):
+        if page.slug in seen_slugs:
+            continue
+        seen_slugs.add(page.slug)
+        _link(page)
+
+    return {
+        "pages": pages_touched,
+        "sections": sections_linked,
+        "images": images_linked,
+    }
+
 def _section_cache_key(page_slug: str, section_key: str) -> str:
     return f"section:{page_slug}:{section_key}"
 

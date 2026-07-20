@@ -1,62 +1,13 @@
 import re
 
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html, strip_tags
-from unfold.admin import GenericTabularInline as UnfoldGenericTabularInline
-from unfold.admin import ModelAdmin, TabularInline
+from unfold.admin import ModelAdmin
 
 from src.admin_base import ImagePreviewMixin, RichTextAdminMixin
 from src.cms.models import HomeServiceCard, HomeStatItem, HomeWhyItem, PageBlock, PageSection, SiteImage
-from src.cms.page_labels import admin_sections_url, page_label, page_public_url
+from src.cms.page_labels import page_label, page_public_url
 from src.cms.services import clear_image_cache, clear_section_cache
-
-
-class PageBlockInline(GenericTabularInline):
-    model = PageBlock
-    extra = 0
-    fields = ("kind", "sort_order", "is_visible", "heading", "css_anchor")
-    classes = ["collapse"]
-
-
-class PageSectionInline(UnfoldGenericTabularInline):
-    """Тексти цієї сторінки — редагування прямо в картці StaticPage."""
-
-    model = PageSection
-    extra = 0
-    fields = ("label", "section_key", "text_ua", "text_ru", "is_active", "site_preview_link")
-    readonly_fields = ("site_preview_link",)
-    classes = ["collapse"]
-    show_change_link = True
-    verbose_name = "Текст сторінки"
-    verbose_name_plural = "Тексти сторінки"
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).order_by("sort_order", "section_key")
-
-    @admin.display(description="")
-    def site_preview_link(self, obj: PageSection) -> str:
-        if not obj or not obj.pk:
-            return "—"
-        return format_html(
-            '<a class="button" href="{}" target="_blank" rel="noopener">Відкрити на сайті ↗</a>',
-            page_public_url(obj.page_slug),
-        )
-
-
-class SiteImageInline(UnfoldGenericTabularInline):
-    """Зображення цієї сторінки — редагування прямо в картці StaticPage."""
-
-    model = SiteImage
-    extra = 0
-    fields = ("label", "image_key", "image", "image_mobile", "is_active")
-    classes = ["collapse"]
-    show_change_link = True
-    verbose_name = "Зображення сторінки"
-    verbose_name_plural = "Зображення сторінки"
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).order_by("sort_order", "image_key")
 
 
 @admin.register(PageBlock)

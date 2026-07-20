@@ -9,7 +9,8 @@ from django.core.files import File
 from django.core.management.base import BaseCommand
 
 from src.cms.models import SiteImage
-from src.cms.services import clear_image_cache
+from src.cms.page_labels import page_label
+from src.cms.services import clear_image_cache, link_all_page_content
 from src.cms.site_images_manifest import DOC_EXAMPLE_IMAGES, HERO_IMAGES, MANUAL_IMAGES
 from src.cms.text_keys import page_slug_from_template_path
 
@@ -46,9 +47,10 @@ class Command(BaseCommand):
                 {
                     "page_slug": page_slug,
                     "image_key": "hero",
-                    "label": f"Hero: {page_slug}",
+                    "label": f"Hero: {page_label(page_slug)}",
                     "fallback_static": desktop,
                     "fallback_static_mobile": mobile,
+                    "sort_order": 0,
                 }
             )
 
@@ -111,9 +113,16 @@ class Command(BaseCommand):
                 skipped += 1
 
         clear_image_cache()
+        linked = link_all_page_content()
         self.stdout.write(
             self.style.SUCCESS(
                 f"Готово: створено {created}, оновлено {updated}, пропущено {skipped}"
+            )
+        )
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Привʼязка до сторінок: {linked['pages']} сторінок, "
+                f"{linked['sections']} текстів, {linked['images']} зображень"
             )
         )
 
@@ -149,6 +158,17 @@ class Command(BaseCommand):
             if value and not getattr(obj, field):
                 setattr(obj, field, value)
                 changed = True
+        # Оновити технічні назви Hero: slug → Hero: Людська назва
+        new_label = defaults.get("label", "")
+        if (
+            obj.image_key == "hero"
+            and new_label.startswith("Hero: ")
+            and obj.label.startswith("Hero: ")
+            and obj.label != new_label
+            and obj.label.replace("Hero: ", "") == obj.page_slug
+        ):
+            obj.label = new_label
+            changed = True
         if changed:
             obj.save()
             return "updated"

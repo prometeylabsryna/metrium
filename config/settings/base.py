@@ -287,6 +287,130 @@ UNFOLD = {
                         "icon": "description",
                         "link": reverse_lazy("admin:pages_staticpage_changelist"),
                     },
+                    {
+                        "title": "Головна",
+                        "icon": "home",
+                        "link": "/admin/pages/staticpage/?page_kind=home",
+                    },
+                    {
+                        "title": "Контакти",
+                        "icon": "call",
+                        "link": "/admin/pages/staticpage/?page_kind=contacts",
+                    },
+                    {
+                        "title": "Блог (сторінка)",
+                        "icon": "article",
+                        "link": "/admin/pages/staticpage/?page_kind=blog",
+                    },
+                    {
+                        "title": "Регіональні",
+                        "icon": "map",
+                        "link": "/admin/pages/staticpage/?page_kind=region",
+                    },
+                ],
+            },
+            {
+                "title": "Технічні паспорти",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Усі техпаспорти",
+                        "icon": "folder",
+                        "link": "/admin/pages/staticpage/?page_kind=passport",
+                    },
+                    {
+                        "title": "На квартиру",
+                        "icon": "apartment",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-kvartyru",
+                    },
+                    {
+                        "title": "На будинок",
+                        "icon": "house",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-budynok",
+                    },
+                    {
+                        "title": "Електронний",
+                        "icon": "devices",
+                        "link": "/admin/pages/staticpage/?slug__exact=elektronnyj-tehnichnyj-pasport",
+                    },
+                    {
+                        "title": "На будівлю",
+                        "icon": "domain",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-budivlyu",
+                    },
+                    {
+                        "title": "На гараж",
+                        "icon": "garage",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-garazh",
+                    },
+                    {
+                        "title": "Нежитлове",
+                        "icon": "store",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-nezhytlove-prymischennya",
+                    },
+                    {
+                        "title": "Багатоквартирний",
+                        "icon": "location_city",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichnyj-pasport-na-bagato-kvartyrnyj-budynok",
+                    },
+                ],
+            },
+            {
+                "title": "Інші послуги БТІ",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Усі інші послуги",
+                        "icon": "folder_open",
+                        "link": "/admin/pages/staticpage/?page_kind=services",
+                    },
+                    {
+                        "title": "Довідки БТІ",
+                        "icon": "description",
+                        "link": "/admin/pages/staticpage/?slug__exact=dovidky",
+                    },
+                    {
+                        "title": "Введення в експлуатацію",
+                        "icon": "key",
+                        "link": "/admin/pages/staticpage/?slug__exact=vvedennya-v-ekspluatatsiyu",
+                    },
+                    {
+                        "title": "Легалізація",
+                        "icon": "gavel",
+                        "link": "/admin/pages/staticpage/?slug__exact=legalizatsiya-neruhomosti",
+                    },
+                    {
+                        "title": "Інвентаризація",
+                        "icon": "inventory_2",
+                        "link": "/admin/pages/staticpage/?slug__exact=tehnichna-inventaryzatsiya",
+                    },
+                    {
+                        "title": "Дозвільна документація",
+                        "icon": "assignment",
+                        "link": "/admin/pages/staticpage/?slug__exact=dozvilna-dokumentatsiya",
+                    },
+                    {
+                        "title": "Земельна документація",
+                        "icon": "landscape",
+                        "link": "/admin/pages/staticpage/?slug__exact=zemelna-dokumentatsiya",
+                    },
+                    {
+                        "title": "Висновки БТІ",
+                        "icon": "fact_check",
+                        "link": "/admin/pages/staticpage/?slug__exact=vysnovky-bti",
+                    },
+                    {
+                        "title": "Кадастровий номер",
+                        "icon": "tag",
+                        "link": "/admin/pages/staticpage/?slug__exact=kadastrovyj-nomer",
+                    },
+                    {
+                        "title": "Витяг ДЗК",
+                        "icon": "article",
+                        "link": "/admin/pages/staticpage/?slug__exact=vytiah-dzk",
+                    },
                 ],
             },
             {

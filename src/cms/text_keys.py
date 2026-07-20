@@ -57,6 +57,37 @@ def make_label(ua_text: str, max_len: int = 120) -> str:
     return f"{cleaned[: max_len - 1]}…"
 
 
+def make_section_label(ua_text: str, *, is_faq: bool = False, max_len: int = 120) -> str:
+    """Людська назва для адмінки; FAQ отримує префікс."""
+    base = make_label(ua_text, max_len=max_len - 5 if is_faq else max_len)
+    if not is_faq:
+        return base
+    if base.startswith("FAQ:") or base.startswith("FAQ "):
+        return base
+    return f"FAQ: {base}"
+
+
+def context_looks_like_faq(template_content: str, match_start: int, window: int = 800) -> bool:
+    """Чи знаходиться {% t %} у блоці FAQ / акордеону."""
+    start = max(0, match_start - window)
+    chunk = template_content[start:match_start].lower()
+    markers = (
+        'class="faq',
+        "class='faq",
+        "<!-- faq",
+        'id="accordion',
+        "id='accordion",
+        "custom-acc",
+        'section-label">faq',
+        "section-label'>faq",
+    )
+    return any(marker in chunk for marker in markers)
+
+
+def ua_text_is_faq_question(ua_text: str) -> bool:
+    cleaned = ua_text.strip()
+    return cleaned.endswith("?") or cleaned.endswith("？")
+
 def page_slug_from_template_path(path: str) -> str:
     path = path.replace("\\", "/")
     if "partials/header" in path or "partials/mobile_menu" in path:

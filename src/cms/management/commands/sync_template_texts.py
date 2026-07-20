@@ -6,15 +6,18 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from src.cms.models import PageSection
-from src.cms.services import clear_section_cache
+from src.cms.services import clear_section_cache, link_all_page_content
 from src.cms.text_keys import (
     BI_TAG_RE,
     SECTION_BODY_TAG_RE,
     SECTION_TAG_RE,
     T_TAG_RE,
+    context_looks_like_faq,
     make_auto_key,
     make_label,
+    make_section_label,
     page_slug_from_template_path,
+    ua_text_is_faq_question,
 )
 
 MANUAL_SECTIONS: list[dict] = [
@@ -137,6 +140,7 @@ class Command(BaseCommand):
         updated = 0
         filled = 0
         skipped = 0
+        sort_counters: dict[str, int] = {}
 
         seen: set[tuple[str, str]] = set()
         manual_by_key = {
@@ -148,7 +152,13 @@ class Command(BaseCommand):
             if key in seen:
                 continue
             seen.add(key)
-            action = self._upsert_section(item, overwrite, fill_empty)
+            slug = item["page_slug"]
+            sort_counters[slug] = sort_counters.get(slug, 0) + 10
+            action = self._upsert_section(
+                {**item, "sort_order": sort_counters[slug]},
+                overwrite,
+                fill_empty,
+            )
             created, updated, filled, skipped = self._tally(
                 action, created, updated, filled, skipped
             )
@@ -167,13 +177,19 @@ class Command(BaseCommand):
                 if key in seen:
                     continue
                 seen.add(key)
+                is_faq = context_looks_like_faq(content, match.start()) or (
+                    ua_text_is_faq_question(ua)
+                )
+                sort_counters[page_slug] = sort_counters.get(page_slug, 0) + 10
                 action = self._upsert_section(
                     {
                         "page_slug": page_slug,
                         "section_key": section_key,
-                        "label": make_label(ua),
+                        "label": make_section_label(ua, is_faq=is_faq),
                         "text_ua": ua,
                         "text_ru": ru,
+                        "sort_order": sort_counters[page_slug],
+                        "is_faq": is_faq,
                     },
                     overwrite,
                     fill_empty,
@@ -192,6 +208,7 @@ class Command(BaseCommand):
                     continue
                 seen.add(key)
                 manual = manual_by_key.get(key, {})
+                sort_counters[slug] = sort_counters.get(slug, 0) + 10
                 action = self._upsert_section(
                     {
                         "page_slug": slug,
@@ -201,6 +218,7 @@ class Command(BaseCommand):
                         "text_ru": ru,
                         "body_ua": manual.get("body_ua", ""),
                         "body_ru": manual.get("body_ru", ""),
+                        "sort_order": sort_counters[slug],
                     },
                     overwrite,
                     fill_empty,
@@ -219,6 +237,7 @@ class Command(BaseCommand):
                     continue
                 seen.add(key)
                 manual = manual_by_key.get(key, {})
+                sort_counters[slug] = sort_counters.get(slug, 0) + 10
                 action = self._upsert_section(
                     {
                         "page_slug": slug,
@@ -226,6 +245,7 @@ class Command(BaseCommand):
                         "label": manual.get("label") or make_label(ua),
                         "text_ua": ua,
                         "text_ru": ru,
+                        "sort_order": sort_counters[slug],
                     },
                     overwrite,
                     fill_empty,
@@ -242,6 +262,7 @@ class Command(BaseCommand):
                     continue
                 seen.add(key)
                 manual = manual_by_key.get(key, {})
+                sort_counters[slug] = sort_counters.get(slug, 0) + 10
                 action = self._upsert_section(
                     {
                         "page_slug": slug,
@@ -251,6 +272,7 @@ class Command(BaseCommand):
                         "text_ru": manual.get("text_ru", ""),
                         "body_ua": manual.get("body_ua", ""),
                         "body_ru": manual.get("body_ru", ""),
+                        "sort_order": sort_counters[slug],
                     },
                     overwrite,
                     fill_empty,
@@ -260,10 +282,17 @@ class Command(BaseCommand):
                 )
 
         clear_section_cache()
+        linked = link_all_page_content()
         self.stdout.write(
             self.style.SUCCESS(
                 f"Готово: створено {created}, оновлено {updated}, "
                 f"заповнено порожніх {filled}, пропущено {skipped}"
+            )
+        )
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Привʼязка до сторінок: {linked['pages']} сторінок, "
+                f"{linked['sections']} текстів, {linked['images']} зображень"
             )
         )
 
@@ -286,6 +315,7 @@ class Command(BaseCommand):
             "text_ru": data.get("text_ru", ""),
             "body_ua": data.get("body_ua", ""),
             "body_ru": data.get("body_ru", ""),
+            "sort_order": data.get("sort_order", 0),
             "is_active": True,
         }
         obj, created = PageSection.objects.get_or_create(
@@ -307,6 +337,19 @@ class Command(BaseCommand):
                 if value and not getattr(obj, field):
                     setattr(obj, field, value)
                     changed = True
+            # Підтягнути FAQ-префікс і порядок, не затираючи відредаговані тексти
+            new_label = defaults.get("label", "")
+            if (
+                data.get("is_faq")
+                and new_label.startswith("FAQ:")
+                and obj.label
+                and not obj.label.startswith("FAQ:")
+            ):
+                obj.label = new_label
+                changed = True
+            if obj.sort_order == 0 and defaults.get("sort_order"):
+                obj.sort_order = defaults["sort_order"]
+                changed = True
             if changed:
                 obj.save()
                 return "filled"
