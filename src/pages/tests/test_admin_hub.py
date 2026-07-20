@@ -90,4 +90,4 @@ class StaticPageAdminHubTests(TestCase):
         form = PageSectionInlineUA.form()
         self.assertNotIn("section_key", form.fields)
         self.assertIn("text_ua", form.fields)
-        self.assertEqual(form.fields["text_ua"].label, "Текст — змініть тут")
+        self.assertEqual(form.fields["text_ua"].label, "")

@@ -1,13 +1,48 @@
 {% load i18n admin_urls static %}
+<style>
+  /* Локально для цього інлайну: темний текст на білому (Unfold інакше дає майже білий) */
+  .page-blocks-inline,
+  .page-blocks-inline .page-site-field,
+  .page-blocks-inline .page-site-field__heading,
+  .page-blocks-inline .page-field-label,
+  .page-blocks-inline .page-field-help,
+  .page-blocks-inline .page-blocks-hint,
+  .page-blocks-inline .page-site-block__title,
+  .page-blocks-inline .page-site-block__meta,
+  .page-blocks-inline .page-site-block__summary,
+  .page-blocks-inline label,
+  .page-blocks-inline p,
+  .page-blocks-inline span,
+  .page-blocks-inline div {
+    color: #0f172a;
+  }
+  .page-blocks-inline textarea,
+  .page-blocks-inline input[type="text"] {
+    color: #0f172a;
+    background: #ffffff;
+    -webkit-text-fill-color: #0f172a;
+  }
+  .page-blocks-inline .page-site-block__summary {
+    background: #ccfbf1;
+    color: #134e4a;
+  }
+  .page-blocks-inline .page-site-block__title {
+    color: #134e4a;
+  }
+  .page-blocks-inline .page-site-block__meta {
+    color: #0f766e;
+  }
+</style>
 <div class="js-inline-admin-formset inline-group page-blocks-inline"
      id="{{ inline_admin_formset.formset.prefix }}-group"
      data-inline-type="stacked"
-     data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
-  <fieldset class="module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading">
-    <h2 id="{{ inline_admin_formset.formset.prefix }}-heading" class="inline-heading">
+     data-inline-formset="{{ inline_admin_formset.inline_formset_data }}"
+     style="color:#0f172a;">
+  <fieldset class="module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading" style="color:#0f172a;">
+    <h2 id="{{ inline_admin_formset.formset.prefix }}-heading" class="inline-heading" style="color:#0f172a;">
       {{ inline_admin_formset.opts.verbose_name_plural|capfirst }}
     </h2>
-    <p class="page-blocks-hint">
+    <p class="page-blocks-hint" style="color:#0c4a6e;background:#e0f2fe;padding:0.75rem 1rem;border-radius:0.5rem;">
       Блоки нижче — у тому ж порядку, що й на сайті. Відкрийте потрібний блок і змініть текст у полі.
     </p>
     {{ inline_admin_formset.formset.management_form }}
@@ -19,24 +54,45 @@
           {% if not forloop.first %}
             </div></details>
           {% endif %}
-          <details class="page-site-block"{% if block_name != "Інші тексти" and forloop.counter0 < 4 %} open{% endif %}>
-            <summary class="page-site-block__summary">
-              <span class="page-site-block__title">{{ block_name|default:"Інші тексти" }}</span>
-              <span class="page-site-block__meta">{% if block_name == "Інші тексти" %}застарілі / службові{% else %}блок на сайті{% endif %}</span>
+          <details class="page-site-block"{% if block_name != "Інші тексти" and forloop.counter0 < 4 %} open{% endif %} style="color:#0f172a;">
+            <summary class="page-site-block__summary" style="color:#134e4a;background:#ccfbf1;">
+              <span class="page-site-block__title" style="color:#134e4a;">{{ block_name|default:"Інші тексти" }}</span>
+              <span class="page-site-block__meta" style="color:#0f766e;">{% if block_name == "Інші тексти" %}застарілі / службові{% else %}блок на сайті{% endif %}</span>
             </summary>
-            <div class="page-site-block__body">
+            <div class="page-site-block__body" style="color:#0f172a;">
         {% endifchanged %}
 
         <div class="inline-related page-site-field{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}"
-             id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
+             id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}"
+             style="color:#0f172a;background:#ffffff;border:1px solid #e2e8f0;border-radius:0.6rem;padding:0.85rem 1rem;margin:0.75rem 0;">
           {% if inline_admin_form.original and inline_admin_form.original.label %}
-            <div class="page-site-field__heading">{{ inline_admin_form.original.label }}</div>
+            <div class="page-site-field__heading" style="color:#0f172a;font-weight:700;font-size:1.05rem;margin:0 0 0.65rem;line-height:1.4;">
+              {{ inline_admin_form.original.label }}
+            </div>
           {% endif %}
           {% if inline_admin_form.form.non_field_errors %}
             {{ inline_admin_form.form.non_field_errors }}
           {% endif %}
-          {% for fieldset in inline_admin_form %}
-            {% include "admin/includes/fieldset.html" %}
+
+          {# Рендер полів вручну — без Unfold fieldset (там білий текст) #}
+          {% for field in inline_admin_form.form.visible_fields %}
+            <div class="page-field-row" style="margin:0.55rem 0;color:#0f172a;">
+              {% if field.name == "is_active" %}
+                <label for="{{ field.id_for_label }}" class="page-field-label" style="display:flex;align-items:center;gap:0.65rem;color:#0f172a;font-weight:700;font-size:0.95rem;cursor:pointer;">
+                  {{ field }}
+                  <span style="color:#0f172a;">{{ field.label }}</span>
+                </label>
+              {% else %}
+                {{ field }}
+              {% endif %}
+              {% if field.errors %}
+                <div style="color:#b91c1c;">{{ field.errors }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          {% for hidden in inline_admin_form.form.hidden_fields %}
+            {{ hidden }}
           {% endfor %}
           {% if inline_admin_form.needs_explicit_pk_field %}
             {{ inline_admin_form.pk_field.field }}
@@ -49,7 +105,7 @@
         {% endif %}
       {% endwith %}
     {% empty %}
-      <p class="page-blocks-hint">Тексти ще не підключені. Після деплою виконайте sync_template_texts.</p>
+      <p class="page-blocks-hint" style="color:#0c4a6e;">Тексти ще не підключені. Після деплою виконайте sync_template_texts.</p>
     {% endfor %}
   </fieldset>
 </div>

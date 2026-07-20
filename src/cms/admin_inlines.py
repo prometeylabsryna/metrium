@@ -66,24 +66,29 @@ class PageBlockInline(GenericTabularInline):
     classes = ["collapse"]
 
 
+_TEXTAREA_STYLE = (
+    "width:100%;max-width:100%;min-height:7rem;font-size:1rem;line-height:1.5;"
+    "color:#0f172a;background:#ffffff;-webkit-text-fill-color:#0f172a;"
+    "border:1px solid #94a3b8;border-radius:0.4rem;padding:0.75rem 0.85rem;"
+)
+
+
 class PageSectionUAForm(forms.ModelForm):
     class Meta:
         model = PageSection
         fields = ("text_ua", "is_active")
         labels = {
-            "text_ua": "Текст — змініть тут",
+            "text_ua": "Текст",
             "is_active": "Показувати на сайті",
         }
         widgets = {
-            "text_ua": forms.Textarea(
-                attrs={"rows": 5, "style": "max-width:48rem;width:100%;font-size:1rem;"}
-            ),
+            "text_ua": forms.Textarea(attrs={"rows": 6, "style": _TEXTAREA_STYLE}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk and self.instance.label:
-            self.fields["text_ua"].label = self.instance.label
+        # Підпис уже в заголовку картки — не дублюємо блідий label Unfold
+        self.fields["text_ua"].label = ""
 
 
 class PageSectionRUForm(forms.ModelForm):
@@ -91,19 +96,16 @@ class PageSectionRUForm(forms.ModelForm):
         model = PageSection
         fields = ("text_ru", "is_active")
         labels = {
-            "text_ru": "Текст — измените здесь",
+            "text_ru": "Текст",
             "is_active": "Показывать на сайте",
         }
         widgets = {
-            "text_ru": forms.Textarea(
-                attrs={"rows": 5, "style": "max-width:48rem;width:100%;font-size:1rem;"}
-            ),
+            "text_ru": forms.Textarea(attrs={"rows": 6, "style": _TEXTAREA_STYLE}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk and self.instance.label:
-            self.fields["text_ru"].label = self.instance.label
+        self.fields["text_ru"].label = ""
 
 
 class PageSectionInlineBase(UnfoldGenericStackedInline):
