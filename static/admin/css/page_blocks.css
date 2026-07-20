@@ -1,17 +1,21 @@
+/* Контрастні кольори для світлої адмінки Unfold — без блідих сірих підписів */
+
 .page-blocks-hint {
   margin: 0 0 1rem;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  background: color-mix(in srgb, canvas 88%, #0ea5e9);
+  background: #e0f2fe;
+  color: #0c4a6e;
   line-height: 1.45;
 }
 
 .page-site-block {
   margin: 0 0 1rem;
-  border: 1px solid color-mix(in srgb, canvastext 12%, transparent);
+  border: 1px solid #cbd5e1;
   border-radius: 0.75rem;
-  background: color-mix(in srgb, canvas 96%, canvastext);
+  background: #f8fafc;
   overflow: hidden;
+  color: #0f172a;
 }
 
 .page-site-block__summary {
@@ -23,7 +27,8 @@
   cursor: pointer;
   list-style: none;
   font-weight: 650;
-  background: color-mix(in srgb, canvas 85%, #0f766e);
+  background: #ccfbf1;
+  color: #134e4a;
 }
 
 .page-site-block__summary::-webkit-details-marker {
@@ -32,12 +37,13 @@
 
 .page-site-block__title {
   font-size: 1.05rem;
+  color: #134e4a;
 }
 
 .page-site-block__meta {
   font-size: 0.75rem;
-  font-weight: 500;
-  opacity: 0.65;
+  font-weight: 600;
+  color: #0f766e;
   white-space: nowrap;
 }
 
@@ -49,25 +55,91 @@
   margin: 0.75rem 0;
   padding: 0.85rem 1rem;
   border-radius: 0.6rem;
-  border: 1px solid color-mix(in srgb, canvastext 8%, transparent);
-  background: canvas;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #0f172a;
 }
 
+.page-site-field__heading {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #0f172a;
+}
+
+/* Ховаємо блідий дубль label від Unfold — заголовок уже вище */
+.page-blocks-inline .page-site-field .form-row > label,
+.page-blocks-inline .page-site-field .flex-container > label:first-child {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page-blocks-inline .page-site-field .form-row:has(input[type="checkbox"]) > label,
+.page-blocks-inline .page-site-field .checkbox-row label {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  font-weight: 650;
+  color: #0f172a;
+}
 .page-site-field .form-row {
   padding: 0.35rem 0;
+  color: #0f172a;
 }
 
-.page-site-field textarea {
+.page-blocks-inline .page-site-field label,
+.page-blocks-inline .page-site-field .form-row label,
+.page-blocks-inline .page-site-field .flex-container > label,
+.page-blocks-inline .page-site-field .checkbox-row label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 650;
+  font-size: 0.95rem;
+  color: #0f172a;
+  opacity: 1;
+}
+
+.page-site-field textarea,
+.page-blocks-inline .page-site-field textarea {
   width: 100%;
   max-width: 48rem;
   min-height: 6rem;
   font-size: 1rem;
   line-height: 1.45;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #94a3b8;
+  border-radius: 0.4rem;
+  padding: 0.65rem 0.75rem;
+  caret-color: #0f172a;
 }
 
-.page-site-field input[type="text"] {
+.page-site-field textarea:focus,
+.page-blocks-inline .page-site-field textarea:focus {
+  outline: 2px solid #0d9488;
+  outline-offset: 1px;
+  border-color: #0d9488;
+}
+
+.page-site-field input[type="text"],
+.page-blocks-inline .page-site-field input[type="text"] {
   width: 100%;
   max-width: 48rem;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid #94a3b8;
 }
 
 .page-site-field .inline-related h3,
@@ -75,6 +147,9 @@
   display: none;
 }
 
-.page-site-field label {
-  font-weight: 600;
+/* Підпис біля тогла — теж темний */
+.page-blocks-inline .page-site-field .flex.items-center,
+.page-blocks-inline .page-site-field .checkbox-row,
+.page-blocks-inline .page-site-field .form-row div {
+  color: #0f172a;
 }

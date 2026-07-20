@@ -29,6 +29,9 @@
 
         <div class="inline-related page-site-field{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}"
              id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
+          {% if inline_admin_form.original and inline_admin_form.original.label %}
+            <div class="page-site-field__heading">{{ inline_admin_form.original.label }}</div>
+          {% endif %}
           {% if inline_admin_form.form.non_field_errors %}
             {{ inline_admin_form.form.non_field_errors }}
           {% endif %}
@@ -39,9 +42,6 @@
             {{ inline_admin_form.pk_field.field }}
           {% endif %}
           {% if inline_admin_form.fk_field %}{{ inline_admin_form.fk_field.field }}{% endif %}
-          {% for field in inline_admin_form.readonly_fields %}
-            {# handled in fieldset #}
-          {% endfor %}
         </div>
 
         {% if forloop.last %}
