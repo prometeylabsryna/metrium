@@ -14,6 +14,8 @@ from src.seo.models import SeoMetadata
 
 
 class SeoMetadataInline(GenericStackedInline):
+    """GenericStackedInline + атрибути Unfold (ordering_field / form_classes)."""
+
     model = SeoMetadata
     extra = 0
     max_num = 1
@@ -30,6 +32,9 @@ class SeoMetadataInline(GenericStackedInline):
     )
     verbose_name = "SEO"
     verbose_name_plural = "SEO цієї мовної версії"
+    ordering_field = None
+    hide_ordering_field = False
+    readonly_preprocess_fields: dict = {}
 
 
 PASSPORT_SLUGS = (

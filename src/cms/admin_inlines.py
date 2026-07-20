@@ -23,6 +23,8 @@ except ImportError:
 class UnfoldGenericStackedInline(GenericStackedInline):
     formfield_overrides = FORMFIELD_OVERRIDES_INLINE
     readonly_preprocess_fields: dict = {}
+    ordering_field = None
+    hide_ordering_field = False
 
 
 class _AnchoredGenericFormSetMixin:
@@ -37,9 +39,9 @@ class _AnchoredGenericFormSetMixin:
             return self.model.objects.none()
 
         ct = ContentType.objects.get_for_model(instance.__class__)
-        # block_title першим — однакові блоки підряд (інакше ifchanged плодить дублікати)
+        # _order_by задає кожен інлайн (у PageSection є block_title, у SiteImage — ні)
         return self.model.objects.filter(content_type=ct, object_id=anchor.pk).order_by(
-            "block_title", "sort_order", "id"
+            *self._order_by
         )
 
     def save_new(self, form, commit=True):
@@ -66,6 +68,9 @@ class PageBlockInline(GenericTabularInline):
     extra = 0
     fields = ("kind", "sort_order", "is_visible", "heading", "css_anchor")
     classes = ["collapse"]
+    ordering_field = None
+    hide_ordering_field = False
+    readonly_preprocess_fields: dict = {}
 
 
 _TEXTAREA_STYLE = (
@@ -182,7 +187,9 @@ class SiteImageRUForm(forms.ModelForm):
         apply_site_image_hints(self, image_key=key)
 
 
-class SiteImageInlineBase(UnfoldGenericStackedInline):
+class SiteImageInlineBase(GenericStackedInline):
+    """Django stacked + атрибути, яких очікує Unfold при рендері fieldset."""
+
     model = SiteImage
     extra = 0
     can_delete = False
@@ -191,6 +198,11 @@ class SiteImageInlineBase(UnfoldGenericStackedInline):
     verbose_name_plural = "Зображення сторінки"
     ordering = ("sort_order", "image_key")
     readonly_fields = ("image_preview",)
+    template = "admin/cms/edit_inline/stacked_images.html"
+    formfield_overrides = FORMFIELD_OVERRIDES_INLINE
+    ordering_field = None
+    hide_ordering_field = False
+    readonly_preprocess_fields: dict = {}
 
     class Media:
         css = {"all": ("admin/css/page_blocks.css",)}
