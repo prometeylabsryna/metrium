@@ -1,4 +1,4 @@
-/* Контрастні кольори для світлої адмінки Unfold — без блідих сірих підписів */
+/* Контраст + без обрізання тексту в блоках сторінки */
 
 .page-blocks-hint {
   margin: 0 0 1rem;
@@ -14,13 +14,13 @@
   border: 1px solid #cbd5e1;
   border-radius: 0.75rem;
   background: #f8fafc;
-  overflow: hidden;
+  overflow: visible;
   color: #0f172a;
 }
 
 .page-site-block__summary {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1.1rem;
@@ -38,9 +38,14 @@
 .page-site-block__title {
   font-size: 1.05rem;
   color: #134e4a;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }
 
 .page-site-block__meta {
+  flex-shrink: 0;
   font-size: 0.75rem;
   font-weight: 600;
   color: #0f766e;
@@ -58,17 +63,45 @@
   border: 1px solid #e2e8f0;
   background: #ffffff;
   color: #0f172a;
+  overflow: visible;
 }
 
 .page-site-field__heading {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
+  margin: 0 0 0.65rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.4;
   color: #0f172a;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }
 
-/* Ховаємо блідий дубль label від Unfold — заголовок уже вище */
+/* Unfold часто ставить label зліва в вузьку колонку з ellipsis — ламаємо це */
+.page-blocks-inline .page-site-field .form-row,
+.page-blocks-inline .page-site-field .flex-container,
+.page-blocks-inline .page-site-field .flex {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.page-blocks-inline .page-site-field .form-row > div,
+.page-blocks-inline .page-site-field .flex-container > div {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+}
+
+/* Ховаємо дубль label (є заголовок зверху) */
 .page-blocks-inline .page-site-field .form-row > label,
 .page-blocks-inline .page-site-field .flex-container > label:first-child {
   position: absolute;
@@ -83,7 +116,9 @@
 }
 
 .page-blocks-inline .page-site-field .form-row:has(input[type="checkbox"]) > label,
-.page-blocks-inline .page-site-field .checkbox-row label {
+.page-blocks-inline .page-site-field .checkbox-row label,
+.page-blocks-inline .page-site-field label:has(+ input[type="checkbox"]),
+.page-blocks-inline .page-site-field .flex.items-center label {
   position: static;
   width: auto;
   height: auto;
@@ -94,36 +129,30 @@
   font-weight: 650;
   color: #0f172a;
 }
+
 .page-site-field .form-row {
   padding: 0.35rem 0;
   color: #0f172a;
 }
 
-.page-blocks-inline .page-site-field label,
-.page-blocks-inline .page-site-field .form-row label,
-.page-blocks-inline .page-site-field .flex-container > label,
-.page-blocks-inline .page-site-field .checkbox-row label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-weight: 650;
-  font-size: 0.95rem;
-  color: #0f172a;
-  opacity: 1;
-}
-
 .page-site-field textarea,
 .page-blocks-inline .page-site-field textarea {
+  display: block;
   width: 100%;
-  max-width: 48rem;
-  min-height: 6rem;
+  max-width: 100%;
+  min-height: 7rem;
   font-size: 1rem;
-  line-height: 1.45;
+  line-height: 1.5;
   color: #0f172a;
   background: #ffffff;
   border: 1px solid #94a3b8;
   border-radius: 0.4rem;
-  padding: 0.65rem 0.75rem;
+  padding: 0.75rem 0.85rem;
   caret-color: #0f172a;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  resize: vertical;
 }
 
 .page-site-field textarea:focus,
@@ -136,7 +165,7 @@
 .page-site-field input[type="text"],
 .page-blocks-inline .page-site-field input[type="text"] {
   width: 100%;
-  max-width: 48rem;
+  max-width: 100%;
   color: #0f172a;
   background: #ffffff;
   border: 1px solid #94a3b8;
@@ -147,9 +176,14 @@
   display: none;
 }
 
-/* Підпис біля тогла — теж темний */
 .page-blocks-inline .page-site-field .flex.items-center,
 .page-blocks-inline .page-site-field .checkbox-row,
 .page-blocks-inline .page-site-field .form-row div {
   color: #0f172a;
+}
+
+/* Прибрати ellipsis з будь-яких нащадків у блоці */
+.page-blocks-inline .page-site-field,
+.page-blocks-inline .page-site-field * {
+  text-overflow: unset;
 }

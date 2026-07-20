@@ -355,30 +355,20 @@ class Command(BaseCommand):
                 if value and not getattr(obj, field):
                     setattr(obj, field, value)
                     changed = True
-            new_label = defaults.get("label", "")
-            if (
-                data.get("is_faq")
-                and new_label.startswith("FAQ:")
-                and obj.label
-                and not obj.label.startswith("FAQ:")
-            ):
-                obj.label = new_label
-                changed = True
             # Оновлювати назву блоку й роль поля з шаблону (не затирає тексти UA/RU)
             if defaults.get("block_title") and obj.block_title != defaults["block_title"]:
                 obj.block_title = defaults["block_title"]
                 changed = True
-            if defaults.get("label") and (
-                obj.label.startswith("Паспорт")
-                or obj.label == obj.text_ua[:120]
-                or not obj.label.startswith(("Заголовок:", "Текст", "FAQ"))
+            # Довгі/обрізані підписи → короткі ролі (Заголовок, Текст 2, FAQ · питання)
+            new_label = defaults.get("label", "")
+            if new_label and obj.label != new_label and (
+                "…" in obj.label
+                or len(obj.label) > 48
+                or obj.label.startswith(("Заголовок:", "Текст:", "FAQ:"))
+                or not obj.label.startswith(("Заголовок", "Текст", "FAQ ·"))
             ):
-                # підтягнути зрозуміліші label з sync, якщо старі «сирі»
-                if defaults["label"] != obj.label and defaults["label"].startswith(
-                    ("Заголовок:", "Текст", "FAQ")
-                ):
-                    obj.label = defaults["label"]
-                    changed = True
+                obj.label = new_label
+                changed = True
             if defaults.get("sort_order") and obj.sort_order != defaults["sort_order"]:
                 obj.sort_order = defaults["sort_order"]
                 changed = True

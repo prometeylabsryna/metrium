@@ -9,7 +9,6 @@ from src.cms.text_keys import (
     T_TAG_RE,
     context_looks_like_faq,
     make_auto_key,
-    make_section_label,
     ua_text_is_faq_question,
 )
 
@@ -51,17 +50,15 @@ def normalize_block_title(raw: str) -> str:
 
 
 def field_label_for_text(ua: str, *, is_faq: bool, index_in_block: int) -> str:
+    """Короткий підпис ролі — повний текст лише в textarea, без обрізання «…»."""
     text = " ".join(ua.split())
     if is_faq or ua_text_is_faq_question(ua):
         if ua_text_is_faq_question(ua):
-            return make_section_label(text, is_faq=True, max_len=100)
-        return f"FAQ відповідь: {text[:80]}{'…' if len(text) > 80 else ''}"
+            return f"FAQ · питання {index_in_block}"
+        return f"FAQ · відповідь {index_in_block}"
     if len(text) <= 70 and not text.endswith((".", "!", "…")):
-        return f"Заголовок: {text}"
-    preview = text[:90] + ("…" if len(text) > 90 else "")
-    if index_in_block <= 1:
-        return f"Текст: {preview}"
-    return f"Текст {index_in_block}: {preview}"
+        return "Заголовок" if index_in_block <= 1 else f"Заголовок {index_in_block}"
+    return "Текст" if index_in_block <= 1 else f"Текст {index_in_block}"
 
 
 def extract_template_text_items(content: str) -> list[TemplateTextItem]:
