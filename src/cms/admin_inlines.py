@@ -7,17 +7,25 @@ from django.contrib.contenttypes.admin import GenericInlineModelAdmin, GenericTa
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import BaseModelFormSet
 from django.utils.html import format_html
-from unfold.mixins import BaseModelAdminMixin
-from unfold.overrides import FORMFIELD_OVERRIDES_INLINE
 
 from src.cms.models import PageBlock, PageSection, SiteImage
 from src.cms.page_labels import page_public_url
 from src.cms.services import ensure_static_page_links, resolve_page_anchor
 from src.i18n.models import Language
 
+try:
+    from unfold.mixins import BaseModelAdminMixin
+except ImportError:  # серверна збірка unfold без цього mixin
+    BaseModelAdminMixin = object  # type: ignore[misc,assignment]
+
+try:
+    from unfold.overrides import FORMFIELD_OVERRIDES_INLINE
+except ImportError:
+    FORMFIELD_OVERRIDES_INLINE = {}
+
 
 class UnfoldGenericTabularInline(BaseModelAdminMixin, GenericTabularInline):
-    """Generic tabular inline зі стилями Unfold (у 0.97 немає вбудованого класу)."""
+    """Generic tabular inline; стилі Unfold — якщо mixin доступний у встановленій версії."""
 
     formfield_overrides = FORMFIELD_OVERRIDES_INLINE
     readonly_preprocess_fields: dict = {}
