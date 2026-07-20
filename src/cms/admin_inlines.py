@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.models import BaseModelFormSet
 from src.cms.image_size_hints import apply_site_image_hints
 from src.cms.models import PageBlock, PageSection, SiteImage
-from src.cms.services import ensure_static_page_links, resolve_page_anchor
+from src.cms.services import ensure_static_page_links, resolve_content_anchor
 from src.i18n.models import Language
 
 try:
@@ -32,7 +32,7 @@ class _AnchoredGenericFormSetMixin:
             return self.model.objects.none()
 
         ensure_static_page_links(instance)
-        anchor = resolve_page_anchor(instance.slug)
+        anchor = resolve_content_anchor(instance)
         if not anchor:
             return self.model.objects.none()
 
@@ -45,12 +45,14 @@ class _AnchoredGenericFormSetMixin:
     def save_new(self, form, commit=True):
         instance = self.instance
         ensure_static_page_links(instance)
-        anchor = resolve_page_anchor(instance.slug) or instance
+        anchor = resolve_content_anchor(instance) or instance
         ct = ContentType.objects.get_for_model(instance.__class__)
         setattr(form.instance, self.ct_field.get_attname(), ct.pk)
         setattr(form.instance, self.ct_fk_field.get_attname(), anchor.pk)
         if not form.instance.page_slug:
-            form.instance.page_slug = "home" if instance.is_home else instance.slug
+            form.instance.page_slug = (
+                "home" if (instance.is_home or anchor.is_home) else anchor.slug
+            )
         return BaseModelFormSet.save_new(self, form, commit=commit)
 
 

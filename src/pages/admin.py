@@ -7,7 +7,7 @@ from unfold.admin import ModelAdmin
 
 from src.cms.admin_inlines import PageBlockInline, page_content_inlines_for_language
 from src.cms.models import PageSection, SiteImage
-from src.cms.services import ensure_static_page_links, resolve_page_anchor
+from src.cms.services import ensure_static_page_links, resolve_content_anchor
 from src.i18n.models import Language
 from src.pages.models import StaticPage
 from src.seo.models import SeoMetadata
@@ -147,12 +147,28 @@ class StaticPageAdmin(ModelAdmin):
         if not obj or not obj.pk:
             return None, False
         ensure_static_page_links(obj)
-        anchor = resolve_page_anchor(obj.slug)
+        anchor = resolve_content_anchor(obj)
         return anchor, bool(anchor and anchor.pk == obj.pk)
 
     def _sibling(self, obj: StaticPage) -> StaticPage | None:
         if not obj or not obj.pk:
             return None
+        if obj.translation_group_id:
+            sibling = (
+                StaticPage.objects.filter(translation_group_id=obj.translation_group_id)
+                .exclude(pk=obj.pk)
+                .order_by("language")
+                .first()
+            )
+            if sibling:
+                return sibling
+        if obj.is_home:
+            return (
+                StaticPage.objects.filter(is_home=True)
+                .exclude(pk=obj.pk)
+                .order_by("language")
+                .first()
+            )
         return (
             StaticPage.objects.filter(slug=obj.slug)
             .exclude(pk=obj.pk)
@@ -294,11 +310,11 @@ class StaticPageAdmin(ModelAdmin):
     def save_formset(self, request, form, formset, change):
         if formset.model in (PageSection, SiteImage):
             instances = formset.save(commit=False)
-            anchor = resolve_page_anchor(form.instance.slug) or form.instance
+            anchor = resolve_content_anchor(form.instance) or form.instance
             for instance in instances:
                 if not instance.page_slug:
                     instance.page_slug = (
-                        "home" if form.instance.is_home else form.instance.slug
+                        "home" if (form.instance.is_home or anchor.is_home) else anchor.slug
                     )
                 instance.save()
             formset.save_m2m()

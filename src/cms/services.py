@@ -9,11 +9,7 @@ IMAGE_CACHE_TTL = 300
 
 
 def resolve_page_anchor(slug: str):
-    """Детермінована «якірна» сторінка для slug — та, де редагуються тексти/зображення.
-
-    Якщо для slug існує кілька StaticPage (укр./рос. версії), якорем завжди
-    є українська версія — незалежно від того, яку зі сторінок відкрив редактор.
-    """
+    """Якір за slug: завжди українська версія з цим slug (якщо є)."""
     from src.i18n.models import Language
     from src.pages.models import StaticPage
 
@@ -21,6 +17,47 @@ def resolve_page_anchor(slug: str):
         StaticPage.objects.filter(slug=slug, language=Language.UA).first()
         or StaticPage.objects.filter(slug=slug).order_by("language").first()
     )
+
+
+def resolve_content_anchor(static_page):
+    """Якір контенту для будь-якої мовної версії StaticPage.
+
+    Тексти/фото живуть на одній «якірній» сторінці (зазвичай UA).
+    Працює і коли RU має інший slug (напр. golovna / golovna-2) — через
+    is_home або translation_group_id.
+    """
+    from src.i18n.models import Language
+    from src.pages.models import StaticPage
+
+    if not static_page:
+        return None
+
+    # Головна: контент завжди на UA home, навіть якщо RU slug інший
+    if getattr(static_page, "is_home", False) or static_page.slug in ("home", "", "golovna"):
+        home = (
+            StaticPage.objects.filter(is_home=True, language=Language.UA).first()
+            or StaticPage.objects.filter(is_home=True).order_by("language").first()
+        )
+        if home:
+            return home
+
+    # Пара перекладів з різними slug
+    group_id = getattr(static_page, "translation_group_id", None)
+    if group_id:
+        ua = StaticPage.objects.filter(
+            translation_group_id=group_id, language=Language.UA
+        ).first()
+        if ua:
+            return ua
+        pair = (
+            StaticPage.objects.filter(translation_group_id=group_id)
+            .order_by("language")
+            .first()
+        )
+        if pair:
+            return pair
+
+    return resolve_page_anchor(static_page.slug)
 
 
 def ensure_static_page_links(static_page) -> None:
@@ -33,13 +70,13 @@ def ensure_static_page_links(static_page) -> None:
 
     from src.pages.models import StaticPage
 
-    anchor = resolve_page_anchor(static_page.slug)
+    anchor = resolve_content_anchor(static_page)
     if not anchor:
         return
 
-    aliases = {anchor.slug}
-    if anchor.is_home:
-        aliases.add("home")
+    aliases = {anchor.slug, static_page.slug}
+    if anchor.is_home or static_page.is_home:
+        aliases.update({"home", "golovna", "golovna-2"})
 
     content_type = ContentType.objects.get_for_model(StaticPage)
     PageSection.objects.filter(page_slug__in=aliases, content_type__isnull=True).update(

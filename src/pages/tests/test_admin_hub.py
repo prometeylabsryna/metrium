@@ -91,3 +91,40 @@ class StaticPageAdminHubTests(TestCase):
         self.assertNotIn("section_key", form.fields)
         self.assertIn("text_ua", form.fields)
         self.assertEqual(form.fields["text_ua"].label, "")
+
+    def test_ru_home_different_slug_shows_ua_home_sections(self):
+        ua_home = StaticPage.objects.create(
+            slug="golovna",
+            title="Головна UA",
+            language=Language.UA,
+            is_published=True,
+            is_home=True,
+            translation_group_id=99,
+            use_block_builder=False,
+        )
+        ru_home = StaticPage.objects.create(
+            slug="golovna-2",
+            title="Головна RU",
+            language=Language.RU,
+            is_published=True,
+            is_home=True,
+            translation_group_id=99,
+            use_block_builder=False,
+        )
+        ct = ContentType.objects.get_for_model(StaticPage)
+        section = PageSection.objects.create(
+            page_slug="home",
+            section_key="hero.title",
+            label="Hero",
+            text_ua="Заголовок",
+            text_ru="Заголовок RU",
+            content_type=ct,
+            object_id=ua_home.pk,
+        )
+        inline = PageSectionInlineRU(StaticPage, self.site)
+        request = self.factory.get("/")
+        request.user = self.user
+        FormSet = inline.get_formset(request, ru_home)
+        formset = FormSet(instance=ru_home)
+        pks = list(formset.get_queryset().values_list("pk", flat=True))
+        self.assertEqual(pks, [section.pk])
