@@ -14,18 +14,13 @@ from src.cms.services import ensure_static_page_links, resolve_page_anchor
 from src.i18n.models import Language
 
 try:
-    from unfold.mixins import BaseModelAdminMixin
-except ImportError:  # серверна збірка unfold без цього mixin
-    BaseModelAdminMixin = object  # type: ignore[misc,assignment]
-
-try:
     from unfold.overrides import FORMFIELD_OVERRIDES_INLINE
 except ImportError:
     FORMFIELD_OVERRIDES_INLINE = {}
 
 
-class UnfoldGenericTabularInline(BaseModelAdminMixin, GenericTabularInline):
-    """Generic tabular inline; стилі Unfold — якщо mixin доступний у встановленій версії."""
+class UnfoldGenericTabularInline(GenericTabularInline):
+    """Generic tabular inline для хабу сторінок (без внутрішніх mixin Unfold — сумісно з різними версіями)."""
 
     formfield_overrides = FORMFIELD_OVERRIDES_INLINE
     readonly_preprocess_fields: dict = {}
