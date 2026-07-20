@@ -63,7 +63,7 @@ class StaticPageAdminHubTests(TestCase):
         pks = list(formset.get_queryset().values_list("pk", flat=True))
         self.assertEqual(pks, [self.section.pk])
 
-    def test_ru_save_new_keeps_anchor_link(self):
+    def test_ru_edit_updates_text_keeps_anchor(self):
         inline = PageSectionInlineRU(StaticPage, self.site)
         request = self.factory.get("/")
         request.user = self.user
@@ -71,19 +71,25 @@ class StaticPageAdminHubTests(TestCase):
         prefix = FormSet.get_default_prefix()
         payload = {
             f"{prefix}-TOTAL_FORMS": "1",
-            f"{prefix}-INITIAL_FORMS": "0",
+            f"{prefix}-INITIAL_FORMS": "1",
             f"{prefix}-MIN_NUM_FORMS": "0",
             f"{prefix}-MAX_NUM_FORMS": "1000",
-            f"{prefix}-0-label": "Новий FAQ",
-            f"{prefix}-0-section_key": "faq-new",
-            f"{prefix}-0-text_ru": "Новый текст",
+            f"{prefix}-0-id": str(self.section.pk),
+            f"{prefix}-0-label": "FAQ 1",
+            f"{prefix}-0-text_ru": "Обновлённый вопрос",
             f"{prefix}-0-body_ru": "",
             f"{prefix}-0-is_active": "on",
         }
         formset = FormSet(payload, instance=self.ru)
         self.assertTrue(formset.is_valid(), formset.errors)
         formset.save()
-        created = PageSection.objects.get(label="Новий FAQ")
-        self.assertEqual(created.object_id, self.ua.pk)
-        self.assertEqual(created.page_slug, "tehnichnyj-pasport-na-kvartyru")
-        self.assertEqual(created.text_ru, "Новый текст")
+        self.section.refresh_from_db()
+        self.assertEqual(self.section.object_id, self.ua.pk)
+        self.assertEqual(self.section.text_ru, "Обновлённый вопрос")
+        self.assertEqual(self.section.text_ua, "Питання UA")
+
+    def test_section_form_hides_technical_key(self):
+        form = PageSectionInlineUA.form()
+        self.assertNotIn("section_key", form.fields)
+        self.assertIn("text_ua", form.fields)
+        self.assertEqual(form.fields["text_ua"].label, "Текст (українською)")

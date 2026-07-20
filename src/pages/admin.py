@@ -225,13 +225,16 @@ class StaticPageAdmin(ModelAdmin):
         if not obj or not obj.pk:
             return "Збережіть запис, щоб редагувати тексти, FAQ, фото й SEO нижче."
 
-        anchor, is_anchor = self._anchor_context(obj)
+        anchor, _is_anchor = self._anchor_context(obj)
         lang_label = "українською" if obj.language == Language.UA else "російською"
         parts: list[str] = [
             format_html(
-                "<p>Тут — <strong>усі матеріали цієї сторінки {}</strong>: "
-                "тексти (включно з FAQ), зображення та SEO. "
-                "Зміни для іншої мови — на окремій картці StaticPage.</p>",
+                "<ol style='margin:0;padding-left:1.25rem;line-height:1.55;'>"
+                "<li>Нижче кожен блок — окремий текст на сайті (заголовок, абзац, FAQ тощо).</li>"
+                "<li>Змінюйте поле <strong>«Текст (… )»</strong> — це те, що бачать відвідувачі.</li>"
+                "<li>Поле «Що це за блок» — лише підказка для вас, на сайт не йде.</li>"
+                "<li>Мова цієї картки: <strong>{}</strong>. Іншу мову відкрийте кнопкою вище.</li>"
+                "</ol>",
                 lang_label,
             )
         ]
@@ -245,27 +248,17 @@ class StaticPageAdmin(ModelAdmin):
             ).count()
             parts.append(
                 format_html(
-                    "<p>Підключено: <strong>{}</strong> текстів/FAQ, "
-                    "<strong>{}</strong> зображень. "
-                    "Редагуйте у вкладках нижче — окремо в «Усі тексти» заходити не потрібно.</p>",
+                    "<p style='margin-top:.75rem;'>На цій сторінці: "
+                    "<strong>{}</strong> текстових блоків, <strong>{}</strong> зображень.</p>",
                     sections,
                     images,
                 )
             )
-            if not is_anchor:
-                parts.append(
-                    format_html(
-                        "<p>Файли зображень спільні з якірною версією; "
-                        "на цій картці змінюються підписи/alt {} і SEO саме цієї мови.</p>",
-                        lang_label,
-                    )
-                )
 
         if obj.use_block_builder:
             parts.append(
                 format_html(
-                    "<p>Увімкнено block builder — блоки конструктора також нижче "
-                    "(FAQ у блоках — kind «faq»).</p>"
+                    "<p>Також є блоки конструктора нижче (legacy).</p>"
                 )
             )
 
