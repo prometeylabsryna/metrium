@@ -1,0 +1,55 @@
+{% load i18n admin_urls static %}
+<div class="js-inline-admin-formset inline-group page-blocks-inline"
+     id="{{ inline_admin_formset.formset.prefix }}-group"
+     data-inline-type="stacked"
+     data-inline-formset="{{ inline_admin_formset.inline_formset_data }}">
+  <fieldset class="module {{ inline_admin_formset.classes }}" aria-labelledby="{{ inline_admin_formset.formset.prefix }}-heading">
+    <h2 id="{{ inline_admin_formset.formset.prefix }}-heading" class="inline-heading">
+      {{ inline_admin_formset.opts.verbose_name_plural|capfirst }}
+    </h2>
+    <p class="page-blocks-hint">
+      Блоки нижче — у тому ж порядку, що й на сайті. Відкрийте потрібний блок і змініть текст у полі.
+    </p>
+    {{ inline_admin_formset.formset.management_form }}
+    {{ inline_admin_formset.formset.non_form_errors }}
+
+    {% for inline_admin_form in inline_admin_formset %}
+      {% with block_name=inline_admin_form.original.block_title %}
+        {% ifchanged block_name %}
+          {% if not forloop.first %}
+            </div></details>
+          {% endif %}
+          <details class="page-site-block"{% if block_name != "Інші тексти" and forloop.counter0 < 4 %} open{% endif %}>
+            <summary class="page-site-block__summary">
+              <span class="page-site-block__title">{{ block_name|default:"Інші тексти" }}</span>
+              <span class="page-site-block__meta">{% if block_name == "Інші тексти" %}застарілі / службові{% else %}блок на сайті{% endif %}</span>
+            </summary>
+            <div class="page-site-block__body">
+        {% endifchanged %}
+
+        <div class="inline-related page-site-field{% if inline_admin_form.original or inline_admin_form.show_url %} has_original{% endif %}{% if forloop.last and inline_admin_formset.has_add_permission %} empty-form last-related{% endif %}"
+             id="{{ inline_admin_formset.formset.prefix }}-{% if forloop.last and inline_admin_formset.has_add_permission %}empty{% else %}{{ forloop.counter0 }}{% endif %}">
+          {% if inline_admin_form.form.non_field_errors %}
+            {{ inline_admin_form.form.non_field_errors }}
+          {% endif %}
+          {% for fieldset in inline_admin_form %}
+            {% include "admin/includes/fieldset.html" %}
+          {% endfor %}
+          {% if inline_admin_form.needs_explicit_pk_field %}
+            {{ inline_admin_form.pk_field.field }}
+          {% endif %}
+          {% if inline_admin_form.fk_field %}{{ inline_admin_form.fk_field.field }}{% endif %}
+          {% for field in inline_admin_form.readonly_fields %}
+            {# handled in fieldset #}
+          {% endfor %}
+        </div>
+
+        {% if forloop.last %}
+            </div></details>
+        {% endif %}
+      {% endwith %}
+    {% empty %}
+      <p class="page-blocks-hint">Тексти ще не підключені. Після деплою виконайте sync_template_texts.</p>
+    {% endfor %}
+  </fieldset>
+</div>

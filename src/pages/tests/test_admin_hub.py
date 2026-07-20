@@ -75,9 +75,7 @@ class StaticPageAdminHubTests(TestCase):
             f"{prefix}-MIN_NUM_FORMS": "0",
             f"{prefix}-MAX_NUM_FORMS": "1000",
             f"{prefix}-0-id": str(self.section.pk),
-            f"{prefix}-0-label": "FAQ 1",
             f"{prefix}-0-text_ru": "Обновлённый вопрос",
-            f"{prefix}-0-body_ru": "",
             f"{prefix}-0-is_active": "on",
         }
         formset = FormSet(payload, instance=self.ru)
@@ -92,4 +90,4 @@ class StaticPageAdminHubTests(TestCase):
         form = PageSectionInlineUA.form()
         self.assertNotIn("section_key", form.fields)
         self.assertIn("text_ua", form.fields)
-        self.assertEqual(form.fields["text_ua"].label, "Текст (українською)")
+        self.assertEqual(form.fields["text_ua"].label, "Текст — змініть тут")

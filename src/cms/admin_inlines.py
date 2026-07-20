@@ -1,4 +1,4 @@
-"""Інлайни для хабу редагування сторінки (StaticPage)."""
+"""Інлайни для хабу редагування сторінки (StaticPage) — блоки як на сайті."""
 
 from __future__ import annotations
 
@@ -20,15 +20,11 @@ except ImportError:
 
 
 class UnfoldGenericStackedInline(GenericStackedInline):
-    """Stacked inline — зручні повноширинні поля для редакторів."""
-
     formfield_overrides = FORMFIELD_OVERRIDES_INLINE
     readonly_preprocess_fields: dict = {}
 
 
 class _AnchoredGenericFormSetMixin:
-    """Показує/зберігає контент на якірній StaticPage (спільний для UA і RU)."""
-
     def get_queryset(self):
         instance = self.instance
         if not instance or not instance.pk:
@@ -73,87 +69,74 @@ class PageBlockInline(GenericTabularInline):
 class PageSectionUAForm(forms.ModelForm):
     class Meta:
         model = PageSection
-        fields = ("label", "text_ua", "body_ua", "is_active")
+        fields = ("text_ua", "is_active")
         labels = {
-            "label": "Що це за блок",
-            "text_ua": "Текст (українською)",
-            "body_ua": "Довгий текст / HTML (якщо є)",
+            "text_ua": "Текст — змініть тут",
             "is_active": "Показувати на сайті",
         }
-        help_texts = {
-            "text_ua": "Основний текст, який видно на сторінці. Змініть і збережіть.",
-            "body_ua": "Заповнюйте лише якщо потрібен HTML (списки, виділення). Інакше залиште порожнім.",
-            "label": "Підказка для вас в адмінці — на сайт не виводиться.",
-        }
         widgets = {
-            "label": forms.TextInput(attrs={"class": "vTextField", "style": "max-width:48rem;width:100%;"}),
             "text_ua": forms.Textarea(
-                attrs={"rows": 5, "cols": 80, "style": "max-width:48rem;width:100%;font-size:1rem;"}
-            ),
-            "body_ua": forms.Textarea(
-                attrs={"rows": 4, "cols": 80, "style": "max-width:48rem;width:100%;"}
+                attrs={"rows": 5, "style": "max-width:48rem;width:100%;font-size:1rem;"}
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk and self.instance.label:
+            self.fields["text_ua"].label = self.instance.label
 
 
 class PageSectionRUForm(forms.ModelForm):
     class Meta:
         model = PageSection
-        fields = ("label", "text_ru", "body_ru", "is_active")
+        fields = ("text_ru", "is_active")
         labels = {
-            "label": "Что это за блок",
-            "text_ru": "Текст (русским)",
-            "body_ru": "Длинный текст / HTML (если есть)",
+            "text_ru": "Текст — измените здесь",
             "is_active": "Показывать на сайте",
         }
-        help_texts = {
-            "text_ru": "Основной текст на странице. Измените и сохраните.",
-            "body_ru": "Только если нужен HTML. Иначе оставьте пустым.",
-            "label": "Подсказка в админке — на сайт не выводится.",
-        }
         widgets = {
-            "label": forms.TextInput(attrs={"class": "vTextField", "style": "max-width:48rem;width:100%;"}),
             "text_ru": forms.Textarea(
-                attrs={"rows": 5, "cols": 80, "style": "max-width:48rem;width:100%;font-size:1rem;"}
-            ),
-            "body_ru": forms.Textarea(
-                attrs={"rows": 4, "cols": 80, "style": "max-width:48rem;width:100%;"}
+                attrs={"rows": 5, "style": "max-width:48rem;width:100%;font-size:1rem;"}
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk and self.instance.label:
+            self.fields["text_ru"].label = self.instance.label
 
 
 class PageSectionInlineBase(UnfoldGenericStackedInline):
-    """Тексти сторінки — зручні картки з нормальними полями."""
-
     model = PageSection
     extra = 0
-    max_num = 300
+    max_num = 400
     can_delete = False
     show_change_link = False
-    verbose_name = "Текстовий блок"
-    verbose_name_plural = "Тексти сторінки"
-    ordering = ("sort_order", "section_key")
-    template = "admin/edit_inline/stacked.html"
+    verbose_name = "Текст"
+    verbose_name_plural = "Тексти сторінки — блоки як на сайті"
+    ordering = ("sort_order", "id")
+    template = "admin/cms/edit_inline/stacked_blocks.html"
+    classes = ()
+
+    class Media:
+        css = {"all": ("admin/css/page_blocks.css",)}
 
     def has_add_permission(self, request, obj=None):
-        # Нові блоки зʼявляються через sync_template_texts — редактор лише змінює тексти
         return False
 
     def get_formset(self, request, obj=None, **kwargs):
         FormSet = super().get_formset(request, obj, **kwargs)
-        return _make_anchored_formset(FormSet, ("sort_order", "section_key"))
+        return _make_anchored_formset(FormSet, ("sort_order", "id"))
 
 
 class PageSectionInlineUA(PageSectionInlineBase):
     form = PageSectionUAForm
-    fields = ("label", "text_ua", "body_ua", "is_active")
-    verbose_name_plural = "Тексти сторінки (українською) — змінюйте поле «Текст»"
+    fields = ("text_ua", "is_active")
 
 
 class PageSectionInlineRU(PageSectionInlineBase):
     form = PageSectionRUForm
-    fields = ("label", "text_ru", "body_ru", "is_active")
-    verbose_name_plural = "Тексты страницы (на русском) — меняйте поле «Текст»"
+    fields = ("text_ru", "is_active")
 
 
 PageSectionInline = PageSectionInlineUA
@@ -167,12 +150,8 @@ class SiteImageUAForm(forms.ModelForm):
             "label": "Назва зображення",
             "image": "Фото (десктоп)",
             "image_mobile": "Фото (мобільне)",
-            "image_alt_ua": "Опис фото (alt, українською)",
+            "image_alt_ua": "Опис фото (alt)",
             "is_active": "Показувати на сайті",
-        }
-        help_texts = {
-            "image": "Завантажте новий файл — він замінить поточне фото на сайті.",
-            "image_mobile": "Опційно: окреме фото для телефону.",
         }
 
 
@@ -184,7 +163,7 @@ class SiteImageRUForm(forms.ModelForm):
             "label": "Название изображения",
             "image": "Фото (десктоп)",
             "image_mobile": "Фото (мобильное)",
-            "image_alt_ru": "Описание фото (alt, русским)",
+            "image_alt_ru": "Описание фото (alt)",
             "is_active": "Показывать на сайте",
         }
 
@@ -198,6 +177,9 @@ class SiteImageInlineBase(UnfoldGenericStackedInline):
     verbose_name_plural = "Зображення сторінки"
     ordering = ("sort_order", "image_key")
     readonly_fields = ("image_preview",)
+
+    class Media:
+        css = {"all": ("admin/css/page_blocks.css",)}
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -223,13 +205,11 @@ class SiteImageInlineBase(UnfoldGenericStackedInline):
 class SiteImageInlineUA(SiteImageInlineBase):
     form = SiteImageUAForm
     fields = ("label", "image_preview", "image", "image_mobile", "image_alt_ua", "is_active")
-    verbose_name_plural = "Зображення сторінки"
 
 
 class SiteImageInlineRU(SiteImageInlineBase):
     form = SiteImageRUForm
     fields = ("label", "image_preview", "image", "image_mobile", "image_alt_ru", "is_active")
-    verbose_name_plural = "Изображения страницы"
 
 
 SiteImageInline = SiteImageInlineUA

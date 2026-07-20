@@ -27,6 +27,10 @@ pip install -q -r requirements.txt
 echo "==> migrate"
 python manage.py migrate --noinput
 
+echo "==> sync page texts (блоки для адмінки)"
+python manage.py sync_template_texts
+python manage.py sync_site_images
+
 echo "==> collectstatic"
 python manage.py collectstatic --noinput
 

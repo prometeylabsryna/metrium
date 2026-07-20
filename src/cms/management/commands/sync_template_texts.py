@@ -7,17 +7,13 @@ from django.core.management.base import BaseCommand
 
 from src.cms.models import PageSection
 from src.cms.services import clear_section_cache, link_all_page_content
+from src.cms.template_blocks import extract_template_text_items
 from src.cms.text_keys import (
     BI_TAG_RE,
     SECTION_BODY_TAG_RE,
     SECTION_TAG_RE,
-    T_TAG_RE,
-    context_looks_like_faq,
-    make_auto_key,
     make_label,
-    make_section_label,
     page_slug_from_template_path,
-    ua_text_is_faq_question,
 )
 
 MANUAL_SECTIONS: list[dict] = [
@@ -154,8 +150,19 @@ class Command(BaseCommand):
             seen.add(key)
             slug = item["page_slug"]
             sort_counters[slug] = sort_counters.get(slug, 0) + 10
+            block_map = {
+                "header": "Меню (шапка сайту)",
+                "footer": "Футер",
+                "global": "Спільні тексти (форми, toast)",
+                "home": "Головна",
+                "about": "Про нас",
+            }
             action = self._upsert_section(
-                {**item, "sort_order": sort_counters[slug]},
+                {
+                    **item,
+                    "sort_order": sort_counters[slug],
+                    "block_title": item.get("block_title") or block_map.get(slug, "Тексти"),
+                },
                 overwrite,
                 fill_empty,
             )
@@ -168,28 +175,21 @@ class Command(BaseCommand):
             page_slug = page_slug_from_template_path(rel)
             content = path.read_text(encoding="utf-8")
 
-            for match in T_TAG_RE.finditer(content):
-                ua = match.group(1).replace("\\'", "'")
-                ru = match.group(2).replace("\\'", "'")
-                explicit_key = match.group(3)
-                section_key = explicit_key or make_auto_key(ua, ru)
-                key = (page_slug, section_key)
+            for item in extract_template_text_items(content):
+                key = (page_slug, item.section_key)
                 if key in seen:
                     continue
                 seen.add(key)
-                is_faq = context_looks_like_faq(content, match.start()) or (
-                    ua_text_is_faq_question(ua)
-                )
-                sort_counters[page_slug] = sort_counters.get(page_slug, 0) + 10
                 action = self._upsert_section(
                     {
                         "page_slug": page_slug,
-                        "section_key": section_key,
-                        "label": make_section_label(ua, is_faq=is_faq),
-                        "text_ua": ua,
-                        "text_ru": ru,
-                        "sort_order": sort_counters[page_slug],
-                        "is_faq": is_faq,
+                        "section_key": item.section_key,
+                        "label": item.label,
+                        "block_title": item.block_title,
+                        "text_ua": item.ua,
+                        "text_ru": item.ru,
+                        "sort_order": item.sort_order,
+                        "is_faq": item.is_faq,
                     },
                     overwrite,
                     fill_empty,
@@ -214,6 +214,7 @@ class Command(BaseCommand):
                         "page_slug": slug,
                         "section_key": section_key,
                         "label": manual.get("label") or make_label(ua),
+                        "block_title": manual.get("block_title") or "Тексти сторінки",
                         "text_ua": ua,
                         "text_ru": ru,
                         "body_ua": manual.get("body_ua", ""),
@@ -243,6 +244,7 @@ class Command(BaseCommand):
                         "page_slug": slug,
                         "section_key": section_key,
                         "label": manual.get("label") or make_label(ua),
+                        "block_title": manual.get("block_title") or "Тексти сторінки",
                         "text_ua": ua,
                         "text_ru": ru,
                         "sort_order": sort_counters[slug],
@@ -268,6 +270,7 @@ class Command(BaseCommand):
                         "page_slug": slug,
                         "section_key": section_key,
                         "label": manual.get("label") or section_key.replace(".", " · "),
+                        "block_title": manual.get("block_title") or "Тексти сторінки",
                         "text_ua": manual.get("text_ua", ""),
                         "text_ru": manual.get("text_ru", ""),
                         "body_ua": manual.get("body_ua", ""),
@@ -281,6 +284,14 @@ class Command(BaseCommand):
                     action, created, updated, filled, skipped
                 )
 
+        # Застарілі записи без блоку — в кінець списку, щоб не плутали редактора
+        orphans = list(PageSection.objects.filter(block_title="").order_by("id"))
+        for index, orphan in enumerate(orphans):
+            orphan.block_title = "Інші тексти"
+            if orphan.sort_order < 9000:
+                orphan.sort_order = 9000 + index
+            orphan.save(update_fields=["block_title", "sort_order"])
+
         clear_section_cache()
         linked = link_all_page_content()
         self.stdout.write(
@@ -289,6 +300,12 @@ class Command(BaseCommand):
                 f"заповнено порожніх {filled}, пропущено {skipped}"
             )
         )
+        if orphans:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"Без блоку з шаблону: {len(orphans)} → група «Інші тексти»"
+                )
+            )
         self.stdout.write(
             self.style.SUCCESS(
                 f"Привʼязка до сторінок: {linked['pages']} сторінок, "
@@ -311,6 +328,7 @@ class Command(BaseCommand):
     def _upsert_section(self, data: dict, overwrite: bool, fill_empty: bool) -> str:
         defaults = {
             "label": data["label"],
+            "block_title": data.get("block_title", ""),
             "text_ua": data.get("text_ua", ""),
             "text_ru": data.get("text_ru", ""),
             "body_ua": data.get("body_ua", ""),
@@ -332,12 +350,11 @@ class Command(BaseCommand):
             return "updated"
         if fill_empty:
             changed = False
-            for field in ("label", "text_ua", "text_ru", "body_ua", "body_ru"):
+            for field in ("label", "block_title", "text_ua", "text_ru", "body_ua", "body_ru"):
                 value = defaults.get(field, "")
                 if value and not getattr(obj, field):
                     setattr(obj, field, value)
                     changed = True
-            # Підтягнути FAQ-префікс і порядок, не затираючи відредаговані тексти
             new_label = defaults.get("label", "")
             if (
                 data.get("is_faq")
@@ -347,7 +364,22 @@ class Command(BaseCommand):
             ):
                 obj.label = new_label
                 changed = True
-            if obj.sort_order == 0 and defaults.get("sort_order"):
+            # Оновлювати назву блоку й роль поля з шаблону (не затирає тексти UA/RU)
+            if defaults.get("block_title") and obj.block_title != defaults["block_title"]:
+                obj.block_title = defaults["block_title"]
+                changed = True
+            if defaults.get("label") and (
+                obj.label.startswith("Паспорт")
+                or obj.label == obj.text_ua[:120]
+                or not obj.label.startswith(("Заголовок:", "Текст", "FAQ"))
+            ):
+                # підтягнути зрозуміліші label з sync, якщо старі «сирі»
+                if defaults["label"] != obj.label and defaults["label"].startswith(
+                    ("Заголовок:", "Текст", "FAQ")
+                ):
+                    obj.label = defaults["label"]
+                    changed = True
+            if defaults.get("sort_order") and obj.sort_order != defaults["sort_order"]:
                 obj.sort_order = defaults["sort_order"]
                 changed = True
             if changed:

@@ -105,6 +105,13 @@ class PageSection(models.Model):
     page_slug = models.CharField("Сторінка", max_length=100, choices=PAGE_CHOICES)
     section_key = models.SlugField("Ключ секції", max_length=100)
     label = models.CharField("Назва в адмінці", max_length=200)
+    block_title = models.CharField(
+        "Блок на сайті",
+        max_length=200,
+        blank=True,
+        db_index=True,
+        help_text="Група полів як на сторінці: Hero, Основний опис, FAQ…",
+    )
 
     content_type = models.ForeignKey(
         ContentType, on_delete=models.SET_NULL, null=True, blank=True, editable=False,
@@ -124,7 +131,7 @@ class PageSection(models.Model):
     url = models.CharField("Посилання", max_length=500, blank=True)
 
     sort_order = models.PositiveIntegerField("Порядок", default=0)
-    is_active = models.BooleanField("Активна", default=True)
+    is_active = models.BooleanField("Показувати на сайті", default=True)
 
     class Meta:
         ordering = ["page_slug", "sort_order", "section_key"]
