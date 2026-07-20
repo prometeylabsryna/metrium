@@ -108,14 +108,13 @@ def extract_template_text_items(content: str) -> list[TemplateTextItem]:
             continue
         seen_keys.add(section_key)
 
+        # Блок лише з HTML-коментаря / акордеону FAQ — НЕ з «?» у тексті
+        # (інакше «Маєте питання?» розриває «Основний опис» і плодить дублікати FAQ)
         current_block = block_at(match.start())
-        is_faq = (
-            current_block.startswith("9. FAQ")
-            or context_looks_like_faq(content, match.start())
-            or ua_text_is_faq_question(ua)
-        )
-        if is_faq and not current_block.startswith("9. FAQ"):
+        in_faq_markup = context_looks_like_faq(content, match.start())
+        if in_faq_markup and not current_block.startswith("9. FAQ"):
             current_block = BLOCK_TITLE_ALIASES["faq"]
+        is_faq = current_block.startswith("9. FAQ") or in_faq_markup
 
         per_block_index[current_block] = per_block_index.get(current_block, 0) + 1
         idx = per_block_index[current_block]

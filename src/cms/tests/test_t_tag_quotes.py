@@ -26,3 +26,27 @@ class TTagQuotesTests(SimpleTestCase):
         self.assertEqual(ua, "А")
         self.assertEqual(ru, "Б")
         self.assertIsNone(key)
+
+    def test_question_mark_does_not_split_main_block(self):
+        html = """
+        <!-- Основний опис -->
+        {% t "Опис абзац" "Описание" %}
+        {% t "Маєте питання?" "Есть вопросы?" %}
+        {% t "Зателефонуйте нам" "Позвоните нам" %}
+        <!-- FAQ -->
+        <section class="faq">
+          {% t "Скільки коштує?" "Сколько стоит?" %}
+        </section>
+        """
+        items = extract_template_text_items(html)
+        by_ua = {i.ua: i.block_title for i in items}
+        self.assertEqual(by_ua["Маєте питання?"], "2. Основний опис")
+        self.assertEqual(by_ua["Зателефонуйте нам"], "2. Основний опис")
+        self.assertEqual(by_ua["Скільки коштує?"], "9. FAQ (питання й відповіді)")
+        titles = [i.block_title for i in items]
+        # Кожен block_title йде одним відрізком без розривів
+        seen = []
+        for t in titles:
+            if not seen or seen[-1] != t:
+                seen.append(t)
+        self.assertEqual(seen, list(dict.fromkeys(seen)))

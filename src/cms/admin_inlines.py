@@ -37,8 +37,9 @@ class _AnchoredGenericFormSetMixin:
             return self.model.objects.none()
 
         ct = ContentType.objects.get_for_model(instance.__class__)
+        # block_title першим — однакові блоки підряд (інакше ifchanged плодить дублікати)
         return self.model.objects.filter(content_type=ct, object_id=anchor.pk).order_by(
-            *self._order_by
+            "block_title", "sort_order", "id"
         )
 
     def save_new(self, form, commit=True):
@@ -117,7 +118,7 @@ class PageSectionInlineBase(UnfoldGenericStackedInline):
     show_change_link = False
     verbose_name = "Текст"
     verbose_name_plural = "Тексти сторінки — блоки як на сайті"
-    ordering = ("sort_order", "id")
+    ordering = ("block_title", "sort_order", "id")
     template = "admin/cms/edit_inline/stacked_blocks.html"
     classes = ()
 
@@ -129,7 +130,7 @@ class PageSectionInlineBase(UnfoldGenericStackedInline):
 
     def get_formset(self, request, obj=None, **kwargs):
         FormSet = super().get_formset(request, obj, **kwargs)
-        return _make_anchored_formset(FormSet, ("sort_order", "id"))
+        return _make_anchored_formset(FormSet, ("block_title", "sort_order", "id"))
 
 
 class PageSectionInlineUA(PageSectionInlineBase):

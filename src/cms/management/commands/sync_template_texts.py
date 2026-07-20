@@ -354,22 +354,21 @@ class Command(BaseCommand):
                 if value and not getattr(obj, field):
                     setattr(obj, field, value)
                     changed = True
-            # Оновлювати назву блоку й роль поля з шаблону (не затирає тексти UA/RU)
+            # Завжди вирівнювати блок і порядок з шаблону (не затирає тексти UA/RU)
             if defaults.get("block_title") and obj.block_title != defaults["block_title"]:
                 obj.block_title = defaults["block_title"]
                 changed = True
-            # Довгі/обрізані підписи → короткі ролі (Заголовок, Текст 2, FAQ · питання)
+            if defaults.get("sort_order") is not None and obj.sort_order != defaults["sort_order"]:
+                obj.sort_order = defaults["sort_order"]
+                changed = True
             new_label = defaults.get("label", "")
             if new_label and obj.label != new_label and (
                 "…" in obj.label
                 or len(obj.label) > 48
-                or obj.label.startswith(("Заголовок:", "Текст:", "FAQ:"))
+                or "FAQ" in obj.label
                 or not obj.label.startswith(("Заголовок", "Текст", "FAQ ·"))
             ):
                 obj.label = new_label
-                changed = True
-            if defaults.get("sort_order") and obj.sort_order != defaults["sort_order"]:
-                obj.sort_order = defaults["sort_order"]
                 changed = True
             if changed:
                 obj.save()
