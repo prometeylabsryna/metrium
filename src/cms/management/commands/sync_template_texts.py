@@ -14,6 +14,7 @@ from src.cms.text_keys import (
     SECTION_TAG_RE,
     make_label,
     page_slug_from_template_path,
+    parse_bi_or_section_texts,
 )
 
 MANUAL_SECTIONS: list[dict] = [
@@ -201,8 +202,7 @@ class Command(BaseCommand):
             for match in BI_TAG_RE.finditer(content):
                 slug = match.group(1)
                 section_key = match.group(2)
-                ua = match.group(3).replace("\\'", "'")
-                ru = match.group(4).replace("\\'", "'")
+                ua, ru = parse_bi_or_section_texts(match)
                 key = (slug, section_key)
                 if key in seen:
                     continue
@@ -231,8 +231,7 @@ class Command(BaseCommand):
             for match in SECTION_TAG_RE.finditer(content):
                 slug = match.group(1)
                 section_key = match.group(2)
-                ua = match.group(3).replace("\\'", "'")
-                ru = match.group(4).replace("\\'", "'")
+                ua, ru = parse_bi_or_section_texts(match)
                 key = (slug, section_key)
                 if key in seen:
                     continue

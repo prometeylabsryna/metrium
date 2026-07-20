@@ -5,12 +5,18 @@ import re
 
 from django.utils.text import slugify
 
+# Підтримка {% t '…' '…' %} і {% t "…" "…" %} (багато сервісних сторінок у подвійних лапках)
+_T_STR = r"(['\"])((?:\\.|(?!\1).)*)\1"
+
 T_TAG_RE = re.compile(
     r"\{%\s*t\s+"
-    r"'((?:\\'|[^'])*)'\s+"
-    r"'((?:\\'|[^'])*)'"
-    r"(?:\s+'([^']*)')?"
-    r"\s*%\}",
+    + _T_STR
+    + r"\s+"
+    + _T_STR
+    + r"(?:\s+"
+    + _T_STR
+    + r")?"
+    + r"\s*%\}",
     re.DOTALL,
 )
 
@@ -18,9 +24,10 @@ BI_TAG_RE = re.compile(
     r"\{%\s*bi\s+"
     r"['\"]([^'\"]+)['\"]\s+"
     r"['\"]([^'\"]+)['\"]\s+"
-    r"'((?:\\'|[^'])*)'\s+"
-    r"'((?:\\'|[^'])*)'"
-    r"\s*%\}",
+    + _T_STR
+    + r"\s+"
+    + _T_STR
+    + r"\s*%\}",
     re.DOTALL | re.IGNORECASE,
 )
 
@@ -28,11 +35,29 @@ SECTION_TAG_RE = re.compile(
     r"\{%\s*section\s+"
     r"['\"]([^'\"]+)['\"]\s+"
     r"['\"]([^'\"]+)['\"]\s+"
-    r"'((?:\\'|[^'])*)'\s+"
-    r"'((?:\\'|[^'])*)'"
-    r"\s*%\}",
+    + _T_STR
+    + r"\s+"
+    + _T_STR
+    + r"\s*%\}",
     re.DOTALL,
 )
+
+
+def parse_t_tag_match(match: re.Match) -> tuple[str, str, str | None]:
+    """Повертає (ua, ru, optional_key) з match T_TAG_RE."""
+    ua = match.group(2).replace("\\'", "'").replace('\\"', '"')
+    ru = match.group(4).replace("\\'", "'").replace('\\"', '"')
+    key = match.group(6)
+    if key is not None:
+        key = key.replace("\\'", "'").replace('\\"', '"')
+    return ua, ru, key
+
+
+def parse_bi_or_section_texts(match: re.Match) -> tuple[str, str]:
+    """UA/RU з bi/section тегів (групи 3–6 після slug і key)."""
+    ua = match.group(4).replace("\\'", "'").replace('\\"', '"')
+    ru = match.group(6).replace("\\'", "'").replace('\\"', '"')
+    return ua, ru
 
 SECTION_BODY_TAG_RE = re.compile(
     r"\{%\s*section_body\s+"
